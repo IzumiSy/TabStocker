@@ -1,0 +1,16 @@
+{
+	"name": "TabStocker",
+	"version": "0.1",
+	"manifest_version": 2,
+	
+	"description": "Stocks your tabs to see later",
+
+  "permissions": [
+		"tabs"
+	],
+	
+	"browser_action": {
+		"default_title": "TabStocker",
+		"default_popup": "popup.html"
+	}
+}
