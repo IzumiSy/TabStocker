@@ -5,15 +5,20 @@ const FAVICON_API = "http://favicon.hatena.ne.jp/?url=";
 var removeMode = false;
 var ItemsData = new Array();
 
-function UpdateBadge() {
+////////////////////////////////////////////////
+
+function UpdateBadge()
+{
 	chrome.browserAction.setBadgeText({text: String(ItemsData.length)});
 }
 
-function UpdateStorage() {
+function UpdateStorage()
+{
 	localStorage["Items"] = JSON.stringify(ItemsData);
 }
 
-function SetItemToMenu(title, url) {
+function SetItemToMenu(title, url)
+{
 	var newAnchor = document.createElement("a");
 	var newList = document.createElement("li");
 	var newDiv = document.createElement("div");
@@ -33,10 +38,10 @@ function SetItemToMenu(title, url) {
 	mainMenu.appendChild(newList);	
 }
 
-document.body.onload = function() {
-	removeModeOn = false;
-	
+function RestoreSavedItems()
+{
 	ItemsData = [];
+
 	if (localStorage["Items"]) {
 		ItemsData = JSON.parse(localStorage["Items"]);
 		console.group("<< Previously stocked items >>");
@@ -49,6 +54,52 @@ document.body.onload = function() {
 		console.groupEnd();
 		UpdateBadge();
 	}
+}
+
+function AddItemAndUpdate(item)
+{
+	SetItemToMenu(item.title, item.url);
+	ItemsData.push({ "title": item.title, "url": item.url });
+	UpdateStorage();
+	UpdateBadge();
+
+	console.group("<< New item added >>");
+	console.log("Title: " + item.title);
+	console.log("URL: " + item.url);
+	console.groupEnd();
+}
+
+function RemoveItemAndUpdate(item)
+{
+	var index = item["index"];
+	var title = item["title"];
+
+	$("#items li:eq(" + index + ")").remove();
+	for (var i in ItemsData) {
+		if (ItemsData[i]["title"] == title) {
+			ItemsData.splice(i, 1);
+			UpdateStorage();
+			UpdateBadge();
+			return;
+		}
+	}
+}
+
+function LaunchItemURL(title)
+{
+	for (var i in ItemsData) {
+		if (ItemsData[i]["title"] == title) {
+			chrome.tabs.create({url: ItemsData[i]["url"], selected: false});
+			return;
+		}
+	}
+}
+
+////////////////////////////////////////////////
+
+document.body.onload = function() {
+	RestoreSavedItems();
+	removeModeOn = false;
 	
 	$("#add").button();
 	$("#options").button();
@@ -56,24 +107,9 @@ document.body.onload = function() {
 	$("#items").menu({
 		select: function(event, ui) {
 			if (removeMode) {
-				//** Remove an item **//
-				$("#items li:eq(" + ui.item.index() + ")").remove();
-				for (var i in ItemsData) {
-					if (ItemsData[i]["title"] == ui.item.text()) {
-						ItemsData.splice(i, 1);
-						UpdateStorage();
-						UpdateBadge();
-						break;
-					}
-				}
-			} else { 
-				//** Launch an item **//
-				for (var i in ItemsData) {
-					if (ItemsData[i]["title"] == ui.item.text()) {
-						chrome.tabs.create({url: ItemsData[i]["url"], selected: false});
-						break;
-					}
-				}
+				RemoveItemAndUpdate({"index": ui.item.index(), "title": ui.item.text()});
+			} else {
+				LaunchItemURL(ui.item.text());
 			}
 		}
 	});	
@@ -89,14 +125,7 @@ $("#add").on("click", function() {
 			}
 		});
 		if (!Duplication) {
-			SetItemToMenu(tab.title, tab.url);
-			ItemsData.push({ "title": tab.title, "url": tab.url });
-			UpdateStorage();
-			UpdateBadge();
-			console.group("<< New item added >>");
-			console.log("Title: " + tab.title);
-			console.log("URL: " + tab.url);
-			console.groupEnd();
+			AddItemAndUpdate(tab);
 		} else {
 			alert("ERROR: Any items are not allowed to be duplicated");
 		}
