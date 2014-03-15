@@ -95,6 +95,17 @@ function LaunchItemURL(title)
 	}
 }
 
+function isDuplicated(url)
+{
+	var r = false;
+	ItemsData.forEach(function(Item, i) {
+		if (Item["url"] == url) {
+			r = true;
+		}
+	});
+	return r;
+}
+
 ////////////////////////////////////////////////
 
 document.body.onload = function() {
@@ -116,15 +127,8 @@ document.body.onload = function() {
 };
 
 $("#add").on("click", function() {
-	var Duplication = false;
-
 	chrome.tabs.getSelected(window.id, function (tab) {
-		ItemsData.forEach(function(Item, i) {
-			if (Item["url"] == tab.url) {
-				Duplication = true;
-			}
-		});
-		if (!Duplication) {
+		if (!isDuplicated(tab.url)) {
 			AddItemAndUpdate(tab);
 		} else {
 			alert("ERROR: Any items are not allowed to be duplicated");
