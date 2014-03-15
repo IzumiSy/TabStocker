@@ -107,9 +107,11 @@ $("#remove").on("click", function() {
 	var removeButton = document.getElementById("remove");
 	if (removeButton.checked) {
 		$(".ui-button-text").css("color", "red");
+		$(".ui-menu").css("cursor", "pointer");
 		$("#add").button("disable");
 	} else {
 		$(".ui-button-text").css("color", "black");
+		$(".ui-menu").css("cursor", "default");
 		$("#add").button("enable");
 	}
 	removeMode = ! removeMode;
