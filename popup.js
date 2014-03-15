@@ -7,6 +7,11 @@ var removeMode = false;
 
 ////////////////////////////////////////////////
 
+function RemoveItemFromMenu(index)
+{
+	$("#items li:eq(" + index + ")").remove();
+}
+
 function SetItemToMenu(title, url)
 {
 	var newAnchor = document.createElement("a");
@@ -58,11 +63,11 @@ function AddItem(item)
 
 function RemoveItem(item)
 {
-	$("#items li:eq(" + item["index"] + ")").remove();
+	RemoveItemFromMenu(item["index"]);
 	BG.RemoveDataAndUpdateStorage(item["title"]);
 }
 
-function LaunchItemURL(title)
+function LaunchItem(title)
 {
 	var Items = JSON.parse(localStorage["Items"]);
 	for (var i in Items) {
@@ -87,7 +92,7 @@ document.body.onload = function() {
 			if (removeMode) {
 				RemoveItem({"index": ui.item.index(), "title": ui.item.text()});
 			} else {
-				LaunchItemURL(ui.item.text());
+				LaunchItem(ui.item.text());
 			}
 		}
 	});	
