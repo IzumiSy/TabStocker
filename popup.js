@@ -46,7 +46,7 @@ function RestoreSavedItems()
 	}
 }
 
-function AddItemAndUpdate(item)
+function AddItem(item)
 {
 	SetItemToMenu(item.title, item.url);
 	BG.AddDataAndUpdateStorage(item.title, item.url);
@@ -56,7 +56,7 @@ function AddItemAndUpdate(item)
 	console.groupEnd();
 }
 
-function RemoveItemAndUpdate(item)
+function RemoveItem(item)
 {
 	$("#items li:eq(" + item["index"] + ")").remove();
 	BG.RemoveDataAndUpdateStorage(item["title"]);
@@ -85,7 +85,7 @@ document.body.onload = function() {
 	$("#items").menu({
 		select: function(event, ui) {
 			if (removeMode) {
-				RemoveItemAndUpdate({"index": ui.item.index(), "title": ui.item.text()});
+				RemoveItem({"index": ui.item.index(), "title": ui.item.text()});
 			} else {
 				LaunchItemURL(ui.item.text());
 			}
@@ -96,7 +96,7 @@ document.body.onload = function() {
 $("#add").on("click", function() {
 	chrome.tabs.getSelected(window.id, function (tab) {
 		if (!BG.isDuplicated(tab.url)) {
-			AddItemAndUpdate(tab);
+			AddItem(tab);
 		} else {
 			alert("ERROR: Any items are not allowed to be duplicated");
 		}
