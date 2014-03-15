@@ -5,7 +5,12 @@
 	
 	"description": "Stocks your tabs to see later",
 
+	"background": {
+		"scripts": ["background.js"]
+	},
+
   "permissions": [
+		"notifications",
 		"tabs"
 	],
 	
@@ -13,6 +18,13 @@
 		"default_icon": "main.png",
 		"default_title": "TabStocker",
 		"default_popup": "popup.html"
+	},
+
+	"commands": {
+		"stock-tab": {
+			"suggested_key": { "default": "Alt+S" },
+			"description": "Stock a tab"
+		}
 	},
 
 	"icons": { "128": "main.png" }
