@@ -22,6 +22,18 @@ function AddDataAndUpdateStorage(title, url)
 	chrome.browserAction.setBadgeText({text: String(Items.length)});
 }
 
+function RemoveDataAndUpdateStorage(title)
+{
+	var Items = JSON.parse(localStorage["Items"]);
+	for (var i in Items) {
+		if (Items[i]["title"] == title) {
+			Items.splice(i, 1);
+		}
+	}
+	localStorage["Items"] = JSON.stringify(Items);
+	chrome.browserAction.setBadgeText({text: String(Items.length)});
+}
+
 chrome.commands.onCommand.addListener(function(command) {
 	var opts = {
 		type: "basic",

@@ -2,20 +2,11 @@
 // popup.js
 
 const FAVICON_API = "http://favicon.hatena.ne.jp/?url=";
-var removeMode = false;
+var BG = chrome.extension.getBackgroundPage();
 var ItemsData = new Array();
+var removeMode = false;
 
 ////////////////////////////////////////////////
-
-function UpdateBadge()
-{
-	chrome.browserAction.setBadgeText({text: String(ItemsData.length)});
-}
-
-function UpdateStorage()
-{
-	localStorage["Items"] = JSON.stringify(ItemsData);
-}
 
 function SetItemToMenu(title, url)
 {
@@ -52,17 +43,14 @@ function RestoreSavedItems()
 			}
 		});
 		console.groupEnd();
-		UpdateBadge();
+		chrome.browserAction.setBadgeText({text: String(ItemsData.length)});
 	}
 }
 
 function AddItemAndUpdate(item)
 {
 	SetItemToMenu(item.title, item.url);
-	ItemsData.push({ "title": item.title, "url": item.url });
-	UpdateStorage();
-	UpdateBadge();
-
+	BG.AddDataAndUpdateStorage(item.title, item.url);
 	console.group("<< New item added >>");
 	console.log("Title: " + item.title);
 	console.log("URL: " + item.url);
@@ -75,14 +63,7 @@ function RemoveItemAndUpdate(item)
 	var title = item["title"];
 
 	$("#items li:eq(" + index + ")").remove();
-	for (var i in ItemsData) {
-		if (ItemsData[i]["title"] == title) {
-			ItemsData.splice(i, 1);
-			UpdateStorage();
-			UpdateBadge();
-			return;
-		}
-	}
+	BG.RemoveDataAndUpdateStorage(title);
 }
 
 function LaunchItemURL(title)
@@ -93,17 +74,6 @@ function LaunchItemURL(title)
 			return;
 		}
 	}
-}
-
-function isDuplicated(url)
-{
-	var r = false;
-	ItemsData.forEach(function(Item, i) {
-		if (Item["url"] == url) {
-			r = true;
-		}
-	});
-	return r;
 }
 
 ////////////////////////////////////////////////
@@ -128,7 +98,7 @@ document.body.onload = function() {
 
 $("#add").on("click", function() {
 	chrome.tabs.getSelected(window.id, function (tab) {
-		if (!isDuplicated(tab.url)) {
+		if (!BG.isDuplicated(tab.url)) {
 			AddItemAndUpdate(tab);
 		} else {
 			alert("ERROR: Any items are not allowed to be duplicated");
