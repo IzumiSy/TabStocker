@@ -3,7 +3,6 @@
 
 const FAVICON_API = "http://favicon.hatena.ne.jp/?url=";
 var BG = chrome.extension.getBackgroundPage();
-var ItemsData = new Array();
 var removeMode = false;
 
 ////////////////////////////////////////////////
@@ -31,19 +30,19 @@ function SetItemToMenu(title, url)
 
 function RestoreSavedItems()
 {
-	ItemsData = [];
+	var Items = [];
 
 	if (localStorage["Items"]) {
-		ItemsData = JSON.parse(localStorage["Items"]);
+		Items = JSON.parse(localStorage["Items"]);
 		console.group("<< Previously stocked items >>");
-		ItemsData.forEach(function(Item, i) {
+		Items.forEach(function(Item, i) {
 			if(Item) {
 				console.log(i + " " + Item["title"] + " :: " + Item["url"]);
 				SetItemToMenu(Item["title"], Item["url"]);
 			}
 		});
 		console.groupEnd();
-		chrome.browserAction.setBadgeText({text: String(ItemsData.length)});
+		chrome.browserAction.setBadgeText({text: String(Items.length)});
 	}
 }
 
@@ -59,18 +58,16 @@ function AddItemAndUpdate(item)
 
 function RemoveItemAndUpdate(item)
 {
-	var index = item["index"];
-	var title = item["title"];
-
-	$("#items li:eq(" + index + ")").remove();
-	BG.RemoveDataAndUpdateStorage(title);
+	$("#items li:eq(" + item["index"] + ")").remove();
+	BG.RemoveDataAndUpdateStorage(item["title"]);
 }
 
 function LaunchItemURL(title)
 {
-	for (var i in ItemsData) {
-		if (ItemsData[i]["title"] == title) {
-			chrome.tabs.create({url: ItemsData[i]["url"], selected: false});
+	var Items = JSON.parse(localStorage["Items"]);
+	for (var i in Items) {
+		if (Items[i]["title"] == title) {
+			chrome.tabs.create({url: Items[i]["url"], selected: false});
 			return;
 		}
 	}
