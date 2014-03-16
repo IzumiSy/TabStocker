@@ -55,10 +55,6 @@ function AddItem(item)
 {
 	SetItemToMenu(item.title, item.url);
 	BG.AddDataAndUpdateStorage(item.title, item.url);
-	console.group("<< New item added >>");
-	console.log("Title: " + item.title);
-	console.log("URL: " + item.url);
-	console.groupEnd();
 }
 
 function RemoveItem(item)

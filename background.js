@@ -20,6 +20,11 @@ function AddDataAndUpdateStorage(title, url)
 	Items.push({ "title": title, "url": url });
 	localStorage["Items"] = JSON.stringify(Items);
 	chrome.browserAction.setBadgeText({text: String(Items.length)});
+
+	console.group("<< New item added >>");
+	console.log("Title: " + title);
+	console.log("URL: " + url);
+	console.groupEnd();
 }
 
 function RemoveDataAndUpdateStorage(title)
