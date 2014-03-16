@@ -34,27 +34,34 @@ function RemoveDataAndUpdateStorage(title)
 	chrome.browserAction.setBadgeText({text: String(Items.length)});
 }
 
-chrome.commands.onCommand.addListener(function(command) {
-	var opts = {
-		type: "basic",
-		title: "xxx",
-		message: "xxx",
-		iconUrl: "main.png"
-	}
+function errorNotification()
+{
+	chrome.notifications.create(NOTIFY_ID, {
+			type: "basic",
+			title: "TabStocker: Error",
+			message: "The same titled tab is now already stocked",
+			iconUrl: "error.png"
+		}, function(id) {
+			console.log(opts);
+	});
+}
 
+chrome.commands.onCommand.addListener(function(command) {
 	if (command == "stock-tab") {	
 		chrome.tabs.getSelected(window.id, function(tab) {
 			if (!isDuplicated(tab.url)) {
-				opts["title"] = "A current tab was stocked";
-				opts["message"] = tab.title;
-				AddDataAndUpdateStorage(tab.title, tab.url);
+				chrome.notifications.create(NOTIFY_ID, {
+						type: "basic",
+						title: "TabStocker: Success",
+						message: tab.title,
+						iconUrl: "main.png"
+					}, function(id) {
+						AddDataAndUpdateStorage(tab.title, tab.url);
+						console.log(opts);
+				});
 			} else {
-				opts["title"] = "Error";
-				opts["message"] = "Any items are not allowed to be duplicated";
+				errorNotification();
 			}
-			chrome.notifications.create(NOTIFY_ID, opts, function(id) {
-				console.log(opts);
-			});
 		});
 	}
 });

@@ -103,7 +103,7 @@ $("#add").on("click", function() {
 		if (!BG.isDuplicated(tab.url)) {
 			AddItem(tab);
 		} else {
-			alert("ERROR: Any items are not allowed to be duplicated");
+			BG.errorNotification();
 		}
 	});
 });
