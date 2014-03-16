@@ -47,7 +47,7 @@ function errorNotification()
 			message: "The same titled tab is now already stocked",
 			iconUrl: "error.png"
 		}, function(id) {
-			console.log(opts);
+			console.log("TabStocker: Duplication Error");
 	});
 }
 
@@ -62,7 +62,7 @@ chrome.commands.onCommand.addListener(function(command) {
 						iconUrl: "main.png"
 					}, function(id) {
 						AddDataAndUpdateStorage(tab.title, tab.url);
-						console.log(opts);
+						console.log("TabStocker: ShortcutKey Success");
 				});
 			} else {
 				errorNotification();
