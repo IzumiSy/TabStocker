@@ -5,6 +5,8 @@
 	
 	"description": "Stocks your tabs to see later",
 
+	"options_page": "options.html",
+
 	"background": {
 		"scripts": ["background.js"]
 	},
