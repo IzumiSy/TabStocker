@@ -6,13 +6,16 @@
 const ui_menu_defaultPopupWidth = 250;
 
 document.body.onload = function() {
-	// load settings
 	document.getElementById("popup_width").value = localStorage.PopupWidth;
 	document.getElementById("hide_favicon").checked = localStorage.HideFavicon == "true" ? true : false;
 }
 
 document.getElementById("save").onclick = function() {
-	localStorage.PopupWidth = document.getElementById("popup_width").value;
+	var popup_width = document.getElementById("popup_width").value;
+	if (popup_width < ui_menu_defaultPopupWidth) {
+		popup_width = ui_menu_defaultPopupWidth;
+	}
+	localStorage.PopupWidth = popup_width;
 	localStorage.HideFavicon = document.getElementById("hide_favicon").checked;
 	window.close();
 }
