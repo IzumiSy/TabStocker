@@ -27,10 +27,12 @@ function SetItemToMenu(title, url)
 	newAnchor.appendChild(document.createTextNode(title));
 	newAnchor.setAttribute("class", "ui-corner-all");
 	newAnchor.setAttribute("role", "menuitem");
+	newAnchor.setAttribute("style", "width: " + $("body").width() - 12 + "px");
 	newList.appendChild(newAnchor);
 	newList.setAttribute("class", "ui-menu-item");
 	newList.setAttribute("role", "presentation");
-	mainMenu.appendChild(newList);	
+	newList.setAttribute("style", "width: " + $("body").width() - 12 + "px");
+	mainMenu.appendChild(newList);
 }
 
 function RestoreSavedItems()
@@ -80,6 +82,10 @@ document.body.onload = function() {
 	RestoreSavedItems();
 	removeModeOn = false;
 	
+	$("body").width(localStorage.PopupWidth);
+	$("ul").width($("body").width() - 12);
+	$("a").width($("body").width() - 12);
+
 	$("#add").button();
 	$("#options").button();
 	$("#remove").button();
@@ -91,7 +97,7 @@ document.body.onload = function() {
 				LaunchItem(ui.item.text());
 			}
 		}
-	});	
+	});
 };
 
 $("#add").on("click", function() {
