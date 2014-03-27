@@ -19,12 +19,16 @@ function SetItemToMenu(title, url)
 	var newAnchor = document.createElement("a");
 	var newList = document.createElement("li");
 	var newDiv = document.createElement("div");
-	var newFavicon = document.createElement("img");
 	var mainMenu = document.getElementById("items");
+	var newFavicon;
+
+	if (localStorage.HideFavicon != "true") {
+		newFavicon = document.createElement("img");
+		newFavicon.setAttribute("src", FAVICON_API + url);
+		newFavicon.setAttribute("class", "favicon");
+		newAnchor.appendChild(newFavicon);
+	}
 	
-	newFavicon.setAttribute("src", FAVICON_API + url);
-	newFavicon.setAttribute("class", "favicon");
-	newAnchor.appendChild(newFavicon);
 	newAnchor.appendChild(document.createTextNode(title));
 	newAnchor.setAttribute("class", "ui-corner-all");
 	newAnchor.setAttribute("role", "menuitem");
