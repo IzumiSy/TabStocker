@@ -85,8 +85,6 @@ function LaunchItem(title)
 ////////////////////////////////////////////////
 
 document.body.onload = function() {
-	removeModeOn = false;
-	
 	$("body").width(localStorage.PopupWidth);
 	$("ul").width($("body").width() - 12);
 	$("a").width($("body").width() - 12);
@@ -106,6 +104,9 @@ document.body.onload = function() {
 
 	// It should be called after popup width settings were applied on loading
 	RestoreSavedItems();
+
+	// Resets a flag for remove mode
+	removeModeOn = false;
 };
 
 $("#add").on("click", function() {
