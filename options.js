@@ -11,12 +11,9 @@ document.body.onload = function() {
 document.getElementById("save").onclick = function() {
 	var popup_width = document.getElementById("popup_width").value;
 
-	// To set popup_width to zero, it's ganna be back to the default value.
-	if (popup_width > 0 && popup_width < BG.ui_menu_defaultPopupWidth) {
+	if (popup_width < BG.ui_menu_defaultPopupWidth) {
 		alert("The value of Popup width should be bigger than 250px");
 		return;
-	} else if (popup_width == 0) {
-		popup_width = BG.ui_menu_defaultPopupWidth;
 	}
 
 	localStorage.PopupWidth = popup_width;
