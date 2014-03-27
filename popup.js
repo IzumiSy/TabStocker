@@ -20,7 +20,6 @@ function SetItemToMenu(title, url)
 	var newList = document.createElement("li");
 	var newDiv = document.createElement("div");
 	var newFavicon = document.createElement("img");
-	var removeIcon = document.createElement("img");
 	var mainMenu = document.getElementById("items");
 	
 	newFavicon.setAttribute("src", FAVICON_API + url);
