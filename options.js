@@ -11,8 +11,8 @@ document.body.onload = function() {
 document.getElementById("save").onclick = function() {
 	var popup_width = document.getElementById("popup_width").value;
 
-	if (popup_width < BG.ui_menu_defaultPopupWidth) {
-		alert("The value of Popup width should be bigger than 250px");
+	if (popup_width < BG.ui_menu_defaultPopupWidth || popup_width > BG.ui_menu_maxPopupWidth) {
+		alert("The value of Popup width could be set in the range from 250px to 500px");
 		return;
 	}
 

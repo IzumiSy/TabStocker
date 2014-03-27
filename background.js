@@ -3,6 +3,7 @@
 
 // Declare a constant value for default popup width
 const ui_menu_defaultPopupWidth = 250;
+const ui_menu_maxPopupWidth = 500;
 
 // It works once at the first time to avoid blank of popup_width in options.html
 if (localStorage.PopupWidth == undefined || localStorage.PopupWidth < ui_menu_defaultPopupWidth) {
