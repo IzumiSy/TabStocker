@@ -1,11 +1,8 @@
 
 // background.js
 
-
-// Declare a constant value for default popup width to make it easy.
-// And store it to localStorage to make it easy to use the value from all sources.
+// Declare a constant value for default popup width
 const ui_menu_defaultPopupWidth = 250;
-localStorage.constDefaultPopupWidth = ui_menu_defaultPopupWidth;
 
 // It works once at the first time to avoid blank of popup_width in options.html
 if (localStorage.PopupWidth == undefined || localStorage.PopupWidth < ui_menu_defaultPopupWidth) {
