@@ -22,6 +22,7 @@ function SetItemToMenu(title, url)
 	var mainMenu = document.getElementById("items");
 	var newFavicon;
 
+	// For favicon hide option
 	if (localStorage.HideFavicon != "true") {
 		newFavicon = document.createElement("img");
 		newFavicon.setAttribute("src", FAVICON_API + url);
@@ -103,6 +104,7 @@ document.body.onload = function() {
 		}
 	});
 
+	// It should be called after popup width settings were applied on loading
 	RestoreSavedItems();
 };
 

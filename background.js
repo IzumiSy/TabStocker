@@ -1,7 +1,7 @@
 
 // background.js
 
-// Declare a constant value for default popup width
+// Declare a constant value for default and max popup width
 const ui_menu_defaultPopupWidth = 250;
 const ui_menu_maxPopupWidth = 500;
 
