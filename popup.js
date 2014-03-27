@@ -1,7 +1,9 @@
 
 // popup.js
 
+// API url for obtaining favicons
 const FAVICON_API = "http://favicon.hatena.ne.jp/?url=";
+
 var BG = chrome.extension.getBackgroundPage();
 var removeMode = false;
 
