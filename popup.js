@@ -80,7 +80,6 @@ function LaunchItem(title)
 ////////////////////////////////////////////////
 
 document.body.onload = function() {
-	RestoreSavedItems();
 	removeModeOn = false;
 	
 	$("body").width(localStorage.PopupWidth);
@@ -99,6 +98,8 @@ document.body.onload = function() {
 			}
 		}
 	});
+
+	RestoreSavedItems();
 };
 
 $("#add").on("click", function() {
