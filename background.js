@@ -7,14 +7,17 @@ const ui_defaultFontSize = 0.7;
 
 const NOTIFY_ID = "default";
 const ITEMS_ID = "Items";
+const OPTION_POPUP_WIDTH = "PopupWidth";
+const OPTION_FONT_SIZE = "FontSize";
+const OPTION_HIDE_FAVICONS = "HideFavicon";
 
 function undefinedResolver()
 {
-	if (localStorage.getItem("PopupWidth") == undefined) {
-		localStorage.setItem("PopupWidth", ui_menu_defaultPopupWidth);
+	if (localStorage.getItem(OPTION_POPUP_WIDTH) == undefined) {
+		localStorage.setItem(OPTION_POPUP_WIDTH, ui_menu_defaultPopupWidth);
 	}
-	if (localStorage.getItem("FontSize") == undefined) {
-		localStorage.setItem("FontSize", ui_defaultFontSize);
+	if (localStorage.getItem(OPTION_FONT_SIZE) == undefined) {
+		localStorage.setItem(OPTION_FONT_SIZE, ui_defaultFontSize);
 	}
 	if (localStorage.getItem(ITEMS_ID) == undefined) {
 		localStorage.setItem(ITEMS_ID, new Array());

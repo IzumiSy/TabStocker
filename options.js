@@ -4,12 +4,11 @@
 var BG = chrome.extension.getBackgroundPage();
 
 document.body.onload = function() {
-	document.getElementById("popup_width").value 
-		= localStorage.getItem("PopupWidth") != undefined ? localStorage.getItem("PopupWidth") : BG.ui_menu_defaultPopupWidth;
-	document.getElementById("font_size").value 
-		= localStorage.getItem("FontSize") != undefined ? localStorage.getItem("FontSize") : BG.ui_defaultFontSize;
-	document.getElementById("hide_favicon").checked 
-		= localStorage.getItem("HideFavicon") == "true" ? true : false;
+	document.getElementById("popup_width").value = localStorage.getItem(BG.OPTION_POPUP_WIDTH) != undefined 
+		? localStorage.getItem(BG.OPTION_POPUP_WIDTH) : BG.ui_menu_defaultPopupWidth;
+	document.getElementById("font_size").value = localStorage.getItem(BG.OPTION_FONT_SIZE) != undefined 
+		? localStorage.getItem(BG.OPTION_FONT_SIZE) : BG.ui_defaultFontSize;
+	document.getElementById("hide_favicon").checked = localStorage.getItem(BG.OPTION_HIDE_FAVICONS) == "true" ? true : false;
 }
 
 document.getElementById("save").onclick = function() {
@@ -26,9 +25,9 @@ document.getElementById("save").onclick = function() {
 		font_size = BG.ui_defaultFontSize;
 	}
 
-	localStorage.setItem("PopupWidth", popup_width);
-	localStorage.setItem("FontSize", font_size);
-	localStorage.setItem("HideFavicon", document.getElementById("hide_favicon").checked);
+	localStorage.setItem(BG.OPTION_POPUP_WIDTH, popup_width);
+	localStorage.setItem(BG.OPTION_FONT_SIZE, font_size);
+	localStorage.setItem(BG.OPTION_HIDE_FAVICONS, document.getElementById("hide_favicon").checked);
 	window.close();
 }
 
