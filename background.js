@@ -15,24 +15,33 @@ function undefinedResolver()
 	if (localStorage.FontSize == undefined) {
 		localStorage.FontSize = ui_defaultFontSize;
 	}
+	if (localStorage.Items == undefined) {
+		localStorage.Items = new Array();
+	}
 }
 
 function isDuplicated(url)
 {
 	var r = false;
-	JSON.parse(localStorage["Items"]).forEach(function(Item, i) {
+	if (localStorage.Items.length > 0) {
+		JSON.parse(localStorage.Items).forEach(function(Item, i) {
 		if (Item["url"] == url) {
-			r = true;
-		}
-	});
+				r = true;
+			}
+		});
+	}
 	return r;
 }
 
 function AddDataAndUpdateStorage(title, url)
 {
-	var Items = JSON.parse(localStorage["Items"]);
+	var Items = [];
+
+	if (localStorage.Items.length > 0) {
+		Items = JSON.parse(localStorage.Items);
+	}
 	Items.push({ "title": title, "url": url });
-	localStorage["Items"] = JSON.stringify(Items);
+	localStorage.Items = JSON.stringify(Items);
 	chrome.browserAction.setBadgeText({text: String(Items.length)});
 
 	console.group("<< New item added >>");
@@ -43,13 +52,13 @@ function AddDataAndUpdateStorage(title, url)
 
 function RemoveDataAndUpdateStorage(title)
 {
-	var Items = JSON.parse(localStorage["Items"]);
+	var Items = JSON.parse(localStorage.Items);
 	for (var i in Items) {
 		if (Items[i]["title"] == title) {
 			Items.splice(i, 1);
 		}
 	}
-	localStorage["Items"] = JSON.stringify(Items);
+	localStorage.Items = JSON.stringify(Items);
 	chrome.browserAction.setBadgeText({text: String(Items.length)});
 }
 
