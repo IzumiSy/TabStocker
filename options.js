@@ -15,7 +15,7 @@ document.getElementById("save").onclick = function() {
 
 	popup_width = document.getElementById("popup_width").value;
 	if (popup_width < BG.ui_menu_defaultPopupWidth || popup_width > BG.ui_menu_maxPopupWidth) {
-		alert("The value of Popup width could be set in the range from 250px to 500px");
+		alert("The value of Popup width should be set in the range from 250px to 500px");
 		return;
 	}
 	font_size = document.getElementById("font_size").value;
