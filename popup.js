@@ -85,6 +85,7 @@ function LaunchItem(title)
 ////////////////////////////////////////////////
 
 document.body.onload = function() {
+	BG.settingsDefinedCheck()
 	$("body").css("font-size", localStorage.FontSize + "em");
 	$("body").width(localStorage.PopupWidth);
 	$("ul").width($("body").width() - 12);

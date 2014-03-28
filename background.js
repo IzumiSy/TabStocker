@@ -1,7 +1,21 @@
 
 // background.js
 
+const ui_menu_defaultPopupWidth = 250;
+const ui_menu_maxPopupWidth = 500;
+const ui_defaultFontSize = 0.7;
+
 const NOTIFY_ID = "default";
+
+function settingsDefinedCheck()
+{
+	if (localStorage.PopupWidth == undefined) {
+		localStorage.PopupWidth = ui_menu_defaultPopupWidth;
+	}
+	if (localStorage.FontSize == undefined) {
+		localStorage.FontSize = ui_defaultFontSize;
+	}
+}
 
 function isDuplicated(url)
 {
