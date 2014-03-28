@@ -7,7 +7,7 @@ const ui_menu_maxPopupWidth = 500;
 const ui_defaultFontSize = 0.7;
 
 // They work once at the first time to avoid some blanks in options page
-if (localStorage.PopupWidth == undefined || localStorage.PopupWidth < ui_menu_defaultPopupWidth) {
+if (localStorage.PopupWidth == undefined) {
 	localStorage.PopupWidth = ui_menu_defaultPopupWidth;
 }
 if (localStorage.FontSize == undefined) {
