@@ -7,7 +7,7 @@ const ui_defaultFontSize = 0.7;
 
 const NOTIFY_ID = "default";
 
-function settingsDefinedCheck()
+function undefinedResolver()
 {
 	if (localStorage.PopupWidth == undefined) {
 		localStorage.PopupWidth = ui_menu_defaultPopupWidth;
