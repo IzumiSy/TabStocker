@@ -1,13 +1,17 @@
 
 // background.js
 
-// Declare a constant value for default and max popup width
+// Declare a constant value for default and max popup width and font size
 const ui_menu_defaultPopupWidth = 250;
 const ui_menu_maxPopupWidth = 500;
+const ui_defaultFontSize = 0.7;
 
-// It works once at the first time to avoid blank of popup_width in options.html
+// They work once at the first time to avoid some blanks in options page
 if (localStorage.PopupWidth == undefined || localStorage.PopupWidth < ui_menu_defaultPopupWidth) {
 	localStorage.PopupWidth = ui_menu_defaultPopupWidth;
+}
+if (localStorage.FontSize == undefined) {
+	localStorage.FontSize = ui_defaultFontSize;
 }
 
 const NOTIFY_ID = "default";
