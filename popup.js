@@ -135,5 +135,4 @@ $("#remove").on("click", function() {
 
 $("#options").on("click", function() {
 	chrome.tabs.create({url: "options.html", selected: true});
-	console.log("Options");
 });
