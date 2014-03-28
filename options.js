@@ -20,3 +20,7 @@ document.getElementById("save").onclick = function() {
 	localStorage.HideFavicon = document.getElementById("hide_favicon").checked;
 	window.close();
 }
+
+document.getElementById("cancel").onclick = function() {
+	window.close();
+}
