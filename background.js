@@ -10,14 +10,14 @@ const ITEMS_ID = "Items";
 
 function undefinedResolver()
 {
-	if (localStorage.PopupWidth == undefined) {
-		localStorage.PopupWidth = ui_menu_defaultPopupWidth;
+	if (localStorage.getItem("PopupWidth") == undefined) {
+		localStorage.setItem("PopupWidth", ui_menu_defaultPopupWidth);
 	}
-	if (localStorage.FontSize == undefined) {
-		localStorage.FontSize = ui_defaultFontSize;
+	if (localStorage.getItem("FontSize") == undefined) {
+		localStorage.setItem("FontSize", ui_defaultFontSize);
 	}
-	if (localStorage.Items == undefined) {
-		localStorage.Items = new Array();
+	if (localStorage.getItem(ITEMS_ID) == undefined) {
+		localStorage.setItem(ITEMS_ID, new Array());
 	}
 }
 

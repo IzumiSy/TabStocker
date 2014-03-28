@@ -23,7 +23,7 @@ function SetItemToMenu(title, url)
 	var newFavicon;
 
 	// For favicon hide option
-	if (localStorage.HideFavicon != "true") {
+	if (localStorage.getItem("HideFavicon") != "true") {
 		newFavicon = document.createElement("img");
 		newFavicon.setAttribute("src", FAVICON_API + url);
 		newFavicon.setAttribute("class", "favicon");
@@ -86,8 +86,8 @@ function LaunchItem(title)
 
 document.body.onload = function() {
 	BG.undefinedResolver()
-	$("body").css("font-size", localStorage.FontSize + "em");
-	$("body").width(localStorage.PopupWidth);
+	$("body").css("font-size", localStorage.getItem("FontSize") + "em");
+	$("body").width(localStorage.getItem("PopupWidth"));
 	$("ul").width($("body").width() - 12);
 	$("a").width($("body").width() - 12);
 
