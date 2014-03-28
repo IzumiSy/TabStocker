@@ -45,8 +45,8 @@ function RestoreSavedItems()
 {
 	var Items = [];
 
-	if (localStorage.Items.length > 0) {
-		Items = JSON.parse(localStorage.Items);
+	if (localStorage.getItem(BG.ITEMS_ID).length > 0) {
+		Items = JSON.parse(localStorage.getItem(BG.ITEMS_ID));
 		console.group("<< Previously stocked items >>");
 		Items.forEach(function(Item, i) {
 			if (Item) {
@@ -73,7 +73,7 @@ function RemoveItem(item)
 
 function LaunchItem(title)
 {
-	var Items = JSON.parse(localStorage.Items);
+	var Items = JSON.parse(localStorage.getItem(BG.ITEMS_ID));
 	for (var i in Items) {
 		if (Items[i]["title"] == title) {
 			chrome.tabs.create({url: Items[i]["url"], selected: false});

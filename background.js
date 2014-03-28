@@ -6,6 +6,7 @@ const ui_menu_maxPopupWidth = 500;
 const ui_defaultFontSize = 0.7;
 
 const NOTIFY_ID = "default";
+const ITEMS_ID = "Items";
 
 function undefinedResolver()
 {
@@ -23,8 +24,8 @@ function undefinedResolver()
 function isDuplicated(url)
 {
 	var r = false;
-	if (localStorage.Items.length > 0) {
-		JSON.parse(localStorage.Items).forEach(function(Item, i) {
+	if (localStorage.getItem(ITEMS_ID).length > 0) {
+		JSON.parse(localStorage.getItem(ITEMS_ID)).forEach(function(Item, i) {
 		if (Item["url"] == url) {
 				r = true;
 			}
@@ -37,11 +38,11 @@ function AddDataAndUpdateStorage(title, url)
 {
 	var Items = [];
 
-	if (localStorage.Items.length > 0) {
-		Items = JSON.parse(localStorage.Items);
+	if (localStorage.getItem(ITEMS_ID).length > 0) {
+		Items = JSON.parse(localStorage.getItem(ITEMS_ID));
 	}
 	Items.push({ "title": title, "url": url });
-	localStorage.Items = JSON.stringify(Items);
+	localStorage.setItem(ITEMS_ID, JSON.stringify(Items));
 	chrome.browserAction.setBadgeText({text: String(Items.length)});
 
 	console.group("<< New item added >>");
@@ -52,13 +53,13 @@ function AddDataAndUpdateStorage(title, url)
 
 function RemoveDataAndUpdateStorage(title)
 {
-	var Items = JSON.parse(localStorage.Items);
+	var Items = JSON.parse(localStorage.getItem(ITEMS_ID));
 	for (var i in Items) {
 		if (Items[i]["title"] == title) {
 			Items.splice(i, 1);
 		}
 	}
-	localStorage.Items = JSON.stringify(Items);
+	localStorage.setItem(ITEMS_ID, JSON.stringify(Items));
 	chrome.browserAction.setBadgeText({text: String(Items.length)});
 }
 
