@@ -97,3 +97,11 @@ chrome.commands.onCommand.addListener(function(command) {
 		});
 	}
 });
+
+chrome.contextMenus.create({
+	"title": "Stock this link",
+	"contexts": ["link"],
+	"onclick": function(e) {
+		console.log(e.linkUrl);
+	}
+});
