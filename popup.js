@@ -94,6 +94,7 @@ document.body.onload = function() {
 	$("#add").button();
 	$("#options").button();
 	$("#remove").button();
+
 	$("#items").menu({
 		select: function(event, ui) {
 			if (removeMode) {
@@ -103,6 +104,8 @@ document.body.onload = function() {
 			}
 		}
 	});
+	$("#items").sortable();
+	$("#items").disableSelection();
 
 	// It should be called after popup width settings were applied on loading
 	RestoreSavedItems();
