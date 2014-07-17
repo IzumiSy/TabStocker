@@ -7,6 +7,7 @@ It also solves an issue that Chrome tends to use much memory when keeping many t
 ###2. Features
 - Simple and easy interface
 - Shortcut Key (Alt + S)
+- Drag & drop sortable
 
 ###3. License
 MIT
