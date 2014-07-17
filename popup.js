@@ -82,6 +82,32 @@ function LaunchItem(title)
 	}
 }
 
+function SaveReorderedList()
+{
+	var Items = JSON.parse(localStorage.getItem(BG.ITEMS_ID));
+	var listLength = $("li").length;
+	var storageLength = Items.length;
+	var temps = [];
+	var url;
+
+	localStorage.clear();
+
+	for (i = 0;i < listLength;i++) {
+		title = $("li")[i].textContent;
+		url = undefined;
+		for (var j in Items) {
+			if (Items[j]["title"] == title) {
+				url = Items[j]["url"];
+				temps.push({"title": title, "url": url});
+				break;
+			}
+		}
+	}
+
+	localStorage.setItem(BG.ITEMS_ID, JSON.stringify(temps));
+	console.log(temps);
+}
+
 ////////////////////////////////////////////////
 
 document.body.onload = function() {
@@ -106,6 +132,7 @@ document.body.onload = function() {
 	});
 	$("#items").sortable();
 	$("#items").disableSelection();
+	$("#items").sortable({ update: SaveReorderedList });
 
 	// It should be called after popup width settings were applied on loading
 	RestoreSavedItems();
