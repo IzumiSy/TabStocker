@@ -90,7 +90,7 @@ function SaveReorderedList()
 	var temps = [];
 	var url;
 
-	localStorage.clear();
+	localStorage.setItem(BG.ITEMS_ID, undefined);
 
 	for (i = 0;i < listLength;i++) {
 		title = $("li")[i].textContent;
