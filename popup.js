@@ -105,7 +105,6 @@ function SaveReorderedList()
 	}
 
 	localStorage.setItem(BG.ITEMS_ID, JSON.stringify(temps));
-	console.log(temps);
 }
 
 ////////////////////////////////////////////////
