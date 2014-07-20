@@ -10,6 +10,7 @@ const ITEMS_ID = "Items";
 const OPTION_POPUP_WIDTH = "PopupWidth";
 const OPTION_FONT_SIZE = "FontSize";
 const OPTION_HIDE_FAVICONS = "HideFavicon";
+const OPTION_AUTO_SORT = "AutomaticSort";
 
 function undefinedResolver()
 {

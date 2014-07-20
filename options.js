@@ -9,6 +9,7 @@ document.body.onload = function() {
 	document.getElementById("font_size").value = localStorage.getItem(BG.OPTION_FONT_SIZE) != undefined 
 		? localStorage.getItem(BG.OPTION_FONT_SIZE) : BG.ui_defaultFontSize;
 	document.getElementById("hide_favicon").checked = localStorage.getItem(BG.OPTION_HIDE_FAVICONS) == "true" ? true : false;
+	document.getElementById("auto_sort").checked = localStorage.getItem(BG.OPTION_AUTO_SORT) == "true" ? true : false;
 }
 
 document.getElementById("save").onclick = function() {
@@ -28,6 +29,7 @@ document.getElementById("save").onclick = function() {
 	localStorage.setItem(BG.OPTION_POPUP_WIDTH, popup_width);
 	localStorage.setItem(BG.OPTION_FONT_SIZE, font_size);
 	localStorage.setItem(BG.OPTION_HIDE_FAVICONS, document.getElementById("hide_favicon").checked);
+	localStorage.setItem(BG.OPTION_AUTO_SORT, document.getElementById("auto_sort").checked);
 	window.close();
 }
 
