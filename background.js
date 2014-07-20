@@ -46,6 +46,15 @@ function AddDataAndUpdateStorage(title, url)
 		Items = JSON.parse(localStorage.getItem(ITEMS_ID));
 	}
 	Items.push({ "title": title, "url": url });
+
+	if (localStorage.getItem(OPTION_AUTO_SORT) == "true") {
+		Items.sort(function(a, b) {
+			if (a.title > b.title) return 1;
+			if (a.title < b.title) return -1;
+			return 0;
+		});
+	}
+
 	localStorage.setItem(ITEMS_ID, JSON.stringify(Items));
 	chrome.browserAction.setBadgeText({text: String(Items.length)});
 
