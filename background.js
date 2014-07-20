@@ -11,6 +11,8 @@ const OPTION_POPUP_WIDTH = "PopupWidth";
 const OPTION_FONT_SIZE = "FontSize";
 const OPTION_HIDE_FAVICONS = "HideFavicon";
 const OPTION_AUTO_SORT = "AutomaticSort";
+const OPTION_DIRECTION = "SortDirection";
+const OPTION_SORTBY = "SortBy";
 
 function undefinedResolver()
 {

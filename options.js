@@ -13,8 +13,8 @@ document.body.onload = function() {
 }
 
 document.getElementById("save").onclick = function() {
-	var popup_width;
-	var font_size;
+	var popup_width, font_size, direction, sortby;
+	var items;
 
 	popup_width = document.getElementById("popup_width").value;
 	if (popup_width < BG.ui_menu_defaultPopupWidth || popup_width > BG.ui_menu_maxPopupWidth) {
@@ -30,6 +30,21 @@ document.getElementById("save").onclick = function() {
 	localStorage.setItem(BG.OPTION_FONT_SIZE, font_size);
 	localStorage.setItem(BG.OPTION_HIDE_FAVICONS, document.getElementById("hide_favicon").checked);
 	localStorage.setItem(BG.OPTION_AUTO_SORT, document.getElementById("auto_sort").checked);
+
+	items = document.getElementsByName("a");
+	for (var i in items) {
+		if (items[i].checked) {
+			localStorage.setItem(BG.OPTION_DIRECTION, items[i].value);
+		}
+	}
+
+	items = document.getElementsByName("b");
+	for (var i in items) {
+		if (items[i].checked) {
+			localStorage.setItem(BG.OPTION_SORTBY, items[i].value);
+		}
+	}
+
 	window.close();
 }
 
