@@ -10,6 +10,17 @@ document.body.onload = function() {
 		? localStorage.getItem(BG.OPTION_FONT_SIZE) : BG.ui_defaultFontSize;
 	document.getElementById("hide_favicon").checked = localStorage.getItem(BG.OPTION_HIDE_FAVICONS) == "true" ? true : false;
 	document.getElementById("auto_sort").checked = localStorage.getItem(BG.OPTION_AUTO_SORT) == "true" ? true : false;
+
+	switch (localStorage.getItem(BG.OPTION_DIRECTION)) {
+		case "asc": document.getElementsByName("a")[0].checked = true; break;
+		case "desc": document.getElementsByName("a")[1].checked = true; break;
+		case undefined: break;
+	}
+	switch (localStorage.getItem(BG.OPTION_SORTBY)) {
+		case "by_title": document.getElementsByName("b")[0].checked = true; break;
+		case "by_url": document.getElementsByName("b")[1].checked = true; break;
+		case undefined: break;
+	}
 }
 
 document.getElementById("save").onclick = function() {
