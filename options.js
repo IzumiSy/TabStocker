@@ -33,6 +33,15 @@ document.getElementById("save").onclick = function() {
 	window.close();
 }
 
+document.getElementById("auto_sort").onclick = function() {
+	var details = document.getElementsByClassName("sort_details");
+
+	for (var i in details) {
+		if (document.getElementById("auto_sort").checked != true) details[i].disabled = true;
+		else details[i].disabled = false;
+	}
+}
+
 document.getElementById("cancel").onclick = function() {
 	window.close();
 }
