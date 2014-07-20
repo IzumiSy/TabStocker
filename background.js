@@ -43,6 +43,9 @@ function isDuplicated(url)
 function AddDataAndUpdateStorage(title, url)
 {
 	var Items = [];
+	var exp_true, exp_false;
+	var element;
+	var r;
 
 	if (localStorage.getItem(ITEMS_ID).length > 0) {
 		Items = JSON.parse(localStorage.getItem(ITEMS_ID));
@@ -50,9 +53,17 @@ function AddDataAndUpdateStorage(title, url)
 	Items.push({ "title": title, "url": url });
 
 	if (localStorage.getItem(OPTION_AUTO_SORT) == "true") {
+		switch (localStorage.getItem(OPTION_SORTBY)) {
+			case "by_title": elements = "title"; break;
+			case "by_url": elements = "url"; break;
+		}
 		Items.sort(function(a, b) {
-			if (a.title > b.title) return 1;
-			if (a.title < b.title) return -1;
+			switch (localStorage.getItem(OPTION_DIRECTION)) {
+				case "asc": r = 1; break;
+				case "desc": r = -1; break;
+			}
+			if (a[elements] > b[elements]) return r;
+			if (a[elements] < b[elements]) return -r;
 			return 0;
 		});
 	}
