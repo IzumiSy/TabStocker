@@ -134,6 +134,8 @@ document.body.onload = function() {
 	$("#items").sortable({ update: SaveReorderedList });
 
 	// It should be called after popup width settings were applied on loading
+	// itemSorting() should always be called here before RestoreSavedItems()
+	BG.itemSorting();
 	RestoreSavedItems();
 
 	// Resets a flag for remove mode

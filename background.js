@@ -40,19 +40,12 @@ function isDuplicated(url)
 	return r;
 }
 
-function AddDataAndUpdateStorage(title, url)
+function itemSorting()
 {
-	var Items = [];
-	var exp_true, exp_false;
-	var element;
-	var r;
-
-	if (localStorage.getItem(ITEMS_ID).length > 0) {
-		Items = JSON.parse(localStorage.getItem(ITEMS_ID));
-	}
-	Items.push({ "title": title, "url": url });
+	var Items;
 
 	if (localStorage.getItem(OPTION_AUTO_SORT) == "true") {
+		Items = JSON.parse(localStorage.getItem(ITEMS_ID));
 		switch (localStorage.getItem(OPTION_SORTBY)) {
 			case "by_title": elements = "title"; break;
 			case "by_url": elements = "url"; break;
@@ -66,8 +59,21 @@ function AddDataAndUpdateStorage(title, url)
 			if (a[elements] < b[elements]) return -r;
 			return 0;
 		});
+		localStorage.setItem(ITEMS_ID, JSON.stringify(Items));
 	}
+}
 
+function AddDataAndUpdateStorage(title, url)
+{
+	var Items = [];
+	var exp_true, exp_false;
+	var element;
+	var r;
+
+	if (localStorage.getItem(ITEMS_ID).length > 0) {
+		Items = JSON.parse(localStorage.getItem(ITEMS_ID));
+	}
+	Items.push({ "title": title, "url": url });
 	localStorage.setItem(ITEMS_ID, JSON.stringify(Items));
 	chrome.browserAction.setBadgeText({text: String(Items.length)});
 
