@@ -22,6 +22,9 @@ function undefinedResolver()
 	if (localStorage.getItem(OPTION_POPUP_WIDTH) == undefined) {
 		localStorage.setItem(OPTION_POPUP_WIDTH, ui_menu_defaultPopupWidth);
 	}
+	if (localStorage.getItem(OPTION_POPUP_HEIGHT) == undefined) {
+		localStorage.setItem(OPTION_POPUP_HEIGHT, ui_menu_defaultPopupHeight);
+	}
 	if (localStorage.getItem(OPTION_FONT_SIZE) == undefined) {
 		localStorage.setItem(OPTION_FONT_SIZE, ui_defaultFontSize);
 	}
