@@ -113,7 +113,7 @@ document.body.onload = function() {
 	BG.undefinedResolver()
 	$("body").css("font-size", localStorage.getItem(BG.OPTION_FONT_SIZE) + "em");
 	$("body").width(localStorage.getItem(BG.OPTION_POPUP_WIDTH));
-	$("ul").width($("body").width() - 12);
+	$("ul").width($("body").width() - 4);
 	$("a").width($("body").width() - 12);
 
 	$("#add").button();
