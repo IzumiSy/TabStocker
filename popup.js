@@ -138,6 +138,9 @@ document.body.onload = function() {
 	BG.itemSorting();
 	RestoreSavedItems();
 
+	// Height value loading should be placed just after saved items restoring
+	$(".ui-menu").height(localStorage.getItem(BG.OPTION_POPUP_HEIGHT));
+
 	// Resets a flag for remove mode
 	removeModeOn = false;
 };

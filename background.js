@@ -2,12 +2,15 @@
 // background.js
 
 const ui_menu_defaultPopupWidth = 250;
+const ui_menu_defaultPopupHeight = 200;
 const ui_menu_maxPopupWidth = 500;
+const ui_menu_maxPopupHeight = 530;
 const ui_defaultFontSize = 0.7;
 
 const NOTIFY_ID = "default";
 const ITEMS_ID = "Items";
 const OPTION_POPUP_WIDTH = "PopupWidth";
+const OPTION_POPUP_HEIGHT = "PopupHeight";
 const OPTION_FONT_SIZE = "FontSize";
 const OPTION_HIDE_FAVICONS = "HideFavicon";
 const OPTION_AUTO_SORT = "AutomaticSort";
