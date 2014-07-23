@@ -129,7 +129,7 @@ document.body.onload = function() {
 			}
 		}
 	});
-	$("#items").sortable();
+	$("#items").sortable({ placeholder: "ui-state-highlight" });
 	$("#items").disableSelection();
 	$("#items").sortable({ update: SaveReorderedList });
 
