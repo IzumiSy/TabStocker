@@ -11,7 +11,8 @@ var removeMode = false;
 
 function RemoveItemFromMenu(index)
 {
-	$("#items li:eq(" + index + ")").remove();
+	$("#items li:eq(" + index + ")").hide('slide', {direction: 'right'}, 100);
+	// $("#items li:eq(" + index + ")").fadeOut("fast");
 }
 
 function SetItemToMenu(title, url)
