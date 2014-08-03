@@ -30,13 +30,18 @@
 			border-top: 1px solid rgba(0, 0, 0, 0.1);
 			border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 		}
-		.ui-state-highlight { height: 1.5em; line-height: 1.2em; }
+		.ui-state-highlight {
+			height: 1.5em; line-height: 1.2em;
+		}
+		#rmmode {
+			float: right;
+		}
 	</style>
 </head>
 <body>
 	<button id="add">Add</button>
 	<button id="options">Options</button>
-	<input type="checkbox" id="remove"><label for="remove">Remove</label>
+	<input type="checkbox" id="remove"><label id="rmmode" for="remove">Remove</label>
 	<br><hr class="separator">
 	<ul id="items">
 		<!-- Tab items -->
