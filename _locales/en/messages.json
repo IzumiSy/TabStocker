@@ -1,0 +1,16 @@
+{
+  "extName": {
+    "message": "Tab Stocker",
+    "description": "Extension name"
+  },
+  
+  "extDesc": {
+    "message": "Stocks tabs to see later",
+    "description": "Extension description"
+  },
+  
+  "extShortcutDesc": {
+    "message": "Stock a tab",
+    "description": "Shortcut name"
+  }  
+}
