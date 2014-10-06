@@ -8,9 +8,53 @@
     "message": "あとで見るためにタブを保存する拡張機能",
     "description": "拡張機能の説明"
   },
-  
+
   "extShortcutDesc": {
     "message": "タブを保存する",
     "description": "ショートカット名"
+  },
+
+  "extPopupWidth": {
+    "message": "ポップアップの高さ:"
+  },
+
+  "extPopupHeight": {
+    "message": "ポップアップの幅:"
+  },
+
+  "extFontSize": {
+    "message": "フォントサイズ:"
+  },
+
+  "extHideFavicon": {
+    "message": "ファビコンを隠す:"
+  },
+
+  "extAutoSort": {
+    "message": "自動でソートする:"
+  },
+
+  "extAscending": {
+    "message": "昇順"
+  },
+
+  "extDescending": {
+    "message": "降順"
+  },
+
+  "extByTitle": {
+    "message": "タイトルで"
+  },
+
+  "extByURL": {
+    "message": "URLで"
+  },
+
+  "extSaveButton": {
+    "message": "保存して閉じる"
+  },
+
+  "extCancelButton": {
+    "message": "キャンセル"
   }
 }

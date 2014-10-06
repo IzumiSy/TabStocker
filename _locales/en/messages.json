@@ -12,5 +12,49 @@
   "extShortcutDesc": {
     "message": "Stock a tab",
     "description": "Shortcut name"
-  }  
+  },
+
+  "extPopupWidth": {
+    "message": "Popup width:"
+  },
+
+  "extPopupHeight": {
+    "message": "Popup height:"
+  },
+
+  "extFontSize": {
+    "message": "Font size:"
+  },
+
+  "extHideFavicon": {
+    "message": "Hide favicons:"
+  },
+
+  "extAutoSort": {
+    "message": "Automatically sort:"
+  },
+
+  "extAscending": {
+    "message": "Ascending"
+  },
+
+  "extDescending": {
+    "message": "Descending"
+  },
+
+  "extByTitle": {
+    "message": "By title"
+  },
+
+  "extByURL": {
+    "message": "By URL"
+  },
+
+  "extSaveButton": {
+    "message": "Save and Quit"
+  },
+
+  "extCancelButton": {
+    "message": "Cancel"
+  }
 }

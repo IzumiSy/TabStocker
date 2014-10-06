@@ -4,6 +4,18 @@
 var BG = chrome.extension.getBackgroundPage();
 
 document.body.onload = function() {
+	document.getElementById("caption-popup-width").textContent = chrome.i18n.getMessage("extPopupWidth");
+	document.getElementById("caption-popup-height").textContent = chrome.i18n.getMessage("extPopupHeight");
+	document.getElementById("caption-font-size").textContent = chrome.i18n.getMessage("extFontSize");
+	document.getElementById("caption-hide-favicon").textContent = chrome.i18n.getMessage("extHideFavicon");
+	document.getElementById("caption-auto-sort").textContent = chrome.i18n.getMessage("extAutoSort");
+	document.getElementById("caption-ascending").textContent = chrome.i18n.getMessage("extAscending");
+	document.getElementById("caption-descending").textContent = chrome.i18n.getMessage("extDescending");
+	document.getElementById("caption-by-title").textContent = chrome.i18n.getMessage("extByTitle");
+	document.getElementById("caption-by-url").textContent = chrome.i18n.getMessage("extByURL");
+	document.getElementById("save-button").textContent = chrome.i18n.getMessage("extSaveButton");
+	document.getElementById("cancel-button").textContent = chrome.i18n.getMessage("extCancelButton");
+
 	document.getElementById("popup_width").value = localStorage.getItem(BG.OPTION_POPUP_WIDTH) != undefined 
 		? localStorage.getItem(BG.OPTION_POPUP_WIDTH) : BG.ui_menu_defaultPopupWidth;
 	document.getElementById("popup_height").value = localStorage.getItem(BG.OPTION_POPUP_HEIGHT) != undefined
@@ -25,7 +37,7 @@ document.body.onload = function() {
 	}
 }
 
-document.getElementById("save").onclick = function() {
+document.getElementById("save-button").onclick = function() {
 	var popup_width, popup_height, font_size, direction, sortby;
 	var items;
 
@@ -76,6 +88,6 @@ document.getElementById("auto_sort").onclick = function() {
 	}
 }
 
-document.getElementById("cancel").onclick = function() {
+document.getElementById("cancel-button").onclick = function() {
 	window.close();
 }
