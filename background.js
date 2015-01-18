@@ -107,28 +107,29 @@ function RemoveDataAndUpdateStorage(title)
 function errorNotification()
 {
 	chrome.notifications.create(NOTIFY_ID, {
-			type: "basic",
-			title: "TabStocker: Error",
-			message: "The same titled tab is now already stocked",
-			iconUrl: "error.png"
-		}, function(id) {
-			console.log("TabStocker: Duplication Error");
-	});
+		type: "basic",
+		title: "TabStocker: Error",
+		message: "The same titled tab is now already stocked",
+		iconUrl: "error.png"
+	}, function(){});
+}
+
+function successNotification(title)
+{
+  chrome.notifications.create(NOTIFY_ID, {
+  	type: "basic",
+  	title: "TabStocker: Success",
+  	message: title,
+  	iconUrl: "main.png"
+  }, function(){});
 }
 
 chrome.commands.onCommand.addListener(function(command) {
 	if (command == "stock-tab") {
 		chrome.tabs.getSelected(window.id, function(tab) {
 			if (!isDuplicated(tab.url)) {
-				chrome.notifications.create(NOTIFY_ID, {
-						type: "basic",
-						title: "TabStocker: Success",
-						message: tab.title,
-						iconUrl: "main.png"
-					}, function(id) {
-						AddDataAndUpdateStorage(tab.title, tab.url);
-						console.log("TabStocker: ShortcutKey Success");
-				});
+        successNotification(tab.title);
+        AddDataAndUpdateStorage(tab.title, tab.url);
 			} else {
 				errorNotification();
 			}
@@ -142,23 +143,35 @@ chrome.contextMenus.create({
 	"onclick": function(info, tab) {
 	  var title, url;
 	  var r = new XMLHttpRequest();
-	  r.onreadystatechange = function() {
-	    if ((r.readyState == 4) && (r.status == 200)) {
-	      title = r.responseXML.title;
-	      url = info.linkUrl;
-	      if (r.responseXML.scripts[0].innerText === "window.googleJavaScriptRedirect=1") {
-	        var meta = r.responseXML.getElementsByTagName("noscript");
-	        url = meta[0].innerHTML.substr(43).slice(0, -3);
-	        r.open("GET", url, true);
-	        r.send(null);
-	      } else {
-	        AddDataAndUpdateStorage(title, url);
-	      }
-	    }
-	  }
+
+	  r.onreadystatechange = handleResponse;
 	  r.open("GET", info.linkUrl, true);
 	  r.responseType = "document";
 	  r.send(null);
-	  console.log("[REQUESTED] " + info.linkUrl);
+
+  	function handleResponse() {
+      if ((r.readyState == 4) && (r.status == 200)) {
+        title = r.responseXML.title;
+        url = info.linkUrl;
+
+        // Deal with redirection of Google search result
+        if (r.responseXML.scripts[0].innerText === "window.googleJavaScriptRedirect=1") {
+          var meta = r.responseXML.getElementsByTagName("noscript");
+          url = meta[0].innerHTML.substr(43).slice(0, -3);
+          r.open("GET", url, true);
+          r.send(null);
+          return;
+        }
+
+        if (!isDuplicated(url)) {
+          successNotification(title);
+          AddDataAndUpdateStorage(title, url);
+        } else {
+          errorNotification();
+        }
+      }
+    }
+
+    console.log("[REQUESTED] " + info.linkUrl);
 	}
 });
