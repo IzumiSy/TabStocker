@@ -15,9 +15,11 @@
 		"notifications",
     "contextMenus",
     "storage",
-		"tabs"
+		"tabs",
+		"http://*/",
+		"https://*/"
 	],
-	
+
 	"browser_action": {
 		"default_icon": "main.png",
 		"default_title": "Tab Stocker",

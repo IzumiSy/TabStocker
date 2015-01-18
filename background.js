@@ -79,6 +79,9 @@ function AddDataAndUpdateStorage(title, url)
 	if (localStorage.getItem(ITEMS_ID).length > 0) {
 		Items = JSON.parse(localStorage.getItem(ITEMS_ID));
 	}
+	if (title === undefined || title === null || title === "") {
+	  title = url;
+	}
 	Items.push({ "title": title, "url": url });
 	localStorage.setItem(ITEMS_ID, JSON.stringify(Items));
 	chrome.browserAction.setBadgeText({text: String(Items.length)});
@@ -114,7 +117,7 @@ function errorNotification()
 }
 
 chrome.commands.onCommand.addListener(function(command) {
-	if (command == "stock-tab") {	
+	if (command == "stock-tab") {
 		chrome.tabs.getSelected(window.id, function(tab) {
 			if (!isDuplicated(tab.url)) {
 				chrome.notifications.create(NOTIFY_ID, {
@@ -137,6 +140,25 @@ chrome.contextMenus.create({
 	"title": "Stock this link",
 	"contexts": ["link"],
 	"onclick": function(info, tab) {
-		console.log(info.linkUrl);
+	  var title, url;
+	  var r = new XMLHttpRequest();
+	  r.onreadystatechange = function() {
+	    if ((r.readyState == 4) && (r.status == 200)) {
+	      title = r.responseXML.title;
+	      url = info.linkUrl;
+	      if (r.responseXML.scripts[0].innerText === "window.googleJavaScriptRedirect=1") {
+	        var meta = r.responseXML.getElementsByTagName("noscript");
+	        url = meta[0].innerHTML.substr(43).slice(0, -3);
+	        r.open("GET", url, true);
+	        r.send(null);
+	      } else {
+	        AddDataAndUpdateStorage(title, url);
+	      }
+	    }
+	  }
+	  r.open("GET", info.linkUrl, true);
+	  r.responseType = "document";
+	  r.send(null);
+	  console.log("[REQUESTED] " + info.linkUrl);
 	}
 });
