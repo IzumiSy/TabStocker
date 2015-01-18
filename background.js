@@ -138,16 +138,16 @@ chrome.commands.onCommand.addListener(function(command) {
 });
 
 chrome.contextMenus.create({
-	"title": "Stock this link",
-	"contexts": ["link"],
-	"onclick": function(info, tab) {
-	  var title, url;
-	  var r = new XMLHttpRequest();
+  "title": "Stock this link",
+  "contexts": ["link"],
+  "onclick": function(info, tab) {
+    var title, url;
+    var r = new XMLHttpRequest();
 
-	  r.onreadystatechange = handleResponse;
-	  r.open("GET", info.linkUrl, true);
-	  r.responseType = "document";
-	  r.send(null);
+    r.onreadystatechange = handleResponse;
+    r.open("GET", info.linkUrl, true);
+    r.responseType = "document";
+    r.send(null);
 
   	function handleResponse() {
       if ((r.readyState == 4) && (r.status == 200)) {
@@ -173,5 +173,5 @@ chrome.contextMenus.create({
     }
 
     console.log("[REQUESTED] " + info.linkUrl);
-	}
+  }
 });
