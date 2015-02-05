@@ -17,6 +17,8 @@ const OPTION_AUTO_SORT = "AutomaticSort";
 const OPTION_DIRECTION = "SortDirection";
 const OPTION_SORTBY = "SortBy";
 
+var currentTab = "items-local";
+
 function undefinedResolver()
 {
 	if (localStorage.getItem(OPTION_POPUP_WIDTH) == undefined) {
@@ -69,22 +71,38 @@ function itemSorting()
 	}
 }
 
-function AddDataAndUpdateStorage(title, url)
+function AddDataAndUpdateStorage(title, url, target)
 {
 	var Items = [];
-	var exp_true, exp_false;
-	var element;
-	var r;
 
-	if (localStorage.getItem(ITEMS_ID).length > 0) {
-		Items = JSON.parse(localStorage.getItem(ITEMS_ID));
-	}
 	if (title === undefined || title === null || title === "") {
-	  title = url;
+    title = url;
+  }
+
+	if (target === "items-local") {
+  	if (localStorage.getItem(ITEMS_ID).length > 0) {
+  		Items = JSON.parse(localStorage.getItem(ITEMS_ID));
+  	}
+  	Items.push({ "title": title, "url": url });
+  	localStorage.setItem(ITEMS_ID, JSON.stringify(Items));
+  	chrome.browserAction.setBadgeText({text: String(Items.length)});
 	}
-	Items.push({ "title": title, "url": url });
-	localStorage.setItem(ITEMS_ID, JSON.stringify(Items));
-	chrome.browserAction.setBadgeText({text: String(Items.length)});
+	else { // === "items-sync"
+	  chrome.storage.sync.get("items", function(data) {
+	    if (!chrome.runtime.lastError) {
+	      var d = data.items;
+        if (d !== undefined && d.length > 0) {
+          Items = data.items;
+        }
+        Items.push({ "title": title, "url": url });
+    	  chrome.storage.sync.set({ "items": Items }, function() {
+          if (chrome.runtime.lastError) {
+            console.error("Runtime error: AddDataAndUpdateStorage");
+          }
+        });
+	    }
+	  });
+	}
 
 	console.group("<< New item added >>");
 	console.log("Title: " + title);
@@ -92,16 +110,37 @@ function AddDataAndUpdateStorage(title, url)
 	console.groupEnd();
 }
 
-function RemoveDataAndUpdateStorage(title)
+function RemoveDataAndUpdateStorage(title, target)
 {
-	var Items = JSON.parse(localStorage.getItem(ITEMS_ID));
-	for (var i in Items) {
-		if (Items[i]["title"] == title) {
-			Items.splice(i, 1);
-		}
-	}
-	localStorage.setItem(ITEMS_ID, JSON.stringify(Items));
-	chrome.browserAction.setBadgeText({text: String(Items.length)});
+  var Items = [];
+
+  if (target === "items-local") {
+  	Items = JSON.parse(localStorage.getItem(ITEMS_ID));
+  	for (var i in Items) {
+  		if (Items[i]["title"] === title) {
+  			Items.splice(i, 1);
+  		}
+  	}
+  	localStorage.setItem(ITEMS_ID, JSON.stringify(Items));
+  	chrome.browserAction.setBadgeText({text: String(Items.length)});
+  }
+  else { // === "items-sync"
+    chrome.storage.sync.get("items", function(data) {
+      if (!chrome.runtime.error) {
+        Items = data.items
+        for (var i in Items) {
+          if (Items[i]["title"] === title) {
+            Items.splice(i, 1);
+          }
+        }
+    	  chrome.storage.sync.set({ "items": Items }, function() {
+          if (chrome.runtime.error) {
+            console.error("Runtime error: RemoveDataAndUpdateStorage");
+          }
+        });
+      }
+    });
+  }
 }
 
 function errorNotification()
@@ -129,7 +168,7 @@ chrome.commands.onCommand.addListener(function(command) {
 		chrome.tabs.getSelected(window.id, function(tab) {
 			if (!isDuplicated(tab.url)) {
         successNotification(tab.title);
-        AddDataAndUpdateStorage(tab.title, tab.url);
+        AddDataAndUpdateStorage(tab.title, tab.url, currentTab);
 			} else {
 				errorNotification();
 			}
@@ -165,7 +204,7 @@ chrome.contextMenus.create({
 
         if (!isDuplicated(url)) {
           successNotification(title);
-          AddDataAndUpdateStorage(title, url);
+          AddDataAndUpdateStorage(title, url, currentTab);
         } else {
           errorNotification();
         }

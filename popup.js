@@ -6,13 +6,12 @@ const FAVICON_API = "http://favicon.hatena.ne.jp/?url=";
 
 var BG = chrome.extension.getBackgroundPage();
 var removeMode = false;
-var currentTab = null;
 
 ////////////////////////////////////////////////
 
-function RemoveItemFromMenu(index)
+function RemoveItemFromMenu(index, tab)
 {
-	$("#" + currentTab + " li:eq(" + index + ")").hide('slide', {direction: 'right'}, 200);
+	$("#" + tab + " li:eq(" + index + ")").hide('slide', {direction: 'right'}, 200);
 }
 
 function SetItemToMenu(title, url, tab)
@@ -46,9 +45,10 @@ function RestoreSavedItems()
 {
 	var Items = [];
 
+  // Local items
 	if (localStorage.getItem(BG.ITEMS_ID).length > 0) {
 		Items = JSON.parse(localStorage.getItem(BG.ITEMS_ID));
-		console.group("<< Previously stocked items >>");
+		console.group("<< Previously stocked items (Local) >>");
 		Items.forEach(function(Item, i) {
 			if (Item) {
 				console.log(i + " " + Item["title"] + " :: " + Item["url"]);
@@ -58,18 +58,37 @@ function RestoreSavedItems()
 		console.groupEnd();
 		chrome.browserAction.setBadgeText({text: String(Items.length)});
 	}
+
+	// Sync Items
+	Items = [];
+  chrome.storage.sync.get("items", function(data) {
+    if (!chrome.runtime.error) {
+      var d = data.items;
+      if (d !== undefined && data.items.length > 0) {
+        Items = data.items;
+      }
+      console.group("<< Previously stocked items (Sync) >>");
+      Items.forEach(function(Item, i) {
+        if (Item) {
+          console.log(i + " " + Item["title"] + " :: " + Item["url"]);
+          SetItemToMenu(Item["title"], Item["url"], "items-sync");
+        }
+      });
+      console.groupEnd();
+    }
+  });
 }
 
 function AddItem(item)
 {
-	SetItemToMenu(item.title, item.url, currentTab);
-	BG.AddDataAndUpdateStorage(item.title, item.url);
+	SetItemToMenu(item.title, item.url, BG.currentTab);
+	BG.AddDataAndUpdateStorage(item.title, item.url, BG.currentTab);
 }
 
 function RemoveItem(item)
 {
-	RemoveItemFromMenu(item["index"]);
-	BG.RemoveDataAndUpdateStorage(item["title"]);
+	RemoveItemFromMenu(item["index"], BG.currentTab);
+	BG.RemoveDataAndUpdateStorage(item["title"], BG.currentTab);
 }
 
 function LaunchItem(title)
@@ -141,17 +160,17 @@ document.body.onload = function() {
 	$("#tabs").tabs({
 	  activate: function(event, ui) {
       if (ui.newPanel.selector === "#local") {
-        currentTab = "items-local";
+        BG.currentTab = "items-local";
       } else { // === "#sync"
-        currentTab = "items-sync";
+        BG.currentTab = "items-sync";
       }
-      console.log("Tab switched: " + currentTab);
+      console.log("Tab switched: " + BG.currentTab);
 	  }
 	});
 	$(".ui-tabs-nav").width($("body").width() - 13);
 	$("#items-sync").width($("body").width() - 11).css("margin-top", "3px");
 	$("#items-local").width($("body").width() - 11).css("margin-top", "3px");
-	currentTab = "items-local";
+	BG.currentTab = "items-local";
 
 	// It should be called after popup width settings were applied on loading
 	// itemSorting() should always be called here before RestoreSavedItems()
