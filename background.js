@@ -35,33 +35,17 @@ function undefinedResolver()
 	}
 }
 
-function isDuplicated(url, target)
+function isDuplicated(url)
 {
 	var r = false;
-
-	if (target === "items-local") {
-  	if (localStorage.getItem(ITEMS_ID).length > 0) {
-  		JSON.parse(localStorage.getItem(ITEMS_ID)).forEach(function(Item, i) {
-  		if (Item["url"] === url) {
-  				r = true;
-  			}
-  		});
-  	}
+	if (localStorage.getItem(ITEMS_ID).length > 0) {
+		JSON.parse(localStorage.getItem(ITEMS_ID)).forEach(function(Item, i) {
+		if (Item["url"] === url) {
+				r = true;
+			}
+		});
 	}
-	else { // === "items-sync"
-	  chrome.storage.sync.get("items", function(data) {
-	    if (!chrome.runtime.lastError) {
-	      var d = data.items;
-        if (d !== undefined && d.length > 0) {
-          if (d["url"] === url) {
-            r = true;
-          }
-        }
-	    }
-	  });
-	}
-
-	return r;
+  return r;
 }
 
 

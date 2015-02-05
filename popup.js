@@ -185,11 +185,31 @@ document.body.onload = function() {
 
 $("#add").on("click", function() {
 	chrome.tabs.getSelected(window.id, function (tab) {
-		if (!BG.isDuplicated(tab.url, BG.currentTab)) {
-			AddItem(tab);
-		} else {
-			BG.errorNotification();
-		}
+	  if (BG.currentTab === "items-local") {
+	    if (!BG.isDuplicated(tab.url)) {
+	      AddItem(tab);
+	    } else {
+	      BG.errorNotification();
+	    }
+	  } else { // === "items-sync"
+  	  chrome.storage.sync.get("items", function(data) {
+  	    if (!chrome.runtime.lastError) {
+  	      var d = data.items, r = false;
+  	      if (d !== undefined && d.length > 0) {
+  	        d.forEach(function(item, i) {
+              if (item["url"] === tab.url) {
+                r = true;
+              }
+  	        });
+  	        if (r === true) {
+  	          BG.errorNotification();
+  	          return;
+  	        }
+  	      }
+  	      AddItem(tab);
+  	    }
+  	  });
+	  }
 	});
 });
 
