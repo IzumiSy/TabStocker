@@ -15,6 +15,21 @@
 		.ui-widget {
 			font-family: 'Lucida Grande', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
 		}
+		.ui-state-highlight {
+			height: 1.5em; line-height: 1.2em;
+		}
+    .ui-tabs-anchor {
+      height: 11px;
+    }
+    .ui-tabs .ui-tabs-panel {
+      padding: 0;
+    }
+    .ui-tabs-nav {
+      height: 25px;
+    }
+    .ui-tabs-nav li {
+      height: 23px;
+    }
 		a {
 			white-space: nowrap;
 			overflow: hidden;
@@ -29,9 +44,6 @@
 			height: 0;
 			border-top: 1px solid rgba(0, 0, 0, 0.1);
 			border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-		}
-		.ui-state-highlight {
-			height: 1.5em; line-height: 1.2em;
 		}
 		#rmmode {
       height: 28px;
@@ -55,9 +67,6 @@
       background-size: contain;
       background-repeat: no-repeat;
     }
-    .tab {
-      margin-left: 3px;
-    }
     #items-sync {
       display: none;
     }
@@ -70,16 +79,23 @@
 	<button id="add"></button>
 	<button id="options"></button>
 	<input type="checkbox" id="remove"><label id="rmmode" for="remove"></label>
-	<a href="#" class="tab" id="local-switch">Local</a>
-	<a href="#" class="tab" id="sync-switch">Sync</a>
-	<br>
-	<hr class="separator">
-	<ul id="items-local">
-		<!-- local tab items -->
-	</ul>
-	<ul id="items-sync">
-	  <!-- sync tab items -->
-	</ul>
+	<hr>
+	<div id="tabs">
+	  <ul>
+	    <li><a href="#tab1">tab1</a></li>
+	    <li><a href="#tab2">tab2</a></li>
+	  </ul>
+	  <div id="tab1">
+    	<ul id="items-local">
+    		<!-- local tab items -->
+    	</ul>
+	  </div>
+	  <div id="tab2">
+    	<ul id="items-sync">
+    	  <!-- sync tab items -->
+    	</ul>
+	  </div>
+	</div>
 	<script src="popup.js"></script>
 </body>
 </html>

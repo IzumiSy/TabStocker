@@ -114,7 +114,7 @@ document.body.onload = function() {
 	$("body").css("font-size", localStorage.getItem(BG.OPTION_FONT_SIZE) + "em");
 	$("body").width(localStorage.getItem(BG.OPTION_POPUP_WIDTH));
 	$("ul").width($("body").width() - 4);
-	$("a").width($("body").width() - 12);
+	$("a.ui-menu-item").width($("body").width() - 12);
 
 	$("#add").button();
 	$("#options").button();
@@ -140,6 +140,12 @@ document.body.onload = function() {
 
 	// Height value loading should be placed just after saved items restoring
 	$(".ui-menu").height(localStorage.getItem(BG.OPTION_POPUP_HEIGHT));
+
+	// Settings for tab
+	$("#tabs").tabs();
+	$(".ui-tabs-nav").width($("body").width() - 13);
+	$("#items-sync").width($("body").width() - 11).css("margin-top", "3px");
+	$("#items-local").width($("body").width() - 11).css("margin-top", "3px");
 
 	// Resets a flag for remove mode
 	removeModeOn = false;
