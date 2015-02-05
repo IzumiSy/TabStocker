@@ -35,19 +35,37 @@ function undefinedResolver()
 	}
 }
 
-function isDuplicated(url)
+function isDuplicated(url, target)
 {
 	var r = false;
-	if (localStorage.getItem(ITEMS_ID).length > 0) {
-		JSON.parse(localStorage.getItem(ITEMS_ID)).forEach(function(Item, i) {
-		if (Item["url"] == url) {
-				r = true;
-			}
-		});
+
+	if (target === "items-local") {
+  	if (localStorage.getItem(ITEMS_ID).length > 0) {
+  		JSON.parse(localStorage.getItem(ITEMS_ID)).forEach(function(Item, i) {
+  		if (Item["url"] === url) {
+  				r = true;
+  			}
+  		});
+  	}
 	}
+	else { // === "items-sync"
+	  chrome.storage.sync.get("items", function(data) {
+	    if (!chrome.runtime.lastError) {
+	      var d = data.items;
+        if (d !== undefined && d.length > 0) {
+          if (d["url"] === url) {
+            r = true;
+          }
+        }
+	    }
+	  });
+	}
+
 	return r;
 }
 
+
+// TODO: need improving for sync feature
 function itemSorting()
 {
 	var Items;
@@ -103,11 +121,6 @@ function AddDataAndUpdateStorage(title, url, target)
 	    }
 	  });
 	}
-
-	console.group("<< New item added >>");
-	console.log("Title: " + title);
-	console.log("URL: " + url);
-	console.groupEnd();
 }
 
 function RemoveDataAndUpdateStorage(title, target)
@@ -166,9 +179,9 @@ function successNotification(title)
 chrome.commands.onCommand.addListener(function(command) {
 	if (command == "stock-tab") {
 		chrome.tabs.getSelected(window.id, function(tab) {
-			if (!isDuplicated(tab.url)) {
+			if (!isDuplicated(tab.url, "items-local")) {
         successNotification(tab.title);
-        AddDataAndUpdateStorage(tab.title, tab.url, currentTab);
+        AddDataAndUpdateStorage(tab.title, tab.url, "items-local");
 			} else {
 				errorNotification();
 			}
@@ -202,9 +215,9 @@ chrome.contextMenus.create({
           return;
         }
 
-        if (!isDuplicated(url)) {
+        if (!isDuplicated(url, "items-local")) {
           successNotification(title);
-          AddDataAndUpdateStorage(title, url, currentTab);
+          AddDataAndUpdateStorage(title, url, "items-local");
         } else {
           errorNotification();
         }

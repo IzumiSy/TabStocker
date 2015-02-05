@@ -91,6 +91,7 @@ function RemoveItem(item)
 	BG.RemoveDataAndUpdateStorage(item["title"], BG.currentTab);
 }
 
+// TODO: need improving for sync feature
 function LaunchItem(title)
 {
 	var Items = JSON.parse(localStorage.getItem(BG.ITEMS_ID));
@@ -102,6 +103,7 @@ function LaunchItem(title)
 	}
 }
 
+// TODO: need improving for sync feature
 function SaveReorderedList()
 {
 	var Items = JSON.parse(localStorage.getItem(BG.ITEMS_ID));
@@ -183,7 +185,7 @@ document.body.onload = function() {
 
 $("#add").on("click", function() {
 	chrome.tabs.getSelected(window.id, function (tab) {
-		if (!BG.isDuplicated(tab.url)) {
+		if (!BG.isDuplicated(tab.url, BG.currentTab)) {
 			AddItem(tab);
 		} else {
 			BG.errorNotification();
