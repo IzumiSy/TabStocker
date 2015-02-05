@@ -6,20 +6,21 @@ const FAVICON_API = "http://favicon.hatena.ne.jp/?url=";
 
 var BG = chrome.extension.getBackgroundPage();
 var removeMode = false;
+var currentTab = null;
 
 ////////////////////////////////////////////////
 
 function RemoveItemFromMenu(index)
 {
-	$("#items-local li:eq(" + index + ")").hide('slide', {direction: 'right'}, 200);
+	$("#" + currentTab + " li:eq(" + index + ")").hide('slide', {direction: 'right'}, 200);
 }
 
-function SetItemToMenu(title, url)
+function SetItemToMenu(title, url, tab)
 {
 	var newAnchor = document.createElement("a");
 	var newList = document.createElement("li");
 	var newDiv = document.createElement("div");
-	var mainMenu = document.getElementById("items-local");
+	var mainMenu = document.getElementById(tab);
 	var newFavicon;
 
 	// For favicon hide option
@@ -51,7 +52,7 @@ function RestoreSavedItems()
 		Items.forEach(function(Item, i) {
 			if (Item) {
 				console.log(i + " " + Item["title"] + " :: " + Item["url"]);
-				SetItemToMenu(Item["title"], Item["url"]);
+				SetItemToMenu(Item["title"], Item["url"], "items-local");
 			}
 		});
 		console.groupEnd();
@@ -61,7 +62,7 @@ function RestoreSavedItems()
 
 function AddItem(item)
 {
-	SetItemToMenu(item.title, item.url);
+	SetItemToMenu(item.title, item.url, currentTab);
 	BG.AddDataAndUpdateStorage(item.title, item.url);
 }
 
@@ -133,19 +134,29 @@ document.body.onload = function() {
 	$(".items").disableSelection();
 	$(".items").sortable({ update: SaveReorderedList });
 
-	// It should be called after popup width settings were applied on loading
-	// itemSorting() should always be called here before RestoreSavedItems()
-	BG.itemSorting();
-	RestoreSavedItems();
-
 	// Height value loading should be placed just after saved items restoring
 	$(".ui-menu").height(localStorage.getItem(BG.OPTION_POPUP_HEIGHT));
 
 	// Settings for tab
-	$("#tabs").tabs();
+	$("#tabs").tabs({
+	  activate: function(event, ui) {
+      if (ui.newPanel.selector === "#local") {
+        currentTab = "items-local";
+      } else { // === "#sync"
+        currentTab = "items-sync";
+      }
+      console.log("Tab switched: " + currentTab);
+	  }
+	});
 	$(".ui-tabs-nav").width($("body").width() - 13);
 	$("#items-sync").width($("body").width() - 11).css("margin-top", "3px");
 	$("#items-local").width($("body").width() - 11).css("margin-top", "3px");
+	currentTab = "items-local";
+
+	// It should be called after popup width settings were applied on loading
+	// itemSorting() should always be called here before RestoreSavedItems()
+	BG.itemSorting();
+	RestoreSavedItems();
 
 	// Resets a flag for remove mode
 	removeModeOn = false;
