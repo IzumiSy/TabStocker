@@ -6,13 +6,13 @@
   <script src="jquery/jquery-ui-1.9.2.js"></script>
   <link rel="stylesheet" href="jquery/jquery-ui-1.9.2.css" />
 	<style>
-		.ui-menu { 
+		.ui-menu {
 			border: none;
 			cursor: default;
 			height: 400px;
 			overflow-y: scroll;
 		}
-		.ui-widget { 
+		.ui-widget {
 			font-family: 'Lucida Grande', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
 		}
 		a {
@@ -20,7 +20,7 @@
 			overflow: hidden;
 			text-overflow: ellipsis;
 		}
-		img.favicon { 
+		img.favicon {
 			margin: 0 5px 3px 0;
 			vertical-align: middle;
 		}
@@ -55,16 +55,31 @@
       background-size: contain;
       background-repeat: no-repeat;
     }
+    .tab {
+      margin-left: 3px;
+    }
+    #items-sync {
+      display: none;
+    }
+    #items-local {
+      display: block;
+    }
 	</style>
 </head>
 <body>
 	<button id="add"></button>
 	<button id="options"></button>
 	<input type="checkbox" id="remove"><label id="rmmode" for="remove"></label>
-	<br><hr class="separator">
-	<ul id="items">
-		<!-- Tab items -->
+	<a href="#" class="tab" id="local-switch">Local</a>
+	<a href="#" class="tab" id="sync-switch">Sync</a>
+	<br>
+	<hr class="separator">
+	<ul id="items-local">
+		<!-- local tab items -->
 	</ul>
-	<script src="popup.js"></script>	
+	<ul id="items-sync">
+	  <!-- sync tab items -->
+	</ul>
+	<script src="popup.js"></script>
 </body>
 </html>

@@ -11,7 +11,7 @@ var removeMode = false;
 
 function RemoveItemFromMenu(index)
 {
-	$("#items li:eq(" + index + ")").hide('slide', {direction: 'right'}, 200);
+	$("#items-local li:eq(" + index + ")").hide('slide', {direction: 'right'}, 200);
 }
 
 function SetItemToMenu(title, url)
@@ -19,7 +19,7 @@ function SetItemToMenu(title, url)
 	var newAnchor = document.createElement("a");
 	var newList = document.createElement("li");
 	var newDiv = document.createElement("div");
-	var mainMenu = document.getElementById("items");
+	var mainMenu = document.getElementById("items-local");
 	var newFavicon;
 
 	// For favicon hide option
@@ -29,7 +29,7 @@ function SetItemToMenu(title, url)
 		newFavicon.setAttribute("class", "favicon");
 		newAnchor.appendChild(newFavicon);
 	}
-	
+
 	newAnchor.appendChild(document.createTextNode(title));
 	newAnchor.setAttribute("class", "ui-corner-all");
 	newAnchor.setAttribute("role", "menuitem");
@@ -120,7 +120,7 @@ document.body.onload = function() {
 	$("#options").button();
 	$("#remove").button();
 
-	$("#items").menu({
+	$("#items-local").menu({
 		select: function(event, ui) {
 			if (removeMode) {
 				RemoveItem({"index": ui.item.index(), "title": ui.item.text()});
@@ -129,9 +129,9 @@ document.body.onload = function() {
 			}
 		}
 	});
-	$("#items").sortable({ placeholder: "ui-state-highlight" });
-	$("#items").disableSelection();
-	$("#items").sortable({ update: SaveReorderedList });
+	$("#items-local").sortable({ placeholder: "ui-state-highlight" });
+	$("#items-local").disableSelection();
+	$("#items-local").sortable({ update: SaveReorderedList });
 
 	// It should be called after popup width settings were applied on loading
 	// itemSorting() should always be called here before RestoreSavedItems()
