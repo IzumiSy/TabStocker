@@ -120,7 +120,7 @@ document.body.onload = function() {
 	$("#options").button();
 	$("#remove").button();
 
-	$("#items-local").menu({
+	$(".items").menu({
 		select: function(event, ui) {
 			if (removeMode) {
 				RemoveItem({"index": ui.item.index(), "title": ui.item.text()});
@@ -129,9 +129,9 @@ document.body.onload = function() {
 			}
 		}
 	});
-	$("#items-local").sortable({ placeholder: "ui-state-highlight" });
-	$("#items-local").disableSelection();
-	$("#items-local").sortable({ update: SaveReorderedList });
+	$(".items").sortable({ placeholder: "ui-state-highlight" });
+	$(".items").disableSelection();
+	$(".items").sortable({ update: SaveReorderedList });
 
 	// It should be called after popup width settings were applied on loading
 	// itemSorting() should always be called here before RestoreSavedItems()

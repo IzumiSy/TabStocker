@@ -5,75 +5,7 @@
   <script src="jquery/jquery-1.11.0.js"></script>
   <script src="jquery/jquery-ui-1.9.2.js"></script>
   <link rel="stylesheet" href="jquery/jquery-ui-1.9.2.css" />
-	<style>
-		.ui-menu {
-			border: none;
-			cursor: default;
-			height: 400px;
-			overflow-y: scroll;
-		}
-		.ui-widget {
-			font-family: 'Lucida Grande', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
-		}
-		.ui-state-highlight {
-			height: 1.5em; line-height: 1.2em;
-		}
-    .ui-tabs-anchor {
-      height: 11px;
-    }
-    .ui-tabs .ui-tabs-panel {
-      padding: 0;
-    }
-    .ui-tabs-nav {
-      height: 25px;
-    }
-    .ui-tabs-nav li {
-      height: 23px;
-    }
-		a {
-			white-space: nowrap;
-			overflow: hidden;
-			text-overflow: ellipsis;
-		}
-		img.favicon {
-			margin: 0 5px 3px 0;
-			vertical-align: middle;
-		}
-		hr.separator {
-			border: 0;
-			height: 0;
-			border-top: 1px solid rgba(0, 0, 0, 0.1);
-			border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-		}
-		#rmmode {
-      height: 28px;
-      width: 30px;
-			float: right;
-      background-image: url("./bin.png");
-      background-size: contain;
-      background-repeat: no-repeat;
-		}
-    #add {
-      height: 28px;
-      width: 45px;
-      background-image: url("./add.png");
-      background-size: contain;
-      background-repeat: no-repeat;
-    }
-    #options {
-      height: 28px;
-      width: 45px;
-      background-image: url("./preference.png");
-      background-size: contain;
-      background-repeat: no-repeat;
-    }
-    #items-sync {
-      display: none;
-    }
-    #items-local {
-      display: block;
-    }
-	</style>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 	<button id="add"></button>
@@ -82,16 +14,16 @@
 	<hr>
 	<div id="tabs">
 	  <ul>
-	    <li><a href="#tab1">tab1</a></li>
-	    <li><a href="#tab2">tab2</a></li>
+	    <li><a href="#local">Local</a></li>
+	    <li><a href="#sync">Sync</a></li>
 	  </ul>
-	  <div id="tab1">
-    	<ul id="items-local">
+	  <div id="local">
+    	<ul id="items-local" class="items">
     		<!-- local tab items -->
     	</ul>
 	  </div>
-	  <div id="tab2">
-    	<ul id="items-sync">
+	  <div id="sync">
+    	<ul id="items-sync" class="items">
     	  <!-- sync tab items -->
     	</ul>
 	  </div>

@@ -1,0 +1,74 @@
+
+.ui-menu {
+	border: none;
+	cursor: default;
+	height: 400px;
+	overflow-y: scroll;
+}
+
+.ui-widget {
+	font-family: 'Lucida Grande', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+}
+
+.ui-state-highlight {
+	height: 1.5em; line-height: 1.2em;
+}
+
+.ui-tabs-anchor {
+  height: 11px;
+}
+
+.ui-tabs .ui-tabs-panel {
+  padding: 0;
+}
+
+.ui-tabs-nav {
+  height: 25px;
+}
+
+.ui-tabs-nav li {
+  height: 23px;
+}
+
+a {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+img.favicon {
+	margin: 0 5px 3px 0;
+	vertical-align: middle;
+}
+
+hr.separator {
+	border: 0;
+	height: 0;
+	border-top: 1px solid rgba(0, 0, 0, 0.1);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+#rmmode {
+  height: 28px;
+  width: 30px;
+	float: right;
+  background-image: url("./bin.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+#add {
+  height: 28px;
+  width: 45px;
+  background-image: url("./add.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+#options {
+  height: 28px;
+  width: 45px;
+  background-image: url("./preference.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
