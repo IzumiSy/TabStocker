@@ -91,16 +91,34 @@ function RemoveItem(item)
 	BG.RemoveDataAndUpdateStorage(item["title"], BG.currentTab);
 }
 
-// TODO: need improving for sync feature
 function LaunchItem(title)
 {
-	var Items = JSON.parse(localStorage.getItem(BG.ITEMS_ID));
-	for (var i in Items) {
-		if (Items[i]["title"] == title) {
-			chrome.tabs.create({url: Items[i]["url"], selected: false});
-			return;
-		}
-	}
+  var Items;
+
+  if (BG.currentTab === "items-local") {
+  	Items = JSON.parse(localStorage.getItem(BG.ITEMS_ID));
+  	for (var i in Items) {
+  		if (Items[i]["title"] == title) {
+  		  chrome.tabs.create({url: Items[i]["url"], selected: false});
+  			break;
+  		}
+  	}
+  } else { // === "items-sync"
+    chrome.storage.sync.get("items", function(data) {
+      if (!chrome.runtime.error) {
+        var d = data.items;
+        if (d !== undefined && data.items.length > 0) {
+          Items = data.items;
+        }
+      	for (var i in Items) {
+      		if (Items[i]["title"] == title) {
+      		  chrome.tabs.create({url: Items[i]["url"], selected: false});
+      			break;
+      		}
+      	}
+      }
+    });
+  }
 }
 
 // TODO: need improving for sync feature
