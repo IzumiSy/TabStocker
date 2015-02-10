@@ -22,7 +22,7 @@
 	],
 
 	"browser_action": {
-		"default_icon": "main.png",
+		"default_icon": "assets/main.png",
 		"default_title": "Tab Stocker",
 		"default_popup": "popup.html"
 	},
@@ -35,7 +35,7 @@
 	},
 
 	"icons": {
-    "16": "main.png",
-    "128": "main.png"
+    "16": "assets/main.png",
+    "128": "assets/main.png"
   }
 }

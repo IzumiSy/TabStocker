@@ -146,7 +146,7 @@ function errorNotification()
 		type: "basic",
 		title: "TabStocker: Error",
 		message: "The same titled tab is now already stocked",
-		iconUrl: "error.png"
+		iconUrl: "assets/error.png"
 	}, function(){});
 }
 
@@ -156,7 +156,7 @@ function successNotification(title)
   	type: "basic",
   	title: "TabStocker: Success",
   	message: title,
-  	iconUrl: "main.png"
+  	iconUrl: "assets/main.png"
   }, function(){});
 }
 

@@ -52,7 +52,7 @@ hr.separator {
   height: 28px;
   width: 30px;
 	float: right;
-  background-image: url("./bin.png");
+  background-image: url("./assets/bin.png");
   background-size: contain;
   background-repeat: no-repeat;
 }
@@ -60,7 +60,7 @@ hr.separator {
 #add {
   height: 28px;
   width: 45px;
-  background-image: url("./add.png");
+  background-image: url("./assets/add.png");
   background-size: contain;
   background-repeat: no-repeat;
 }
@@ -68,7 +68,7 @@ hr.separator {
 #options {
   height: 28px;
   width: 45px;
-  background-image: url("./preference.png");
+  background-image: url("./assets/preference.png");
   background-size: contain;
   background-repeat: no-repeat;
 }
