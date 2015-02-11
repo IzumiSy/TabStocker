@@ -244,26 +244,32 @@ $("#add").on("click", function() {
 	      BG.errorNotification();
 	    }
 	  } else { // === "items-sync"
-  	  chrome.storage.sync.get("items", function(data) {
-  	    if (!chrome.runtime.lastError) {
-  	      var d = data.items, r = false;
-  	      if (d !== undefined && d.length > 0) {
-  	        d.forEach(function(item, i) {
-              if (item["url"] === tab.url) {
-                r = true;
-              }
-  	        });
-  	        if (r === true) {
-  	          BG.errorNotification();
-  	          return;
-  	        }
-  	      }
-  	      AddItem(tab);
-  	    }
-  	  });
+  	  syncAddition();
 	  }
 	});
 });
+
+// BG.isDuplicated() cannot be used for sync tab
+function syncAddition()
+{
+  chrome.storage.sync.get("items", function(data) {
+    if (!chrome.runtime.lastError) {
+      var d = data.items, r = false;
+      if (d !== undefined && d.length > 0) {
+        d.forEach(function(item, i) {
+          if (item["url"] === tab.url) {
+            r = true;
+          }
+        });
+        if (r === true) {
+          BG.errorNotification();
+          return;
+        }
+      }
+      AddItem(tab);
+    }
+  });
+}
 
 $("#remove").on("click", function() {
 	var removeButton = document.getElementById("remove");
