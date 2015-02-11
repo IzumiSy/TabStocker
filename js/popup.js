@@ -101,12 +101,8 @@ function LaunchItem(title)
 
   if (BG.currentTab === "items-local") {
   	Items = JSON.parse(localStorage.getItem(BG.ITEMS_ID));
-  	for (var i in Items) {
-  		if (Items[i]["title"] == title) {
-  		  chrome.tabs.create({url: Items[i]["url"], selected: false});
-  			break;
-  		}
-  	}
+  	launch(Items, title);
+
   } else { // === "items-sync"
     chrome.storage.sync.get("items", function(data) {
       if (!chrome.runtime.error) {
@@ -114,14 +110,19 @@ function LaunchItem(title)
         if (d !== undefined && data.items.length > 0) {
           Items = data.items;
         }
-      	for (var i in Items) {
-      		if (Items[i]["title"] == title) {
-      		  chrome.tabs.create({url: Items[i]["url"], selected: false});
-      			break;
-      		}
-      	}
+        launch(Items, title);
       }
     });
+  }
+}
+
+function launch(array, title)
+{
+  for (var i in array) {
+  	if (array[i]["title"] == title) {
+  	  chrome.tabs.create({url: array[i]["url"], selected: false});
+  		break;
+  	}
   }
 }
 
