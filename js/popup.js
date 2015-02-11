@@ -4,6 +4,10 @@
 // API url for obtaining favicons
 const FAVICON_API = "http://favicon.hatena.ne.jp/?url=";
 
+// Tabs
+const ITEMS_SYNC_TAB = 0;
+const ITEMS_LOCAL_TAB = 1;
+
 var BG = chrome.extension.getBackgroundPage();
 var removeMode = false;
 
@@ -177,6 +181,10 @@ document.body.onload = function() {
 	$(".ui-menu").height(localStorage.getItem(BG.OPTION_POPUP_HEIGHT));
 
 	// Settings for tab
+	var active_tab = ITEMS_SYNC_TAB;
+	if (BG.currentTab == "items-sync") {
+	  active_tab = ITEMS_LOCAL_TAB;
+	}
 	$("#tabs").tabs({
 	  activate: function(event, ui) {
       if (ui.newPanel.selector === "#local") {
@@ -185,12 +193,12 @@ document.body.onload = function() {
         BG.currentTab = "items-sync";
       }
       console.log("Tab switched: " + BG.currentTab);
-	  }
+	  },
+	  active: active_tab
 	});
 	$(".ui-tabs-nav").width($("body").width() - 13);
 	$("#items-sync").width($("body").width() - 11).css("margin-top", "3px");
 	$("#items-local").width($("body").width() - 11).css("margin-top", "3px");
-	BG.currentTab = "items-local";
 
 	// It should be called after popup width settings were applied on loading
 	// itemSorting() should always be called here before RestoreSavedItems()
