@@ -165,7 +165,7 @@ chrome.commands.onCommand.addListener(function(command) {
 		chrome.tabs.getSelected(window.id, function(tab) {
 			if (!isDuplicated(tab.url, "items-local")) {
         successNotification(tab.title);
-        AddDataAndUpdateStorage(tab.title, tab.url, "items-local");
+        AddDataAndUpdateStorage(tab.title, tab.url, currentTab);
 			} else {
 				errorNotification();
 			}
@@ -201,7 +201,7 @@ chrome.contextMenus.create({
 
         if (!isDuplicated(url, "items-local")) {
           successNotification(title);
-          AddDataAndUpdateStorage(title, url, "items-local");
+          AddDataAndUpdateStorage(title, url, currentTab);
         } else {
           errorNotification();
         }
