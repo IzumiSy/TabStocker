@@ -125,30 +125,55 @@ function LaunchItem(title)
   }
 }
 
-// TODO: need improving for sync feature
 function SaveReorderedList()
 {
-	var Items = JSON.parse(localStorage.getItem(BG.ITEMS_ID));
-	var listLength = $("li").length;
-	var storageLength = Items.length;
+	var Items;
+
+	if (BG.currentTab == "items-local") {
+	  Items = JSON.parse(localStorage.getItem(BG.ITEMS_ID));
+	  localStorage.setItem(BG.ITEMS_ID, undefined);
+	  localStorage.setItem(BG.ITEMS_ID, JSON.stringify(reorder(Items)));
+	} else { // == "items-sync"
+	  chrome.storage.sync.get("items", function(data) {
+	    if (!chrome.runtime.error) {
+	      var d = data.items;
+	    }
+	    if (d !== undefined && data.items.length > 0) {
+        Items = data.items;
+      }
+      chrome.storage.sync.set({ "items": reorder(Items) }, function(){
+        console.log("Reordered: items-sync");
+      });
+	  });
+	}
+}
+
+function reorder(array)
+{
+	var storageLength = array.length;
+  var targetList;
 	var temps = [];
 	var url;
 
-	localStorage.setItem(BG.ITEMS_ID, undefined);
+  if (BG.currentTab == "items-local") {
+    targetList = $("#local li");
+  } else { // == "items-sync"
+    targetList = $("#sync li");
+  }
 
-	for (i = 0;i < listLength;i++) {
-		title = $("li")[i].textContent;
+	for (i = 0;i < targetList.length ;i++) {
+		title = targetList[i].textContent;
 		url = undefined;
-		for (var j in Items) {
-			if (Items[j]["title"] == title) {
-				url = Items[j]["url"];
+		for (var j in array) {
+			if (array[j]["title"] == title) {
+				url = array[j]["url"];
 				temps.push({"title": title, "url": url});
 				break;
 			}
 		}
 	}
 
-	localStorage.setItem(BG.ITEMS_ID, JSON.stringify(temps));
+	return temps;
 }
 
 ////////////////////////////////////////////////
