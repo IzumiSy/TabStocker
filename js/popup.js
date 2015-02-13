@@ -52,6 +52,9 @@ function RestoreSavedItems()
   // Local items
 	if (localStorage.getItem(BG.ITEMS_ID).length > 0) {
 		Items = JSON.parse(localStorage.getItem(BG.ITEMS_ID));
+		if (localStorage.getItem(BG.OPTION_AUTO_SORT) == "true") {
+		  Items = BG.sorting(Items);
+		}
 		console.group("<< Previously stocked items (Local) >>");
 		Items.forEach(function(Item, i) {
 			if (Item) {
@@ -71,6 +74,9 @@ function RestoreSavedItems()
       if (d !== undefined && data.items.length > 0) {
         Items = data.items;
       }
+      if (localStorage.getItem(BG.OPTION_AUTO_SORT) == "true") {
+		    Items = BG.sorting(Items);
+		  }
       console.group("<< Previously stocked items (Sync) >>");
       Items.forEach(function(Item, i) {
         if (Item) {
@@ -199,9 +205,12 @@ document.body.onload = function() {
 			}
 		}
 	});
-	$(".items").sortable({ placeholder: "ui-state-highlight" });
-	$(".items").disableSelection();
-	$(".items").sortable({ update: SaveReorderedList });
+	if (localStorage.getItem(BG.OPTION_AUTO_SORT) == "false") {
+  	$(".items").sortable({
+  	  placeholder: "ui-state-highlight",
+  	  update: SaveReorderedList
+  	}).disableSelection();
+	}
 
 	// Height value loading should be placed just after saved items restoring
 	$(".ui-menu").height(localStorage.getItem(BG.OPTION_POPUP_HEIGHT));
@@ -226,9 +235,6 @@ document.body.onload = function() {
 	$("#items-sync").width($("body").width() - 11).css("margin-top", "3px");
 	$("#items-local").width($("body").width() - 11).css("margin-top", "3px");
 
-	// It should be called after popup width settings were applied on loading
-	// itemSorting() should always be called here before RestoreSavedItems()
-	BG.itemSorting();
 	RestoreSavedItems();
 
 	// Resets a flag for remove mode

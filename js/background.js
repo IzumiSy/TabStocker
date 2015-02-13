@@ -48,28 +48,6 @@ function isDuplicated(url)
   return r;
 }
 
-function itemSorting()
-{
-	var Items;
-
-	if (localStorage.getItem(OPTION_AUTO_SORT) == "true") {
-    // items-local
-		Items = JSON.parse(localStorage.getItem(ITEMS_ID));
-		localStorage.setItem(ITEMS_ID, JSON.stringify(sorting(Items)));
-    // items-sync
-    Items = [];
-	  chrome.storage.sync.get("items", function(data) {
-	    if (!chrome.runtime.lastError) {
-	      var d = data.items;
-        if (d !== undefined && d.length > 0) {
-          Items = data.items;
-        }
-        chrome.storage.sync.set({ "items": sorting(Items) }, function(){});
-	    }
-	  });
-	}
-}
-
 function sorting(array)
 {
   var Items = array;
@@ -94,6 +72,9 @@ function sorting(array)
 	return Items;
 }
 
+// For sync items, sorting needs a little more time than local items
+// because of latency of chrome.storage.get so that sorting in sync is called
+// here after chrome.storage.sync.set has just called.
 function AddDataAndUpdateStorage(title, url, target)
 {
 	var Items = [];
