@@ -244,13 +244,13 @@ $("#add").on("click", function() {
 	      BG.errorNotification();
 	    }
 	  } else { // === "items-sync"
-  	  syncAddition();
+  	  syncAddition(tab);
 	  }
 	});
 });
 
 // BG.isDuplicated() cannot be used for sync tab
-function syncAddition()
+function syncAddition(tab)
 {
   chrome.storage.sync.get("items", function(data) {
     if (!chrome.runtime.lastError) {
