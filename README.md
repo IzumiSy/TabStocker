@@ -9,6 +9,7 @@ It also solves an issue that Chrome tends to use much memory when keeping many t
 - Shortcut Key (Alt + S)
 - Drag & drop or automatic sorting
 - Context menu support
+- Synchronization
 
 ###3. License
 MIT
