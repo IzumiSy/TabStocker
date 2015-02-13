@@ -48,29 +48,50 @@ function isDuplicated(url)
   return r;
 }
 
-
-// TODO: need improving for sync feature
 function itemSorting()
 {
 	var Items;
 
 	if (localStorage.getItem(OPTION_AUTO_SORT) == "true") {
+    // items-local
 		Items = JSON.parse(localStorage.getItem(ITEMS_ID));
-		switch (localStorage.getItem(OPTION_SORTBY)) {
-			case "by_title": elements = "title"; break;
-			case "by_url": elements = "url"; break;
-		}
-		Items.sort(function(a, b) {
-			switch (localStorage.getItem(OPTION_DIRECTION)) {
-				case "asc": r = 1; break;
-				case "desc": r = -1; break;
-			}
-			if (a[elements] > b[elements]) return r;
-			if (a[elements] < b[elements]) return -r;
-			return 0;
-		});
-		localStorage.setItem(ITEMS_ID, JSON.stringify(Items));
+		localStorage.setItem(ITEMS_ID, JSON.stringify(sorting(Items)));
+    // items-sync
+    Items = [];
+	  chrome.storage.sync.get("items", function(data) {
+	    if (!chrome.runtime.lastError) {
+	      var d = data.items;
+        if (d !== undefined && d.length > 0) {
+          Items = data.items;
+        }
+        chrome.storage.sync.set({ "items": sorting(Items) }, function(){});
+	    }
+	  });
 	}
+}
+
+function sorting(array)
+{
+  var Items = array;
+  var elements = null, r = null;
+	var sortby = localStorage.getItem(OPTION_SORTBY);
+	var direction = localStorage.getItem(OPTION_DIRECTION);
+
+	switch (sortby) {
+		case "by_title": elements = "title"; break;
+		case "by_url": elements = "url"; break;
+	}
+	Items.sort(function(a, b) {
+		switch (direction) {
+			case "asc": r = 1; break;
+			case "desc": r = -1; break;
+		}
+		if (a[elements] > b[elements]) return r;
+		if (a[elements] < b[elements]) return -r;
+		return 0;
+	});
+
+	return Items;
 }
 
 function AddDataAndUpdateStorage(title, url, target)
