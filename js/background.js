@@ -72,9 +72,6 @@ function sorting(array)
 	return Items;
 }
 
-// For sync items, sorting needs a little more time than local items
-// because of latency of chrome.storage.get so that sorting in sync is called
-// here after chrome.storage.sync.set has just called.
 function AddDataAndUpdateStorage(title, url, target)
 {
 	var Items = [];
