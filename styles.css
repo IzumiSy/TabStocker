@@ -48,6 +48,15 @@ hr.separator {
 	border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 
+.ui-tabs li.ui-tabs-active a.tab {
+  cursor: default;
+  -webkit-user-select: none;
+}
+
+.ui-tabs li a {
+  -webkit-user-select: none;
+}
+
 #rmmode {
   height: 26px;
   width: 30px;
@@ -55,6 +64,7 @@ hr.separator {
   background-image: url("./assets/bin.png");
   background-size: contain;
   background-repeat: no-repeat;
+  -webkit-user-select: none;
 }
 
 #add {
@@ -63,6 +73,7 @@ hr.separator {
   background-image: url("./assets/add.png");
   background-size: contain;
   background-repeat: no-repeat;
+  -webkit-user-select: none;
 }
 
 #options {
@@ -71,4 +82,5 @@ hr.separator {
   background-image: url("./assets/preference.png");
   background-size: contain;
   background-repeat: no-repeat;
+  -webkit-user-select: none;
 }
