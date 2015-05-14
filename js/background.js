@@ -4,7 +4,7 @@
 const ui_menu_defaultPopupWidth = 250;
 const ui_menu_defaultPopupHeight = 200;
 const ui_menu_maxPopupWidth = 500;
-const ui_menu_maxPopupHeight = 530;
+const ui_menu_maxPopupHeight = 500;
 const ui_defaultFontSize = 0.7;
 
 const NOTIFY_ID = "default";
@@ -21,17 +21,17 @@ var currentTab = "items-local";
 
 function undefinedResolver()
 {
-	if (localStorage.getItem(OPTION_POPUP_WIDTH) == undefined) {
+	if (localStorage.getItem(OPTION_POPUP_WIDTH) === undefined) {
 		localStorage.setItem(OPTION_POPUP_WIDTH, ui_menu_defaultPopupWidth);
 	}
-	if (localStorage.getItem(OPTION_POPUP_HEIGHT) == undefined) {
+	if (localStorage.getItem(OPTION_POPUP_HEIGHT) === undefined) {
 		localStorage.setItem(OPTION_POPUP_HEIGHT, ui_menu_defaultPopupHeight);
 	}
-	if (localStorage.getItem(OPTION_FONT_SIZE) == undefined) {
+	if (localStorage.getItem(OPTION_FONT_SIZE) === undefined) {
 		localStorage.setItem(OPTION_FONT_SIZE, ui_defaultFontSize);
 	}
-	if (localStorage.getItem(ITEMS_ID) == undefined) {
-		localStorage.setItem(ITEMS_ID, new Array());
+	if (localStorage.getItem(ITEMS_ID) === undefined) {
+		localStorage.setItem(ITEMS_ID, []);
 	}
 }
 
@@ -123,7 +123,7 @@ function RemoveDataAndUpdateStorage(title, target)
   else { // === "items-sync"
     chrome.storage.sync.get("items", function(data) {
       if (!chrome.runtime.error) {
-        Items = data.items
+        Items = data.items;
         for (var i in Items) {
           if (Items[i]["title"] === title) {
             Items.splice(i, 1);
