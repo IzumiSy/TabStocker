@@ -21,16 +21,16 @@ var currentTab = "items-local";
 
 function undefinedResolver()
 {
-	if (localStorage.getItem(OPTION_POPUP_WIDTH) === undefined) {
+	if (!localStorage.getItem(OPTION_POPUP_WIDTH)) {
 		localStorage.setItem(OPTION_POPUP_WIDTH, ui_menu_defaultPopupWidth);
 	}
-	if (localStorage.getItem(OPTION_POPUP_HEIGHT) === undefined) {
+	if (!localStorage.getItem(OPTION_POPUP_HEIGHT)) {
 		localStorage.setItem(OPTION_POPUP_HEIGHT, ui_menu_defaultPopupHeight);
 	}
-	if (localStorage.getItem(OPTION_FONT_SIZE) === undefined) {
+	if (!localStorage.getItem(OPTION_FONT_SIZE)) {
 		localStorage.setItem(OPTION_FONT_SIZE, ui_defaultFontSize);
 	}
-	if (localStorage.getItem(ITEMS_ID) === undefined) {
+	if (!localStorage.getItem(ITEMS_ID)) {
 		localStorage.setItem(ITEMS_ID, []);
 	}
 }
