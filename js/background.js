@@ -8,14 +8,17 @@ const ui_menu_maxPopupHeight = 500;
 const ui_defaultFontSize = 0.7;
 
 const NOTIFY_ID = "default";
-const ITEMS_ID = "Items";
-const OPTION_POPUP_WIDTH = "PopupWidth";
-const OPTION_POPUP_HEIGHT = "PopupHeight";
-const OPTION_FONT_SIZE = "FontSize";
-const OPTION_HIDE_FAVICONS = "HideFavicon";
-const OPTION_AUTO_SORT = "AutomaticSort";
-const OPTION_DIRECTION = "SortDirection";
-const OPTION_SORTBY = "SortBy";
+const ITEMS_ID  = "Items";
+
+const OPTIONS = {
+  POPUP_WIDTH:   "PopupWidth",
+  POPUP_HEIGHT:  "PopupHeight",
+  FONT_SIZE:     "FontSize",
+  HIDE_FAVICONS: "HideFavicon",
+  AUTO_SORT:     "AutomaticSort",
+  DIRECTION:     "SortDirection",
+  SORTBY:        "SortBy"
+};
 
 var currentTab = "items-local";
 
@@ -124,8 +127,8 @@ var utils = {
   sorting: function(array) {
     var Items = array;
     var elements = null, r = null;
-  	var sortby = localStorage.getItem(OPTION_SORTBY);
-  	var direction = localStorage.getItem(OPTION_DIRECTION);
+  	var sortby = localStorage.getItem(OPTIONS.SORTBY);
+  	var direction = localStorage.getItem(OPTIONS.DIRECTION);
   
   	switch (sortby) {
   		case "by_title": elements = "title"; break;
@@ -147,14 +150,14 @@ var utils = {
 
 function undefinedResolver()
 {
-	if (!localStorage.getItem(OPTION_POPUP_WIDTH)) {
-		localStorage.setItem(OPTION_POPUP_WIDTH, ui_menu_defaultPopupWidth);
+	if (!localStorage.getItem(OPTIONS.POPUP_WIDTH)) {
+		localStorage.setItem(OPTIONS.POPUP_WIDTH, ui_menu_defaultPopupWidth);
 	}
-	if (!localStorage.getItem(OPTION_POPUP_HEIGHT)) {
-		localStorage.setItem(OPTION_POPUP_HEIGHT, ui_menu_defaultPopupHeight);
+	if (!localStorage.getItem(OPTIONS.POPUP_HEIGHT)) {
+		localStorage.setItem(OPTIONS.POPUP_HEIGHT, ui_menu_defaultPopupHeight);
 	}
-	if (!localStorage.getItem(OPTION_FONT_SIZE)) {
-		localStorage.setItem(OPTION_FONT_SIZE, ui_defaultFontSize);
+	if (!localStorage.getItem(OPTIONS.FONT_SIZE)) {
+		localStorage.setItem(OPTIONS.FONT_SIZE, ui_defaultFontSize);
 	}
 	if (!localStorage.getItem(ITEMS_ID)) {
 		localStorage.setItem(ITEMS_ID, []);
