@@ -5,16 +5,16 @@
   const FAVICON_API     = "http://favicon.hatena.ne.jp/?url=";
   const ITEMS_SYNC_TAB  = 0;
   const ITEMS_LOCAL_TAB = 1;
-  
+
   var BG         = chrome.extension.getBackgroundPage();
   var removeMode = false;
-  
+
   var stockItems = {
     append: function(item) {
     	this.applyUI.appendItem(item.title, item.url, BG.currentTab);
     	BG.AddDataAndUpdateStorage(item.title, item.url, BG.currentTab);
     },
-    
+
     // BG.isDuplicated() cannot be used for sync tab
     appendSync: function(tab) {
       chrome.storage.sync.get("items", function(data) {
@@ -35,19 +35,19 @@
         }
       });
     },
-    
+
     eliminate: function(item) {
     	this.applyUI.eliminateItem(item["index"], BG.currentTab);
     	BG.RemoveDataAndUpdateStorage(item["title"], BG.currentTab);
-    },  
-    
+    },
+
     launch: function(title) {
       var items;
-    
+
       if (BG.currentTab === "items-local") {
       	items = JSON.parse(localStorage.getItem(BG.ITEMS_ID));
       	stockItems.execute(items, title);
-    
+
       } else { // === "items-sync"
         chrome.storage.sync.get("items", function(data) {
           if (!chrome.runtime.error) {
@@ -60,7 +60,7 @@
         });
       }
     },
-    
+
     execute: function(array, title) {
       for (var i in array) {
       	if (array[i]["title"] == title) {
@@ -69,11 +69,11 @@
       	}
       }
     },
-    
+
     restore: function() {
     	var items = [];
-      var data = localStorage.getItem(BG.ITEMS_ID);  
-    
+      var data = localStorage.getItem(BG.ITEMS_ID);
+
       // Local items
     	if (data !== undefined && data.length > 0) {
     		items = JSON.parse(data);
@@ -90,7 +90,7 @@
     		console.groupEnd();
     		chrome.browserAction.setBadgeText({text: String(items.length)});
     	}
-    
+
     	// Sync Items
     	items = [];
       chrome.storage.sync.get("items", function(data) {
@@ -113,19 +113,19 @@
         }
       });
     },
-    
+
     reorder: function(array) {
     	var storageLength = array.length;
       var targetList;
     	var temps = [];
     	var url;
-    
+
       if (BG.currentTab == "items-local") {
         targetList = $("#local li");
       } else { // == "items-sync"
         targetList = $("#sync li");
       }
-    
+
     	for (i = 0;i < targetList.length ;i++) {
     		title = targetList[i].textContent;
     		url = undefined;
@@ -137,14 +137,14 @@
     			}
     		}
     	}
-    
+
     	return temps;
     },
-    
+
     orderedSave: function() {
     	var items;
     	var orderedItems;
-    
+
     	if (BG.currentTab == "items-local") {
     	  items = JSON.parse(localStorage.getItem(BG.ITEMS_ID));
     	  orderedItems = JSON.stringify(stockItems.reorder(items));
@@ -153,7 +153,7 @@
     	  chrome.storage.sync.get("items", function(data) {
     	    if (chrome.runtime.error ||
     	        data.items !== null  ||
-    	       !data.items.length) { 
+    	       !data.items.length) {
     	      return;
     	    }
           items = data.items;
@@ -164,19 +164,19 @@
     	  });
     	}
     },
-    
+
     applyUI: {
       eliminateItem: function(index, tab) {
       	$("#" + tab + " li:eq(" + index + ")").hide('slide', {direction: 'right'}, 200);
       },
-      
+
       appendItem: function(title, url, tab) {
       	var newAnchor = document.createElement("a");
       	var newList = document.createElement("li");
       	var newDiv = document.createElement("div");
       	var mainMenu = document.getElementById(tab);
       	var newFavicon;
-      
+
       	// For favicon hide option
       	if (localStorage.getItem(BG.OPTIONS.HIDE_FAVICONS) != "true") {
       		newFavicon = document.createElement("img");
@@ -184,7 +184,7 @@
       		newFavicon.setAttribute("class", "favicon");
       		newAnchor.appendChild(newFavicon);
       	}
-      
+
       	newAnchor.appendChild(document.createTextNode(title));
       	newAnchor.setAttribute("class", "ui-corner-all");
       	newAnchor.setAttribute("role", "menuitem");
@@ -197,7 +197,7 @@
       }
     }
   };
-  
+
   var clickHandlers = {
     btnAdd: function() {
     	chrome.tabs.getSelected(window.id, function (tab) {
@@ -213,7 +213,7 @@
     	  }
     	});
     },
-    
+
     btnRemove: function() {
     	var removeButton = document.getElementById("remove");
     	if (removeButton.checked) {
@@ -227,12 +227,12 @@
     	}
     	removeMode = ! removeMode;
     },
-    
+
     btnOption: function() {
     	chrome.tabs.create({url: "options.html", selected: true});
     }
   };
-  
+
   var popupBodyHandlers = {
     itemSelect: function(event, ui) {
   		if (removeMode) {
@@ -241,7 +241,7 @@
   			stockItems.launch(ui.item.text());
   		}
   	},
-  	
+
   	tabSwitch: function(event, ui) {
       if (ui.newPanel.selector === "#local") {
         BG.currentTab = "items-local";
@@ -250,21 +250,21 @@
       }
       console.log("Tab switched: " + BG.currentTab);
     },
-  	
+
   	onLoad: function() {
     	BG.undefinedResolver();
     	$("body").css("font-size", localStorage.getItem(BG.OPTIONS.FONT_SIZE) + "em");
     	$("body").width(localStorage.getItem(BG.OPTIONS.POPUP_WIDTH));
     	$("ul").width($("body").width() - 4);
     	$("a.ui-menu-item").width($("body").width() - 12);
-    
+
     	$("#add").button();
     	$("#add").on("click", clickHandlers.btnAdd);
     	$("#remove").button();
     	$("#remove").on("click", clickHandlers.btnRemove);
     	$("#options").button();
     	$("#options").on("click", clickHandlers.btnOption);
-    
+
     	$(".items").menu({ select: popupBodyHandlers.itemSelect });
     	if (localStorage.getItem(BG.OPTIONS.AUTO_SORT) == "false") {
       	$(".items").sortable({
@@ -272,10 +272,10 @@
       	  update: stockItems.orderedSave
       	}).disableSelection();
     	}
-    
+
     	// Height value loading should be placed just after saved items restoring
     	$(".ui-menu").height(localStorage.getItem(BG.OPTIONS.POPUP_HEIGHT));
-    
+
     	// Settings for tab
     	var active_tab = ITEMS_SYNC_TAB;
     	if (BG.currentTab == "items-sync") {
@@ -288,13 +288,13 @@
     	$(".ui-tabs-nav").width($("body").width() - 13);
     	$("#items-sync").width($("body").width() - 11).css("margin-top", "3px");
     	$("#items-local").width($("body").width() - 11).css("margin-top", "3px");
-    
+
     	stockItems.restore();
-    
+
     	// Resets a flag for remove mode
     	removeModeOn = false;
     }
   };
-  
+
   document.body.onload = popupBodyHandlers.onLoad;
 })();

@@ -31,9 +31,9 @@ var notifications = {
   		iconUrl: "assets/error.png"
   	}, function(){});
   },
-  
+
   success: function(title) {
-    if (!title) { 
+    if (!title) {
       console.log("Error: notification.success() needs a page title");
       return;
     }
@@ -59,7 +59,7 @@ var eventHandlers = {
   		});
   	}
   },
-  
+
   contextMenu: function(info, tab) {
     var title, url;
     var r = new XMLHttpRequest();
@@ -76,21 +76,21 @@ var eventHandlers = {
 
     console.log("[REQUESTED] " + info.linkUrl);
   },
-  
+
   HTTPrequestHandler: function(args) {
 	  var request = args.requestObj;
 	  if (!request || !request.responseXML) {
 	    return;
 	  }
-	  
+
 	  var GOOGLE_REDIRECTION_SIGN = "window.googleJavaScriptRedirect=1";
 	  var responseXML = request.responseXML;
 	  var scripts = responseXML.scripts;
 	  var meta = responseXML.getElementsByTagName("noscript");
-	  
+
 	  var title = responseXML.title;
 	  var url = args.url;
-	  
+
 	  // If the result of the request is the one returned by Google search,
 	  // it possible is a redirection to the destination page.
     if (request.readyState == 4 && request.status == 200) {
@@ -123,13 +123,13 @@ var utils = {
   	}
     return r;
   },
-  
+
   sorting: function(array) {
     var Items = array;
     var elements = null, r = null;
   	var sortby = localStorage.getItem(OPTIONS.SORTBY);
   	var direction = localStorage.getItem(OPTIONS.DIRECTION);
-  
+
   	switch (sortby) {
   		case "by_title": elements = "title"; break;
   		case "by_url": elements = "url"; break;
@@ -143,7 +143,7 @@ var utils = {
   		if (a[elements] < b[elements]) return -r;
   		return 0;
   	});
-  
+
   	return Items;
   }
 };
