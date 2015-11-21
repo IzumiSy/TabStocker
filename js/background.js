@@ -19,6 +19,132 @@ const OPTION_SORTBY = "SortBy";
 
 var currentTab = "items-local";
 
+var notifications = {
+  error: function() {
+  	chrome.notifications.create(NOTIFY_ID, {
+  		type: "basic",
+  		title: "TabStocker: Error",
+  		message: "The same titled tab is now already stocked",
+  		iconUrl: "assets/error.png"
+  	}, function(){});
+  },
+  
+  success: function(title) {
+    if (!title) { 
+      console.log("Error: notification.success() needs a page title");
+      return;
+    }
+    chrome.notifications.create(NOTIFY_ID, {
+    	type: "basic",
+    	title: "TabStocker: Success",
+    	message: title,
+    	iconUrl: "assets/main.png"
+    }, function(){});
+  }
+};
+
+var eventHandlers = {
+  shortcutKey: function(command) {
+  	if (command == "stock-tab") {
+  		chrome.tabs.getSelected(window.id, function(tab) {
+  			if (!utils.isDuplicated(tab.url, "items-local")) {
+          notifications.success(tab.title);
+          AddDataAndUpdateStorage(tab.title, tab.url, currentTab);
+  			} else {
+  				notifications.error();
+  			}
+  		});
+  	}
+  },
+  
+  contextMenu: function(info, tab) {
+    var title, url;
+    var r = new XMLHttpRequest();
+
+    r.onreadystatechange = function() {
+      eventHandlers.HTTPrequestHandler({
+        requestObj: r,
+        url: info.linkUrl
+      });
+    };
+    r.open("GET", info.linkUrl, true);
+    r.responseType = "document";
+    r.send(null);
+
+    console.log("[REQUESTED] " + info.linkUrl);
+  },
+  
+  HTTPrequestHandler: function(args) {
+	  var request = args.requestObj;
+	  if (!request || !request.responseXML) {
+	    return;
+	  }
+	  
+	  var GOOGLE_REDIRECTION_SIGN = "window.googleJavaScriptRedirect=1";
+	  var responseXML = request.responseXML;
+	  var scripts = responseXML.scripts;
+	  var meta = responseXML.getElementsByTagName("noscript");
+	  
+	  var title = responseXML.title;
+	  var url = args.url;
+	  
+	  // If the result of the request is the one returned by Google search,
+	  // it possible is a redirection to the destination page.
+    if (request.readyState == 4 && request.status == 200) {
+      if (scripts[0].innerText === GOOGLE_REDIRECTION_SIGN) {
+        url = meta[0].innerHTML.substr(43).slice(0, -3);
+        request.open("GET", url, true);
+        request.send(null);
+        return;
+      }
+
+      if (!utils.isDuplicated(url, "items-local")) {
+        notifications.success(title);
+        AddDataAndUpdateStorage(title, url, currentTab);
+      } else {
+        notifications.error();
+      }
+    }
+  }
+};
+
+var utils = {
+  isDuplicated: function(url) {
+  	var r = false;
+  	if (localStorage.getItem(ITEMS_ID).length > 0) {
+  		JSON.parse(localStorage.getItem(ITEMS_ID)).forEach(function(Item, i) {
+  		if (Item["url"] === url) {
+  				r = true;
+  			}
+  		});
+  	}
+    return r;
+  },
+  
+  sorting: function(array) {
+    var Items = array;
+    var elements = null, r = null;
+  	var sortby = localStorage.getItem(OPTION_SORTBY);
+  	var direction = localStorage.getItem(OPTION_DIRECTION);
+  
+  	switch (sortby) {
+  		case "by_title": elements = "title"; break;
+  		case "by_url": elements = "url"; break;
+  	}
+  	Items.sort(function(a, b) {
+  		switch (direction) {
+  			case "asc": r = 1; break;
+  			case "desc": r = -1; break;
+  		}
+  		if (a[elements] > b[elements]) return r;
+  		if (a[elements] < b[elements]) return -r;
+  		return 0;
+  	});
+  
+  	return Items;
+  }
+};
+
 function undefinedResolver()
 {
 	if (!localStorage.getItem(OPTION_POPUP_WIDTH)) {
@@ -33,43 +159,6 @@ function undefinedResolver()
 	if (!localStorage.getItem(ITEMS_ID)) {
 		localStorage.setItem(ITEMS_ID, []);
 	}
-}
-
-function isDuplicated(url)
-{
-	var r = false;
-	if (localStorage.getItem(ITEMS_ID).length > 0) {
-		JSON.parse(localStorage.getItem(ITEMS_ID)).forEach(function(Item, i) {
-		if (Item["url"] === url) {
-				r = true;
-			}
-		});
-	}
-  return r;
-}
-
-function sorting(array)
-{
-  var Items = array;
-  var elements = null, r = null;
-	var sortby = localStorage.getItem(OPTION_SORTBY);
-	var direction = localStorage.getItem(OPTION_DIRECTION);
-
-	switch (sortby) {
-		case "by_title": elements = "title"; break;
-		case "by_url": elements = "url"; break;
-	}
-	Items.sort(function(a, b) {
-		switch (direction) {
-			case "asc": r = 1; break;
-			case "desc": r = -1; break;
-		}
-		if (a[elements] > b[elements]) return r;
-		if (a[elements] < b[elements]) return -r;
-		return 0;
-	});
-
-	return Items;
 }
 
 function AddDataAndUpdateStorage(title, url, target)
@@ -139,74 +228,9 @@ function RemoveDataAndUpdateStorage(title, target)
   }
 }
 
-function errorNotification()
-{
-	chrome.notifications.create(NOTIFY_ID, {
-		type: "basic",
-		title: "TabStocker: Error",
-		message: "The same titled tab is now already stocked",
-		iconUrl: "assets/error.png"
-	}, function(){});
-}
-
-function successNotification(title)
-{
-  chrome.notifications.create(NOTIFY_ID, {
-  	type: "basic",
-  	title: "TabStocker: Success",
-  	message: title,
-  	iconUrl: "assets/main.png"
-  }, function(){});
-}
-
-chrome.commands.onCommand.addListener(function(command) {
-	if (command == "stock-tab") {
-		chrome.tabs.getSelected(window.id, function(tab) {
-			if (!isDuplicated(tab.url, "items-local")) {
-        successNotification(tab.title);
-        AddDataAndUpdateStorage(tab.title, tab.url, currentTab);
-			} else {
-				errorNotification();
-			}
-		});
-	}
-});
-
+chrome.commands.onCommand.addListener(eventHandlers.shortcutKey);
 chrome.contextMenus.create({
   "title": "Stock this link",
   "contexts": ["link"],
-  "onclick": function(info, tab) {
-    var title, url;
-    var r = new XMLHttpRequest();
-
-    r.onreadystatechange = handleResponse;
-    r.open("GET", info.linkUrl, true);
-    r.responseType = "document";
-    r.send(null);
-
-  	function handleResponse() {
-      if ((r.readyState == 4) && (r.status == 200)) {
-        title = r.responseXML.title;
-        url = info.linkUrl;
-
-        // Deal with redirection of Google search result
-        if (r.responseXML.scripts[0].innerText === "window.googleJavaScriptRedirect=1") {
-          var meta = r.responseXML.getElementsByTagName("noscript");
-          url = meta[0].innerHTML.substr(43).slice(0, -3);
-          r.open("GET", url, true);
-          r.send(null);
-          return;
-        }
-
-        if (!isDuplicated(url, "items-local")) {
-          successNotification(title);
-          AddDataAndUpdateStorage(title, url, currentTab);
-        } else {
-          errorNotification();
-        }
-      }
-    }
-
-    console.log("[REQUESTED] " + info.linkUrl);
-  }
+  "onclick": eventHandlers.contextMenu
 });

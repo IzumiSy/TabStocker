@@ -53,7 +53,7 @@ function RestoreSavedItems()
 	if (localStorage.getItem(BG.ITEMS_ID).length > 0) {
 		Items = JSON.parse(localStorage.getItem(BG.ITEMS_ID));
 		if (localStorage.getItem(BG.OPTION_AUTO_SORT) == "true") {
-		  Items = BG.sorting(Items);
+		  Items = BG.utils.sorting(Items);
 		}
 		console.group("<< Previously stocked items (Local) >>");
 		Items.forEach(function(Item, i) {
@@ -75,7 +75,7 @@ function RestoreSavedItems()
         Items = data.items;
       }
       if (localStorage.getItem(BG.OPTION_AUTO_SORT) == "true") {
-		    Items = BG.sorting(Items);
+		    Items = BG.utils.sorting(Items);
 		  }
       console.group("<< Previously stocked items (Sync) >>");
       Items.forEach(function(Item, i) {
@@ -244,7 +244,7 @@ document.body.onload = function() {
 $("#add").on("click", function() {
 	chrome.tabs.getSelected(window.id, function (tab) {
 	  if (BG.currentTab === "items-local") {
-	    if (!BG.isDuplicated(tab.url)) {
+	    if (!BG.utils.isDuplicated(tab.url)) {
 	      AddItem(tab);
 	    } else {
 	      BG.errorNotification();
