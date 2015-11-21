@@ -151,8 +151,8 @@
     	  localStorage.setItem(BG.ITEMS_ID, orderedItems);
     	} else { // == "items-sync"
     	  chrome.storage.sync.get("items", function(data) {
-    	    if (chrome.runtime.error
-    	        data.items !== null ||
+    	    if (chrome.runtime.error ||
+    	        data.items !== null  ||
     	       !data.items.length) { 
     	      return;
     	    }
