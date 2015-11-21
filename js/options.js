@@ -3,100 +3,171 @@
 
 var BG = chrome.extension.getBackgroundPage();
 
+var consts = {
+  direction: { 
+    ASC:  "asc",
+    DESC: "desc" 
+  },
+  sortBy: { 
+    TITLE: "by_title", 
+    URL:   "by_url"
+  }
+};
+
+var elements = {
+  saveButton:   document.getElementById("save-button"),
+  cancelButton: document.getElementById("cancel-button"),
+  popupWidth:  document.getElementById("popup_width"),
+  popupHeight: document.getElementById("popup_height"),
+  fontSize:    document.getElementById("font_size"),
+  hideFavicon: document.getElementById("hide_favicon"),
+  autoSort:    document.getElementById("auto_sort"),
+  direction:   document.getElementsByName("sort_direction"),
+  sortBy:      document.getElementsByName("sort_type"),
+  
+  captions: {
+    popupWidth:  document.getElementById("caption-popup-width"),
+    popupHeight: document.getElementById("caption-popup-height"),
+    fontSize:    document.getElementById("caption-font-size"),
+    hideFavicon: document.getElementById("caption-hide-favicon"),
+    autoSort:    document.getElementById("caption-auto-sort"),
+    ascending:   document.getElementById("caption-ascending"),
+    descending:  document.getElementById("caption-descending"),
+    byTitle:     document.getElementById("caption-by-title"),
+    byUrl:       document.getElementById("caption-by-url"),
+  }
+};
+
+var storage = {
+  popupWidth:  localStorage.getItem(BG.OPTION_POPUP_WIDTH),
+  popupHeight: localStorage.getItem(BG.OPTION_POPUP_HEIGHT),
+  fontSize:    localStorage.getItem(BG.OPTION_FONT_SIZE),
+  hideFavicon: localStorage.getItem(BG.OPTION_HIDE_FAVICONS),
+  autoSort:    localStorage.getItem(BG.OPTION_AUTO_SORT),
+  direction:   localStorage.getItem(BG.OPTION_DIRECTION),
+  sortBy:      localStorage.getItem(BG.OPTION_SORTBY),
+  
+  setter: {
+    width:       function(v) { localStorage.setItem(BG.OPTION_POPUP_WIDTH, v);   },
+    height:      function(v) { localStorage.setItem(BG.OPTION_POPUP_HEIGHT, v);  },
+    fontSize:    function(v) { localStorage.setItem(BG.OPTION_FONT_SIZE, v);     },
+    hideFavicon: function(v) { localStorage.setItem(BG.OPTION_HIDE_FAVICONS, v); },
+    autoSort:    function(v) { localStorage.setItem(BG.OPTION_AUTO_SORT, v);     },
+    direction:   function(v) { localStorage.setItem(BG.OPTION_DIRECTION, v);     },
+    sortBy:      function(v) { localStorage.setItem(BG.OPTION_SORTBY, v);        }
+  }
+};
+
+var settingHandlers = {
+  setupOnClick: function() {
+    console.log("Execute: setupOnClick()");
+    
+    elements.saveButton.onclick = function() {
+    	var popup_width, popup_height;
+    	var font_size, direction, sortby;
+    
+    	font_size = elements.fontSize.value <= 0 ? BG.ui_defaultFontSize : elements.fontSize.value;
+    	
+    	if (elements.direction[0].checked) { 
+    	  direction = consts.direction.ASC; 
+    	} else if (elements.direction[1].checked) { 
+    	  direction = consts.direction.DESC; 
+    	}
+    	
+    	if (elements.sortBy[0].checked) { 
+    	  sortby = consts.sortBy.TITLE; 
+    	} else if (elements.sortBy[1].checked) { 
+    	  sortby = consts.sortBy.URL;
+    	}
+    
+    	popup_width = elements.popupWidth.value;
+    	if (popup_width < BG.ui_menu_defaultPopupWidth || 
+    	    popup_width > BG.ui_menu_maxPopupWidth) {
+    		alert("The value of Popup width should be set in the range from 250px to 500px");
+    		return;
+    	}
+    	popup_height = elements.popupHeight.value;
+    	if (popup_height < BG.ui_menu_defaultPopupHeight || 
+    	    popup_height > BG.ui_menu_maxPopupHeight) {
+    		alert("The value of Popup height should set in the range from 200px to 530px");
+    		return;
+    	}
+    
+    	storage.setter.width(popup_width);
+    	storage.setter.height(popup_height);
+    	storage.setter.fontSize(font_size);
+    	storage.setter.hideFavicon(elements.hideFavicon.checked);
+    	storage.setter.autoSort(elements.autoSort.checked);  	
+    	storage.setter.direction(direction);
+    	storage.setter.sortBy(sortby);
+    
+    	window.close();
+    };
+    
+    elements.cancelButton.onclick = function() {
+  	  window.close();
+    };  
+    
+    elements.autoSort.onclick = function() {
+    	var details = document.getElementsByClassName("sort_details");
+    
+    	for (var i in details) {
+    		if (elements.autoSort.checked !== true) {
+    		  details[i].disabled = true;
+    		}
+    		else details[i].disabled = false;
+    	}
+    };
+  },
+  
+  i18nApply: function() {
+    console.log("Execute: i18nApply()");
+    
+  	elements.captions.popupWidth.textContent  = chrome.i18n.getMessage("extPopupWidth");
+  	elements.captions.popupHeight.textContent = chrome.i18n.getMessage("extPopupHeight");
+  	elements.captions.fontSize.textContent    = chrome.i18n.getMessage("extFontSize");
+  	elements.captions.hideFavicon.textContent = chrome.i18n.getMessage("extHideFavicon");
+  	elements.captions.autoSort.textContent    = chrome.i18n.getMessage("extAutoSort");
+  	elements.captions.ascending.textContent   = chrome.i18n.getMessage("extAscending");
+  	elements.captions.descending.textContent  = chrome.i18n.getMessage("extDescending");
+  	elements.captions.byTitle.textContent     = chrome.i18n.getMessage("extByTitle");
+  	elements.captions.byUrl.textContent       = chrome.i18n.getMessage("extByURL");
+  	
+  	elements.saveButton.textContent = chrome.i18n.getMessage("extSaveButton");
+  	elements.cancelButton.textContent = chrome.i18n.getMessage("extCancelButton");
+  }, 
+
+  loadSettings: function() {
+    console.log("Execute: loadSettings()");
+    
+  	elements.popupWidth.value =
+  	  storage.popupWidth  !== undefined ? storage.popupWidth : BG.ui_menu_defaultPopupWidth;
+  	elements.popupHeight.value = 
+  	  storage.popupHeight !== undefined ? storage.popupHeight : BG.ui_menu_defaultPopupHeight;
+  	elements.fontSize.value =  
+  	  storage.fontSize    !== undefined ? storage.fontSize : BG.ui_defaultFontSize;
+  	elements.hideFavicon.checked = 
+  	  storage.hideFavicon  == "true" ? true : false;
+  	elements.autoSort.checked = 
+  	  storage.autoSort     == "true" ? true : false;
+  
+  	switch (storage.direction) {
+  		case consts.direction.ASC:  elements.direction[0].checked = true; break;
+  		case consts.direction.DESC: elements.direction[1].checked = true; break;
+  		case undefined: break;
+  	}
+  	switch (storage.sortBy) {
+  		case consts.sortBy.TITLE: elements.sortBy[0].checked = true; break;
+  		case consts.sortBy.URL:   elements.sortBy[1].checked = true; break;
+  		case undefined: break;
+  	}
+  	
+  	console.log(storage);
+  }
+};
+
 document.body.onload = function() {
-  applyInternationalization();
-  loadSettings();
-}
-
-document.getElementById("save-button").onclick = function() {
-	var popup_width, popup_height, font_size, direction, sortby;
-	var items;
-
-	popup_width = document.getElementById("popup_width").value;
-	if (popup_width < BG.ui_menu_defaultPopupWidth || popup_width > BG.ui_menu_maxPopupWidth) {
-		alert("The value of Popup width should be set in the range from 250px to 500px");
-		return;
-	}
-	popup_height = document.getElementById("popup_height").value;
-	if (popup_height < BG.ui_menu_defaultPopupHeight || popup_height > BG.ui_menu_maxPopupHeight) {
-		alert("The value of Popup height should set in the range from 200px to 530px");
-		return;
-	}
-	font_size = document.getElementById("font_size").value;
-	if (font_size <= 0) {
-		font_size = BG.ui_defaultFontSize;
-	}
-
-	localStorage.setItem(BG.OPTION_POPUP_WIDTH, popup_width);
-	localStorage.setItem(BG.OPTION_POPUP_HEIGHT, popup_height);
-	localStorage.setItem(BG.OPTION_FONT_SIZE, font_size);
-	localStorage.setItem(BG.OPTION_HIDE_FAVICONS, document.getElementById("hide_favicon").checked);
-	localStorage.setItem(BG.OPTION_AUTO_SORT, document.getElementById("auto_sort").checked);
-
-	items = document.getElementsByName("a");
-	for (var i in items) {
-		if (items[i].checked) {
-			localStorage.setItem(BG.OPTION_DIRECTION, items[i].value);
-		}
-	}
-
-	items = document.getElementsByName("b");
-	for (var i in items) {
-		if (items[i].checked) {
-			localStorage.setItem(BG.OPTION_SORTBY, items[i].value);
-		}
-	}
-
-	window.close();
-}
-
-document.getElementById("auto_sort").onclick = function() {
-	var details = document.getElementsByClassName("sort_details");
-
-	for (var i in details) {
-		if (document.getElementById("auto_sort").checked != true) details[i].disabled = true;
-		else details[i].disabled = false;
-	}
-}
-
-document.getElementById("cancel-button").onclick = function() {
-	window.close();
-}
-
-function applyInternationalization()
-{
-	document.getElementById("caption-popup-width").textContent = chrome.i18n.getMessage("extPopupWidth");
-	document.getElementById("caption-popup-height").textContent = chrome.i18n.getMessage("extPopupHeight");
-	document.getElementById("caption-font-size").textContent = chrome.i18n.getMessage("extFontSize");
-	document.getElementById("caption-hide-favicon").textContent = chrome.i18n.getMessage("extHideFavicon");
-	document.getElementById("caption-auto-sort").textContent = chrome.i18n.getMessage("extAutoSort");
-	document.getElementById("caption-ascending").textContent = chrome.i18n.getMessage("extAscending");
-	document.getElementById("caption-descending").textContent = chrome.i18n.getMessage("extDescending");
-	document.getElementById("caption-by-title").textContent = chrome.i18n.getMessage("extByTitle");
-	document.getElementById("caption-by-url").textContent = chrome.i18n.getMessage("extByURL");
-	document.getElementById("save-button").textContent = chrome.i18n.getMessage("extSaveButton");
-	document.getElementById("cancel-button").textContent = chrome.i18n.getMessage("extCancelButton");
-}
-
-function loadSettings()
-{
-	document.getElementById("popup_width").value = localStorage.getItem(BG.OPTION_POPUP_WIDTH) != undefined
-		? localStorage.getItem(BG.OPTION_POPUP_WIDTH) : BG.ui_menu_defaultPopupWidth;
-	document.getElementById("popup_height").value = localStorage.getItem(BG.OPTION_POPUP_HEIGHT) != undefined
-		? localStorage.getItem(BG.OPTION_POPUP_HEIGHT) : BG.ui_menu_defaultPopupHeight;
-	document.getElementById("font_size").value = localStorage.getItem(BG.OPTION_FONT_SIZE) != undefined
-		? localStorage.getItem(BG.OPTION_FONT_SIZE) : BG.ui_defaultFontSize;
-	document.getElementById("hide_favicon").checked = localStorage.getItem(BG.OPTION_HIDE_FAVICONS) == "true" ? true : false;
-	document.getElementById("auto_sort").checked = localStorage.getItem(BG.OPTION_AUTO_SORT) == "true" ? true : false;
-
-	switch (localStorage.getItem(BG.OPTION_DIRECTION)) {
-		case "asc": document.getElementsByName("a")[0].checked = true; break;
-		case "desc": document.getElementsByName("a")[1].checked = true; break;
-		case undefined: break;
-	}
-	switch (localStorage.getItem(BG.OPTION_SORTBY)) {
-		case "by_title": document.getElementsByName("b")[0].checked = true; break;
-		case "by_url": document.getElementsByName("b")[1].checked = true; break;
-		case undefined: break;
-	}
-}
+  settingHandlers.setupOnClick();
+  settingHandlers.i18nApply();
+  settingHandlers.loadSettings();
+};
