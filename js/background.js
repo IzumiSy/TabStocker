@@ -24,12 +24,12 @@ var currentTab = "items-local";
 
 var notifications = {
   error: function() {
-  	chrome.notifications.create(NOTIFY_ID, {
-  		type: "basic",
-  		title: "TabStocker: Error",
-  		message: "The same titled tab is now already stocked",
-  		iconUrl: "assets/error.png"
-  	}, function(){});
+    chrome.notifications.create(NOTIFY_ID, {
+      type: "basic",
+      title: "TabStocker: Error",
+      message: "The same titled tab is now already stocked",
+      iconUrl: "assets/error.png"
+    }, function(){});
   },
 
   success: function(title) {
@@ -38,26 +38,26 @@ var notifications = {
       return;
     }
     chrome.notifications.create(NOTIFY_ID, {
-    	type: "basic",
-    	title: "TabStocker: Success",
-    	message: title,
-    	iconUrl: "assets/main.png"
+      type: "basic",
+      title: "TabStocker: Success",
+      message: title,
+      iconUrl: "assets/main.png"
     }, function(){});
   }
 };
 
 var eventHandlers = {
   shortcutKey: function(command) {
-  	if (command == "stock-tab") {
-  		chrome.tabs.getSelected(window.id, function(tab) {
-  			if (!utils.isDuplicated(tab.url, "items-local")) {
+    if (command == "stock-tab") {
+      chrome.tabs.getSelected(window.id, function(tab) {
+        if (!utils.isDuplicated(tab.url, "items-local")) {
           notifications.success(tab.title);
           AddDataAndUpdateStorage(tab.title, tab.url, currentTab);
-  			} else {
-  				notifications.error();
-  			}
-  		});
-  	}
+        } else {
+          notifications.error();
+        }
+      });
+    }
   },
 
   contextMenu: function(info, tab) {
@@ -78,21 +78,21 @@ var eventHandlers = {
   },
 
   HTTPrequestHandler: function(args) {
-	  var request = args.requestObj;
-	  if (!request || !request.responseXML) {
-	    return;
-	  }
+    var request = args.requestObj;
+    if (!request || !request.responseXML) {
+      return;
+    }
 
-	  var GOOGLE_REDIRECTION_SIGN = "window.googleJavaScriptRedirect=1";
-	  var responseXML = request.responseXML;
-	  var scripts = responseXML.scripts;
-	  var meta = responseXML.getElementsByTagName("noscript");
+    var GOOGLE_REDIRECTION_SIGN = "window.googleJavaScriptRedirect=1";
+    var responseXML = request.responseXML;
+    var scripts = responseXML.scripts;
+    var meta = responseXML.getElementsByTagName("noscript");
 
-	  var title = responseXML.title;
-	  var url = args.url;
+    var title = responseXML.title;
+    var url = args.url;
 
-	  // If the result of the request is the one returned by Google search,
-	  // it possible is a redirection to the destination page.
+    // If the result of the request is the one returned by Google search,
+    // it possible is a redirection to the destination page.
     if (request.readyState == 4 && request.status == 200) {
       if (scripts[0].innerText === GOOGLE_REDIRECTION_SIGN) {
         url = meta[0].innerHTML.substr(43).slice(0, -3);
@@ -113,89 +113,89 @@ var eventHandlers = {
 
 var utils = {
   isDuplicated: function(url) {
-  	var r = false;
-  	if (localStorage.getItem(ITEMS_ID).length > 0) {
-  		JSON.parse(localStorage.getItem(ITEMS_ID)).forEach(function(Item, i) {
-  		if (Item["url"] === url) {
-  				r = true;
-  			}
-  		});
-  	}
+    var r = false;
+    if (localStorage.getItem(ITEMS_ID).length > 0) {
+      JSON.parse(localStorage.getItem(ITEMS_ID)).forEach(function(Item, i) {
+      if (Item["url"] === url) {
+          r = true;
+        }
+      });
+    }
     return r;
   },
 
   sorting: function(array) {
     var Items = array;
     var elements = null, r = null;
-  	var sortby = localStorage.getItem(OPTIONS.SORTBY);
-  	var direction = localStorage.getItem(OPTIONS.DIRECTION);
+    var sortby = localStorage.getItem(OPTIONS.SORTBY);
+    var direction = localStorage.getItem(OPTIONS.DIRECTION);
 
-  	switch (sortby) {
-  		case "by_title": elements = "title"; break;
-  		case "by_url": elements = "url"; break;
-  	}
-  	Items.sort(function(a, b) {
-  		switch (direction) {
-  			case "asc": r = 1; break;
-  			case "desc": r = -1; break;
-  		}
-  		if (a[elements] > b[elements]) return r;
-  		if (a[elements] < b[elements]) return -r;
-  		return 0;
-  	});
+    switch (sortby) {
+      case "by_title": elements = "title"; break;
+      case "by_url": elements = "url"; break;
+    }
+    Items.sort(function(a, b) {
+      switch (direction) {
+        case "asc": r = 1; break;
+        case "desc": r = -1; break;
+      }
+      if (a[elements] > b[elements]) return r;
+      if (a[elements] < b[elements]) return -r;
+      return 0;
+    });
 
-  	return Items;
+    return Items;
   }
 };
 
 function undefinedResolver()
 {
-	if (!localStorage.getItem(OPTIONS.POPUP_WIDTH)) {
-		localStorage.setItem(OPTIONS.POPUP_WIDTH, ui_menu_defaultPopupWidth);
-	}
-	if (!localStorage.getItem(OPTIONS.POPUP_HEIGHT)) {
-		localStorage.setItem(OPTIONS.POPUP_HEIGHT, ui_menu_defaultPopupHeight);
-	}
-	if (!localStorage.getItem(OPTIONS.FONT_SIZE)) {
-		localStorage.setItem(OPTIONS.FONT_SIZE, ui_defaultFontSize);
-	}
-	if (!localStorage.getItem(ITEMS_ID)) {
-		localStorage.setItem(ITEMS_ID, []);
-	}
+  if (!localStorage.getItem(OPTIONS.POPUP_WIDTH)) {
+    localStorage.setItem(OPTIONS.POPUP_WIDTH, ui_menu_defaultPopupWidth);
+  }
+  if (!localStorage.getItem(OPTIONS.POPUP_HEIGHT)) {
+    localStorage.setItem(OPTIONS.POPUP_HEIGHT, ui_menu_defaultPopupHeight);
+  }
+  if (!localStorage.getItem(OPTIONS.FONT_SIZE)) {
+    localStorage.setItem(OPTIONS.FONT_SIZE, ui_defaultFontSize);
+  }
+  if (!localStorage.getItem(ITEMS_ID)) {
+    localStorage.setItem(ITEMS_ID, []);
+  }
 }
 
 function AddDataAndUpdateStorage(title, url, target)
 {
-	var Items = [];
+  var Items = [];
 
-	if (title === undefined || title === null || title === "") {
+  if (title === undefined || title === null || title === "") {
     title = url;
   }
 
-	if (target === "items-local") {
-  	if (localStorage.getItem(ITEMS_ID).length > 0) {
-  		Items = JSON.parse(localStorage.getItem(ITEMS_ID));
-  	}
-  	Items.push({ "title": title, "url": url });
-  	localStorage.setItem(ITEMS_ID, JSON.stringify(Items));
-  	chrome.browserAction.setBadgeText({text: String(Items.length)});
-	}
-	else { // === "items-sync"
-	  chrome.storage.sync.get("items", function(data) {
-	    if (!chrome.runtime.lastError) {
-	      var d = data.items;
+  if (target === "items-local") {
+    if (localStorage.getItem(ITEMS_ID).length > 0) {
+      Items = JSON.parse(localStorage.getItem(ITEMS_ID));
+    }
+    Items.push({ "title": title, "url": url });
+    localStorage.setItem(ITEMS_ID, JSON.stringify(Items));
+    chrome.browserAction.setBadgeText({text: String(Items.length)});
+  }
+  else { // === "items-sync"
+    chrome.storage.sync.get("items", function(data) {
+      if (!chrome.runtime.lastError) {
+        var d = data.items;
         if (d !== undefined && d.length > 0) {
           Items = data.items;
         }
         Items.push({ "title": title, "url": url });
-    	  chrome.storage.sync.set({ "items": Items }, function() {
+        chrome.storage.sync.set({ "items": Items }, function() {
           if (chrome.runtime.lastError) {
             console.error("Runtime error: AddDataAndUpdateStorage");
           }
         });
-	    }
-	  });
-	}
+      }
+    });
+  }
 }
 
 function RemoveDataAndUpdateStorage(title, target)
@@ -203,14 +203,14 @@ function RemoveDataAndUpdateStorage(title, target)
   var Items = [];
 
   if (target === "items-local") {
-  	Items = JSON.parse(localStorage.getItem(ITEMS_ID));
-  	for (var i in Items) {
-  		if (Items[i]["title"] === title) {
-  			Items.splice(i, 1);
-  		}
-  	}
-  	localStorage.setItem(ITEMS_ID, JSON.stringify(Items));
-  	chrome.browserAction.setBadgeText({text: String(Items.length)});
+    Items = JSON.parse(localStorage.getItem(ITEMS_ID));
+    for (var i in Items) {
+      if (Items[i]["title"] === title) {
+        Items.splice(i, 1);
+      }
+    }
+    localStorage.setItem(ITEMS_ID, JSON.stringify(Items));
+    chrome.browserAction.setBadgeText({text: String(Items.length)});
   }
   else { // === "items-sync"
     chrome.storage.sync.get("items", function(data) {
@@ -221,7 +221,7 @@ function RemoveDataAndUpdateStorage(title, target)
             Items.splice(i, 1);
           }
         }
-    	  chrome.storage.sync.set({ "items": Items }, function() {
+        chrome.storage.sync.set({ "items": Items }, function() {
           if (chrome.runtime.error) {
             console.error("Runtime error: RemoveDataAndUpdateStorage");
           }
