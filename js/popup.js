@@ -14,10 +14,31 @@ var stockItems = {
   	BG.AddDataAndUpdateStorage(item.title, item.url, BG.currentTab);
   },
   
+  // BG.isDuplicated() cannot be used for sync tab
+  appendSync: function(tab) {
+    chrome.storage.sync.get("items", function(data) {
+      if (!chrome.runtime.lastError) {
+        var d = data.items, r = false;
+        if (d !== undefined && d.length > 0) {
+          d.forEach(function(item, i) {
+            if (item["url"] === tab.url) {
+              r = true;
+            }
+          });
+          if (r === true) {
+            BG.notifications.error();
+            return;
+          }
+        }
+        stockItems.append(tab);
+      }
+    });
+  },
+  
   eliminate: function(item) {
   	this.applyUI.eliminateItem(item["index"], BG.currentTab);
   	BG.RemoveDataAndUpdateStorage(item["title"], BG.currentTab);
-  },
+  },  
   
   launch: function(title) {
     var items;
@@ -185,7 +206,7 @@ var clickHandlers = {
   	      BG.notifications.error();
   	    }
   	  } else { // === "items-sync"
-    	  syncAddition(tab);
+    	  stockItems.appendSync(tab);
   	  }
   	});
   },
@@ -271,27 +292,5 @@ var popupBodyHandlers = {
   	removeModeOn = false;
   }
 };
-
-// BG.isDuplicated() cannot be used for sync tab
-function syncAddition(tab)
-{
-  chrome.storage.sync.get("items", function(data) {
-    if (!chrome.runtime.lastError) {
-      var d = data.items, r = false;
-      if (d !== undefined && d.length > 0) {
-        d.forEach(function(item, i) {
-          if (item["url"] === tab.url) {
-            r = true;
-          }
-        });
-        if (r === true) {
-          BG.notifications.error();
-          return;
-        }
-      }
-      stockItems.append(tab);
-    }
-  });
-}
 
 document.body.onload = popupBodyHandlers.onLoad;
