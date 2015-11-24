@@ -1,17 +1,17 @@
 
 .ui-menu {
-	border: none;
-	cursor: default;
-	height: 400px;
-	overflow-y: scroll;
+  border: none;
+  cursor: default;
+  height: 400px;
+  overflow-y: scroll;
 }
 
 .ui-widget {
-	font-family: 'Lucida Grande', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+  font-family: 'Lucida Grande', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
 }
 
 .ui-state-highlight {
-	height: 1.5em; line-height: 1.2em;
+  height: 1.5em; line-height: 1.2em;
 }
 
 .ui-tabs-anchor {
@@ -31,21 +31,21 @@
 }
 
 a {
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 img.favicon {
-	margin: 0 5px 3px 0;
-	vertical-align: middle;
+  margin: 0 5px 3px 0;
+  vertical-align: middle;
 }
 
 hr.separator {
-	border: 0;
-	height: 0;
-	border-top: 1px solid rgba(0, 0, 0, 0.1);
-	border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  border: 0;
+  height: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .ui-tabs li.ui-tabs-active a.tab {
@@ -60,7 +60,7 @@ hr.separator {
 #rmmode {
   height: 26px;
   width: 30px;
-	float: right;
+  float: right;
   background-image: url("./assets/bin.png");
   background-size: contain;
   background-repeat: no-repeat;
