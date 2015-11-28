@@ -229,7 +229,7 @@
     },
 
     btnOption: function() {
-      chrome.tabs.create({url: "options.html", selected: true});
+      chrome.tabs.create({url: "html/options.html", selected: true});
     }
   };
 
