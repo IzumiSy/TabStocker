@@ -145,24 +145,23 @@ var utils = {
     });
 
     return Items;
+  },
+  
+  undefinedResolver: function() {
+    if (!localStorage.getItem(OPTIONS.POPUP_WIDTH)) {
+      localStorage.setItem(OPTIONS.POPUP_WIDTH, ui_menu_defaultPopupWidth);
+    }
+    if (!localStorage.getItem(OPTIONS.POPUP_HEIGHT)) {
+      localStorage.setItem(OPTIONS.POPUP_HEIGHT, ui_menu_defaultPopupHeight);
+    }
+    if (!localStorage.getItem(OPTIONS.FONT_SIZE)) {
+      localStorage.setItem(OPTIONS.FONT_SIZE, ui_defaultFontSize);
+    }
+    if (!localStorage.getItem(ITEMS_ID)) {
+      localStorage.setItem(ITEMS_ID, []);
+    }    
   }
 };
-
-function undefinedResolver()
-{
-  if (!localStorage.getItem(OPTIONS.POPUP_WIDTH)) {
-    localStorage.setItem(OPTIONS.POPUP_WIDTH, ui_menu_defaultPopupWidth);
-  }
-  if (!localStorage.getItem(OPTIONS.POPUP_HEIGHT)) {
-    localStorage.setItem(OPTIONS.POPUP_HEIGHT, ui_menu_defaultPopupHeight);
-  }
-  if (!localStorage.getItem(OPTIONS.FONT_SIZE)) {
-    localStorage.setItem(OPTIONS.FONT_SIZE, ui_defaultFontSize);
-  }
-  if (!localStorage.getItem(ITEMS_ID)) {
-    localStorage.setItem(ITEMS_ID, []);
-  }
-}
 
 var storageUpdater = {
   appendItem: function(title, url, target) {

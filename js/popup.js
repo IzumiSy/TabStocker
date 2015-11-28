@@ -252,7 +252,7 @@
     },
 
     onLoad: function() {
-      BG.undefinedResolver();
+      BG.utils.undefinedResolver();
       $("body").css("font-size", localStorage.getItem(BG.OPTIONS.FONT_SIZE) + "em");
       $("body").width(localStorage.getItem(BG.OPTIONS.POPUP_WIDTH));
       $("ul").width($("body").width() - 4);
