@@ -12,7 +12,7 @@
   var stockItems = {
     append: function(item) {
       this.applyUI.appendItem(item.title, item.url, BG.currentTab);
-      BG.AddDataAndUpdateStorage(item.title, item.url, BG.currentTab);
+      BG.storageUpdater.appendItem(item.title, item.url, BG.currentTab);
     },
 
     // BG.isDuplicated() cannot be used for sync tab
@@ -38,7 +38,7 @@
 
     eliminate: function(item) {
       this.applyUI.eliminateItem(item["index"], BG.currentTab);
-      BG.RemoveDataAndUpdateStorage(item["title"], BG.currentTab);
+      BG.storageUpdater.eliminateItem(item["title"], BG.currentTab);
     },
 
     launch: function(title) {

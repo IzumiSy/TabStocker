@@ -164,72 +164,84 @@ function undefinedResolver()
   }
 }
 
-function AddDataAndUpdateStorage(title, url, target)
-{
-  var Items = [];
+var storageUpdater = {
+  appendItem: function(title, url, target) {
+    var Items = [];
 
-  if (title === undefined || title === null || title === "") {
-    title = url;
-  }
+    if (title === undefined || title === null || title === "") {
+      title = url;
+    }
 
-  if (target === "items-local") {
-    if (localStorage.getItem(ITEMS_ID).length > 0) {
-      Items = JSON.parse(localStorage.getItem(ITEMS_ID));
+    if (target === "items-local") {
+      if (localStorage.getItem(ITEMS_ID).length > 0) {
+        Items = JSON.parse(localStorage.getItem(ITEMS_ID));
+      }
+      Items.push({ "title": title, "url": url });
+      localStorage.setItem(ITEMS_ID, JSON.stringify(Items));
+      chrome.browserAction.setBadgeText({text: String(Items.length)});
+    }
+    else { // === "items-sync"
+      chrome.storage.sync.get("items", function(data) {
+        storageUpdater.callback_appendSync(title, url, data);
+      });
+    }
+  },
+
+  callback_appendSync: function(title, url, data) {
+    if (chrome.runtime.lastError) {
+      return;
+    }
+
+    var Items = data.items;
+    if (!Items || !Items.length) {
+      Items = [];
     }
     Items.push({ "title": title, "url": url });
-    localStorage.setItem(ITEMS_ID, JSON.stringify(Items));
-    chrome.browserAction.setBadgeText({text: String(Items.length)});
-  }
-  else { // === "items-sync"
-    chrome.storage.sync.get("items", function(data) {
-      if (!chrome.runtime.lastError) {
-        var d = data.items;
-        if (d !== undefined && d.length > 0) {
-          Items = data.items;
-        }
-        Items.push({ "title": title, "url": url });
-        chrome.storage.sync.set({ "items": Items }, function() {
-          if (chrome.runtime.lastError) {
-            console.error("Runtime error: AddDataAndUpdateStorage");
-          }
-        });
+    chrome.storage.sync.set({ "items": Items }, function() {
+      if (chrome.runtime.lastError) {
+        console.error("Runtime error: AddDataAndUpdateStorage");
       }
     });
-  }
-}
+  },
 
-function RemoveDataAndUpdateStorage(title, target)
-{
-  var Items = [];
+  eliminateItem: function(title, target) {
+    var Items = [];
 
-  if (target === "items-local") {
-    Items = JSON.parse(localStorage.getItem(ITEMS_ID));
+    if (target === "items-local") {
+      Items = JSON.parse(localStorage.getItem(ITEMS_ID));
+      for (var i in Items) {
+        if (Items[i]["title"] === title) {
+          Items.splice(i, 1);
+        }
+      }
+      localStorage.setItem(ITEMS_ID, JSON.stringify(Items));
+      chrome.browserAction.setBadgeText({text: String(Items.length)});
+    }
+    else { // === "items-sync"
+      chrome.storage.sync.get("items", function(data) {
+        storageUpdater.callback_eliminateSync(title, data);
+      });
+    }
+  },
+
+  callback_eliminateSync: function(title, data) {
+    if (chrome.runtime.error) {
+      return;
+    }
+
+    var Items = data.items;
     for (var i in Items) {
       if (Items[i]["title"] === title) {
         Items.splice(i, 1);
       }
     }
-    localStorage.setItem(ITEMS_ID, JSON.stringify(Items));
-    chrome.browserAction.setBadgeText({text: String(Items.length)});
-  }
-  else { // === "items-sync"
-    chrome.storage.sync.get("items", function(data) {
-      if (!chrome.runtime.error) {
-        Items = data.items;
-        for (var i in Items) {
-          if (Items[i]["title"] === title) {
-            Items.splice(i, 1);
-          }
-        }
-        chrome.storage.sync.set({ "items": Items }, function() {
-          if (chrome.runtime.error) {
-            console.error("Runtime error: RemoveDataAndUpdateStorage");
-          }
-        });
+    chrome.storage.sync.set({ "items": Items }, function() {
+      if (chrome.runtime.error) {
+        console.error("Runtime error: RemoveDataAndUpdateStorage");
       }
     });
   }
-}
+};
 
 chrome.commands.onCommand.addListener(eventHandlers.shortcutKey);
 chrome.contextMenus.create({
