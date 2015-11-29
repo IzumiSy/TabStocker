@@ -63,9 +63,18 @@
     },
 
     execute: function(array, title) {
+      var queryCallback = function(tabs) {
+        selectedTab = tabs[0];
+        chrome.tabs.update(selectedTab.id, { url: array[i]["url"] });
+      };
+      
       for (var i in array) {
         if (array[i]["title"] == title) {
-          chrome.tabs.create({url: array[i]["url"], selected: false});
+          if (localStorage.getItem(BG.OPTIONS.NO_NEW_TAB) == "true") {
+            chrome.tabs.query({ active: true }, queryCallback);
+          } else {
+            chrome.tabs.create({url: array[i]["url"], selected: false});  
+          }
           break;
         }
       }
