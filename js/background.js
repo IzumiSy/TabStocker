@@ -224,7 +224,7 @@ var storageUpdater = {
   },
 
   callback_eliminateSync: function(title, data) {
-    if (chrome.runtime.error) {
+    if (chrome.runtime.lastError) {
       return;
     }
 
@@ -235,7 +235,7 @@ var storageUpdater = {
       }
     }
     chrome.storage.sync.set({ "items": Items }, function() {
-      if (chrome.runtime.error) {
+      if (chrome.runtime.lastError) {
         console.error("Runtime error: RemoveDataAndUpdateStorage");
       }
     });

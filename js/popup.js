@@ -50,13 +50,14 @@
 
       } else { // === "items-sync"
         chrome.storage.sync.get("items", function(data) {
-          if (!chrome.runtime.error) {
-            var d = data.items;
-            if (d !== undefined && data.items.length > 0) {
-              items = data.items;
-            }
-            stockItems.execute(items, title);
+          if (chrome.runtime.lastError) {
+            return;
           }
+          var d = data.items;
+          if (d !== undefined && data.items.length > 0) {
+            items = data.items;
+          }
+          stockItems.execute(items, title);
         });
       }
     },
@@ -94,23 +95,24 @@
       // Sync Items
       items = [];
       chrome.storage.sync.get("items", function(data) {
-        if (!chrome.runtime.error) {
-          var d = data.items;
-          if (d !== undefined && data.items.length > 0) {
-            items = data.items;
-          }
-          if (localStorage.getItem(BG.OPTIONS.AUTO_SORT) == "true") {
-            items = BG.utils.sorting(items);
-          }
-          console.group("<< Previously stocked items (Sync) >>");
-          items.forEach(function(item, i) {
-            if (item) {
-              console.log(i + " " + item["title"] + " :: " + item["url"]);
-              stockItems.applyUI.appendItem(item["title"], item["url"], "items-sync");
-            }
-          });
-          console.groupEnd();
+        if (chrome.runtime.lastError) {
+          return;
         }
+        var d = data.items;
+        if (d !== undefined && data.items.length > 0) {
+          items = data.items;
+        }
+        if (localStorage.getItem(BG.OPTIONS.AUTO_SORT) == "true") {
+          items = BG.utils.sorting(items);
+        }
+        console.group("<< Previously stocked items (Sync) >>");
+        items.forEach(function(item, i) {
+          if (item) {
+            console.log(i + " " + item["title"] + " :: " + item["url"]);
+            stockItems.applyUI.appendItem(item["title"], item["url"], "items-sync");
+          }
+        });
+        console.groupEnd();
       });
     },
 
@@ -151,7 +153,7 @@
         localStorage.setItem(BG.ITEMS_ID, orderedItems);
       } else { // == "items-sync"
         chrome.storage.sync.get("items", function(data) {
-          if (chrome.runtime.error ||
+          if (chrome.runtime.lastError ||
               data.items !== null  ||
              !data.items.length) {
             return;
