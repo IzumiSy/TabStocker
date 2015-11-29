@@ -29,6 +29,14 @@
   "extHideFavicon": {
     "message": "Hide favicons:"
   },
+  
+  "extNoNewTab": {
+    "message": "Don't open a new tab:"
+  },
+  
+  "extRemoveOpenItem": {
+    "message": "Remove the item opened:"
+  },  
 
   "extAutoSort": {
     "message": "Automatically sort:"

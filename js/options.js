@@ -16,46 +16,54 @@
   };
 
   var elements = {
-    saveButton:   document.getElementById("save-button"),
-    cancelButton: document.getElementById("cancel-button"),
-    popupWidth:  document.getElementById("popup_width"),
-    popupHeight: document.getElementById("popup_height"),
-    fontSize:    document.getElementById("font_size"),
-    hideFavicon: document.getElementById("hide_favicon"),
-    autoSort:    document.getElementById("auto_sort"),
-    direction:   document.getElementsByName("sort_direction"),
-    sortBy:      document.getElementsByName("sort_type"),
+    saveButton:     document.getElementById("save-button"),
+    cancelButton:   document.getElementById("cancel-button"),
+    popupWidth:     document.getElementById("popup_width"),
+    popupHeight:    document.getElementById("popup_height"),
+    fontSize:       document.getElementById("font_size"),
+    hideFavicon:    document.getElementById("hide_favicon"),
+    noNewTab:       document.getElementById("no_new_tab"),
+    removeOpenItem: document.getElementById("remove_open_item"),
+    autoSort:       document.getElementById("auto_sort"),
+    direction:      document.getElementsByName("sort_direction"),
+    sortBy:         document.getElementsByName("sort_type"),
 
     captions: {
-      popupWidth:  document.getElementById("caption-popup-width"),
-      popupHeight: document.getElementById("caption-popup-height"),
-      fontSize:    document.getElementById("caption-font-size"),
-      hideFavicon: document.getElementById("caption-hide-favicon"),
-      autoSort:    document.getElementById("caption-auto-sort"),
-      ascending:   document.getElementById("caption-ascending"),
-      descending:  document.getElementById("caption-descending"),
-      byTitle:     document.getElementById("caption-by-title"),
-      byUrl:       document.getElementById("caption-by-url"),
+      popupWidth:     document.getElementById("caption-popup-width"),
+      popupHeight:    document.getElementById("caption-popup-height"),
+      fontSize:       document.getElementById("caption-font-size"),
+      noNewTab:       document.getElementById("caption-no-new-tab"),
+      removeOpenItem: document.getElementById("caption-remove-open-item"),
+      hideFavicon:    document.getElementById("caption-hide-favicon"),
+      autoSort:       document.getElementById("caption-auto-sort"),
+      ascending:      document.getElementById("caption-ascending"),
+      descending:     document.getElementById("caption-descending"),
+      byTitle:        document.getElementById("caption-by-title"),
+      byUrl:          document.getElementById("caption-by-url"),
     }
   };
 
   var storage = {
-    popupWidth:  localStorage.getItem(BG.OPTIONS.POPUP_WIDTH),
-    popupHeight: localStorage.getItem(BG.OPTIONS.POPUP_HEIGHT),
-    fontSize:    localStorage.getItem(BG.OPTIONS.FONT_SIZE),
-    hideFavicon: localStorage.getItem(BG.OPTIONS.HIDE_FAVICONS),
-    autoSort:    localStorage.getItem(BG.OPTIONS.AUTO_SORT),
-    direction:   localStorage.getItem(BG.OPTIONS.DIRECTION),
-    sortBy:      localStorage.getItem(BG.OPTIONS.SORTBY),
+    popupWidth:     localStorage.getItem(BG.OPTIONS.POPUP_WIDTH),
+    popupHeight:    localStorage.getItem(BG.OPTIONS.POPUP_HEIGHT),
+    fontSize:       localStorage.getItem(BG.OPTIONS.FONT_SIZE),
+    noNewTab:       localStorage.getItem(BG.OPTIONS.NO_NEW_TAB),
+    removeOpenItem: localStorage.getItem(BG.OPTIONS.REMOVE_OPEN_ITEM),
+    hideFavicon:    localStorage.getItem(BG.OPTIONS.HIDE_FAVICONS),
+    autoSort:       localStorage.getItem(BG.OPTIONS.AUTO_SORT),
+    direction:      localStorage.getItem(BG.OPTIONS.DIRECTION),
+    sortBy:         localStorage.getItem(BG.OPTIONS.SORTBY),
 
     setter: {
-      width:       function(v) { localStorage.setItem(BG.OPTIONS.POPUP_WIDTH, v);   },
-      height:      function(v) { localStorage.setItem(BG.OPTIONS.POPUP_HEIGHT, v);  },
-      fontSize:    function(v) { localStorage.setItem(BG.OPTIONS.FONT_SIZE, v);     },
-      hideFavicon: function(v) { localStorage.setItem(BG.OPTIONS.HIDE_FAVICONS, v); },
-      autoSort:    function(v) { localStorage.setItem(BG.OPTIONS.AUTO_SORT, v);     },
-      direction:   function(v) { localStorage.setItem(BG.OPTIONS.DIRECTION, v);     },
-      sortBy:      function(v) { localStorage.setItem(BG.OPTIONS.SORTBY, v);        }
+      width:          function(v) { localStorage.setItem(BG.OPTIONS.POPUP_WIDTH, v);      },
+      height:         function(v) { localStorage.setItem(BG.OPTIONS.POPUP_HEIGHT, v);     },
+      fontSize:       function(v) { localStorage.setItem(BG.OPTIONS.FONT_SIZE, v);        },
+      noNewTab:       function(v) { localStorage.setItem(BG.OPTIONS.NO_NEW_TAB, v);       },
+      removeOpenItem: function(v) { localStorage.setItem(BG.OPTIONS.REMOVE_OPEN_ITEM, v); },
+      hideFavicon:    function(v) { localStorage.setItem(BG.OPTIONS.HIDE_FAVICONS, v);    },
+      autoSort:       function(v) { localStorage.setItem(BG.OPTIONS.AUTO_SORT, v);        },
+      direction:      function(v) { localStorage.setItem(BG.OPTIONS.DIRECTION, v);        },
+      sortBy:         function(v) { localStorage.setItem(BG.OPTIONS.SORTBY, v);           }
     }
   };
 
@@ -97,6 +105,8 @@
         storage.setter.width(popup_width);
         storage.setter.height(popup_height);
         storage.setter.fontSize(font_size);
+        storage.setter.noNewTab(elements.noNewTab.checked);
+        storage.setter.removeOpenItem(elements.removeOpenItem.checked);
         storage.setter.hideFavicon(elements.hideFavicon.checked);
         storage.setter.autoSort(elements.autoSort.checked);
         storage.setter.direction(direction);
@@ -124,15 +134,17 @@
     i18nApply: function() {
       console.log("Execute: i18nApply()");
 
-      elements.captions.popupWidth.textContent  = chrome.i18n.getMessage("extPopupWidth");
-      elements.captions.popupHeight.textContent = chrome.i18n.getMessage("extPopupHeight");
-      elements.captions.fontSize.textContent    = chrome.i18n.getMessage("extFontSize");
-      elements.captions.hideFavicon.textContent = chrome.i18n.getMessage("extHideFavicon");
-      elements.captions.autoSort.textContent    = chrome.i18n.getMessage("extAutoSort");
-      elements.captions.ascending.textContent   = chrome.i18n.getMessage("extAscending");
-      elements.captions.descending.textContent  = chrome.i18n.getMessage("extDescending");
-      elements.captions.byTitle.textContent     = chrome.i18n.getMessage("extByTitle");
-      elements.captions.byUrl.textContent       = chrome.i18n.getMessage("extByURL");
+      elements.captions.popupWidth.textContent     = chrome.i18n.getMessage("extPopupWidth");
+      elements.captions.popupHeight.textContent    = chrome.i18n.getMessage("extPopupHeight");
+      elements.captions.fontSize.textContent       = chrome.i18n.getMessage("extFontSize");
+      elements.captions.hideFavicon.textContent    = chrome.i18n.getMessage("extHideFavicon");
+      elements.captions.noNewTab.textContent       = chrome.i18n.getMessage("extNoNewTab");
+      elements.captions.removeOpenItem.textContent = chrome.i18n.getMessage("extRemoveOpenItem"); 
+      elements.captions.autoSort.textContent       = chrome.i18n.getMessage("extAutoSort");
+      elements.captions.ascending.textContent      = chrome.i18n.getMessage("extAscending");
+      elements.captions.descending.textContent     = chrome.i18n.getMessage("extDescending");
+      elements.captions.byTitle.textContent        = chrome.i18n.getMessage("extByTitle");
+      elements.captions.byUrl.textContent          = chrome.i18n.getMessage("extByURL");
 
       elements.saveButton.textContent = chrome.i18n.getMessage("extSaveButton");
       elements.cancelButton.textContent = chrome.i18n.getMessage("extCancelButton");
@@ -147,10 +159,14 @@
         storage.popupHeight !== undefined ? storage.popupHeight : BG.ui_menu_defaultPopupHeight;
       elements.fontSize.value =
         storage.fontSize    !== undefined ? storage.fontSize : BG.ui_defaultFontSize;
+      elements.noNewTab.checked =
+        storage.noNewTab       == "true" ? true : false;
+      elements.removeOpenItem.checked = 
+        storage.removeOpenItem == "true" ? true : false;
       elements.hideFavicon.checked =
-        storage.hideFavicon  == "true" ? true : false;
+        storage.hideFavicon    == "true" ? true : false;
       elements.autoSort.checked =
-        storage.autoSort     == "true" ? true : false;
+        storage.autoSort       == "true" ? true : false;
 
       switch (storage.direction) {
         case consts.direction.ASC:  elements.direction[0].checked = true; break;

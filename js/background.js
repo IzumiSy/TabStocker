@@ -11,13 +11,15 @@ const NOTIFY_ID = "default";
 const ITEMS_ID  = "Items";
 
 const OPTIONS = {
-  POPUP_WIDTH:   "PopupWidth",
-  POPUP_HEIGHT:  "PopupHeight",
-  FONT_SIZE:     "FontSize",
-  HIDE_FAVICONS: "HideFavicon",
-  AUTO_SORT:     "AutomaticSort",
-  DIRECTION:     "SortDirection",
-  SORTBY:        "SortBy"
+  POPUP_WIDTH:      "PopupWidth",
+  POPUP_HEIGHT:     "PopupHeight",
+  FONT_SIZE:        "FontSize",
+  HIDE_FAVICONS:    "HideFavicon",
+  NO_NEW_TAB:       "NoNewTab",
+  REMOVE_OPEN_ITEM: "RemoveOpenItem",
+  AUTO_SORT:        "AutomaticSort",
+  DIRECTION:        "SortDirection",
+  SORTBY:           "SortBy"
 };
 
 var currentTab = "items-local";

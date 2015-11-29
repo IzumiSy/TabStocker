@@ -29,6 +29,14 @@
   "extHideFavicon": {
     "message": "ファビコンを隠す:"
   },
+  
+  "extNoNewTab": {
+    "message": "新しいタブを開かない:"
+  },
+  
+  "extRemoveOpenItem": {
+    "message": "開いたアイテムを除去:"
+  },
 
   "extAutoSort": {
     "message": "自動でソートする:"
