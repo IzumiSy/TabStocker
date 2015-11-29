@@ -246,10 +246,17 @@
 
   var popupBodyHandlers = {
     itemSelect: function(event, ui) {
+      removeOptions = {
+        "index": ui.item.index(),
+        "title": ui.item.text()
+      };
       if (removeMode) {
-        stockItems.eliminate({"index": ui.item.index(), "title": ui.item.text()});
+        stockItems.eliminate(removeOptions);
       } else {
         stockItems.launch(ui.item.text());
+        if (localStorage.getItem(BG.OPTIONS.REMOVE_OPEN_ITEM) == "true") {
+          stockItems.eliminate(removeOptions);
+        }
       }
     },
 
