@@ -15,24 +15,24 @@
       BG.storageUpdater.appendItem(item.title, item.url, BG.currentTab);
     },
 
+    // TODO: 
     // BG.isDuplicated() cannot be used for sync tab
+    // This is just a workaround that should be re-written.
     appendSync: function(tab) {
       chrome.storage.sync.get("items", function(data) {
-        if (!chrome.runtime.lastError) {
-          var d = data.items, r = false;
-          if (d !== undefined && d.length > 0) {
-            d.forEach(function(item, i) {
-              if (item["url"] === tab.url) {
-                r = true;
-              }
-            });
-            if (r === true) {
+        if (chrome.runtime.lastError) { 
+          return; 
+        }
+        var items = data.items;
+        if (items !== undefined && items.length > 0) {
+          items.forEach(function(item, i) {
+            if (item["url"] === tab.url) {
               BG.notifications.error();
               return;
             }
-          }
-          stockItems.append(tab);
+          });
         }
+        stockItems.append(tab);
       });
     },
 
