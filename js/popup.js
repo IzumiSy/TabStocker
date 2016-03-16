@@ -9,6 +9,21 @@
   var BG         = chrome.extension.getBackgroundPage();
   var removeMode = false;
 
+  // DOMs
+  var body      = $("body");
+  var addBtn    = $("#add");
+  var removeBtn = $("#remove");
+  var optsBtn   = $("#options");
+  var tabsArea  = $("div#tabs");
+  
+  var itemsElm    = $(".items");
+  var itemLink    = $("li > a.ui-menu-item");
+  var tabNav      = $(".ui-tabs-nav");
+  var syncTabElm  = $("#items-sync");
+  var localTabElm = $("#items-local");
+  var localItem   = $("#local li");
+  var syncItem    = $("#sync li");
+
   var stockItems = {
     append: function(item) {
       this.applyUI.appendItem(item.title, item.url, BG.currentTab);
@@ -226,11 +241,11 @@
     },
 
     btnRemove: function() {
-      var removeButton = document.getElementById("remove");
+      var removeButton = removeBtn;
       if (removeButton.checked) {
-        $("#add").button("disable");
+        addBtn.button("disable");
       } else {
-        $("#add").button("enable");
+        addBtn.button("enable");
       }
       $("ul.items li.ui-menu-item a").toggleClass("delete-mode");
       removeMode = ! removeMode;
@@ -269,41 +284,41 @@
     onLoad: function() {
       BG.utils.undefinedResolver();
       
-      $("body").css("font-size", localStorage.getItem(BG.OPTIONS.FONT_SIZE) + "em");
-      $("body").width(localStorage.getItem(BG.OPTIONS.POPUP_WIDTH));
-      $("ul").width($("body").width() - 4);
-      $("a.ui-menu-item").width($("body").width() - 12);
+      body.css("font-size", localStorage.getItem(BG.OPTIONS.FONT_SIZE) + "em");
+      body.width(localStorage.getItem(BG.OPTIONS.POPUP_WIDTH));
+      itemsElm.width(body.width() - 4);
+      itemLink.width(body.width() - 12);
 
-      $("#add").button();
-      $("#add").on("click", clickHandlers.btnAdd);
-      $("#remove").button();
-      $("#remove").on("click", clickHandlers.btnRemove);
-      $("#options").button();
-      $("#options").on("click", clickHandlers.btnOption);
+      addBtn.button();
+      addBtn.on("click", clickHandlers.btnAdd);
+      removeBtn.button();
+      removeBtn.on("click", clickHandlers.btnRemove);
+      optsBtn.button();
+      optsBtn.on("click", clickHandlers.btnOption);
 
-      $(".items").menu({ select: popupBodyHandlers.itemSelect });
+      itemsElm.menu({ select: popupBodyHandlers.itemSelect });
       if (localStorage.getItem(BG.OPTIONS.AUTO_SORT) == "false") {
-        $(".items").sortable({
+        itemsElm.sortable({
           placeholder: "ui-state-highlight",
           update: stockItems.orderedSave
         }).disableSelection();
       }
 
       // Height value loading should be placed just after saved items restoring
-      $(".ui-menu").height(localStorage.getItem(BG.OPTIONS.POPUP_HEIGHT));
+      itemsElm.height(localStorage.getItem(BG.OPTIONS.POPUP_HEIGHT));
 
       // Settings for tab
       var active_tab = ITEMS_SYNC_TAB;
       if (BG.currentTab == "items-sync") {
         active_tab = ITEMS_LOCAL_TAB;
       }
-      $("#tabs").tabs({
+      tabsArea.tabs({
         activate: popupBodyHandlers.tabSwitch,
         active: active_tab
       });
-      $(".ui-tabs-nav").width($("body").width() - 13);
-      $("#items-sync").width($("body").width() - 11).css("margin-top", "3px");
-      $("#items-local").width($("body").width() - 11).css("margin-top", "3px");
+      tabNav.width(body.width() - 13);
+      syncTabElm.width(body.width() - 11).css("margin-top", "3px");
+      localTabElm.width(body.width() - 11).css("margin-top", "3px");
 
       stockItems.restore();
 
