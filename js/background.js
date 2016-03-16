@@ -1,16 +1,16 @@
 
 // background.js
 
-const ui_menu_defaultPopupWidth = 250;
-const ui_menu_defaultPopupHeight = 200;
-const ui_menu_maxPopupWidth = 500;
-const ui_menu_maxPopupHeight = 500;
-const ui_defaultFontSize = 0.7;
+var ui_menu_defaultPopupWidth = 250;
+var ui_menu_defaultPopupHeight = 200;
+var ui_menu_maxPopupWidth = 500;
+var ui_menu_maxPopupHeight = 500;
+var ui_defaultFontSize = 0.7;
 
-const NOTIFY_ID = "default";
-const ITEMS_ID  = "Items";
+var NOTIFY_ID = "default";
+var ITEMS_ID  = "Items";
 
-const OPTIONS = {
+var OPTIONS = {
   POPUP_WIDTH:      "PopupWidth",
   POPUP_HEIGHT:     "PopupHeight",
   FONT_SIZE:        "FontSize",
