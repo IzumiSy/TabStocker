@@ -86,7 +86,7 @@
       for (var i in array) {
         if (array[i]["title"] == title) {
           if (localStorage.getItem(BG.OPTIONS.NO_NEW_TAB) == "true") {
-            chrome.tabs.query({ active: true }, queryCallback);
+            chrome.tabs.query({ active: true, currentWindow: true }, queryCallback);
           } else {
             chrome.tabs.create({url: array[i]["url"], selected: false});  
           }
