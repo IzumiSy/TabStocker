@@ -236,6 +236,7 @@
         $(".ui-menu").css("cursor", "default");
         $("#add").button("enable");
       }
+      $("ul.items li.ui-menu-item a").toggleClass("delete-mode");
       removeMode = ! removeMode;
     },
 

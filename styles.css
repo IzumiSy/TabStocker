@@ -61,6 +61,10 @@ hr.separator {
   -webkit-user-select: none;
 }
 
+.ui-tabs li a.delete-mode {
+  color: red;
+}
+
 .ui-tabs > ul.ui-tabs-nav {
   width: initial !important;
 }
