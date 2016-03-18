@@ -24,6 +24,10 @@
   var localItem   = $("#local li");
   var syncItem    = $("#sync li");
 
+  var isArrayValid = function(n) {
+    return (n !== undefined && n.length > 0);
+  };
+
   var stockItems = {
     append: function(item) {
       this.applyUI.appendItem(item.title, item.url, BG.currentTab);
@@ -95,49 +99,43 @@
       }
     },
 
-    restore: function() {
-      var items = [];
-      var data = localStorage.getItem(BG.ITEMS_ID);
-
-      // Local items
-      if (data !== undefined && data.length > 0) {
-        items = JSON.parse(data);
-        if (localStorage.getItem(BG.OPTIONS.AUTO_SORT) == "true") {
-          items = BG.utils.sorting(items);
-        }
-        console.group("<< Previously stocked items (Local) >>");
-        items.forEach(function(item, i) {
-          if (item) {
-            console.log(i + " " + item["title"] + " :: " + item["url"]);
-            stockItems.applyUI.appendItem(item["title"], item["url"], "items-local");
-          }
-        });
-        console.groupEnd();
-        chrome.browserAction.setBadgeText({text: String(items.length)});
-      }
-
-      // Sync Items
-      items = [];
-      chrome.storage.sync.get("items", function(data) {
-        if (chrome.runtime.lastError) {
+    restore: {
+      localItems: function() {
+        var items = [];
+        var data = localStorage.getItem(BG.ITEMS_ID);
+        var isSortOn = (localStorage.getItem(BG.OPTIONS.AUTO_SORT) == "true");
+        
+        if (!isArrayValid(data)) {
           return;
         }
-        var d = data.items;
-        if (d !== undefined && data.items.length > 0) {
-          items = data.items;
-        }
-        if (localStorage.getItem(BG.OPTIONS.AUTO_SORT) == "true") {
-          items = BG.utils.sorting(items);
-        }
-        console.group("<< Previously stocked items (Sync) >>");
+  
+        items = JSON.parse(data);
+        items = isSortOn ? BG.utils.sorting(items) : items;
+        
         items.forEach(function(item, i) {
-          if (item) {
-            console.log(i + " " + item["title"] + " :: " + item["url"]);
-            stockItems.applyUI.appendItem(item["title"], item["url"], "items-sync");
-          }
+          if (!item) return;
+          stockItems.applyUI.appendItem(item["title"], item["url"], "items-local");
         });
-        console.groupEnd();
-      });
+        
+        chrome.browserAction.setBadgeText({text: String(items.length)});
+      },
+      
+      syncItems: function() {
+        chrome.storage.sync.get("items", function(data) {
+          var items = [];
+          
+          if (chrome.runtime.lastError || !isArrayValid(data.items)) {
+            return;
+          }
+          
+          items = isSortOn ? BG.utils.sorting(data.items) : data.items;
+          
+          items.forEach(function(item, i) {
+            if (!item) return;
+            stockItems.applyUI.appendItem(item["title"], item["url"], "items-sync");
+          });
+        });         
+      }
     },
 
     reorder: function(array) {
@@ -322,7 +320,9 @@
       syncTabElm.width(body.width() - 11).css("margin-top", "3px");
       localTabElm.width(body.width() - 11).css("margin-top", "3px");
 
-      stockItems.restore();
+      // Restore items
+      stockItems.restore.localItems();
+      stockItems.restore.syncItems();
 
       // Resets a flag for remove mode
       removeModeOn = false;
