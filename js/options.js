@@ -139,7 +139,7 @@
       elements.captions.fontSize.textContent       = chrome.i18n.getMessage("extFontSize");
       elements.captions.hideFavicon.textContent    = chrome.i18n.getMessage("extHideFavicon");
       elements.captions.noNewTab.textContent       = chrome.i18n.getMessage("extNoNewTab");
-      elements.captions.removeOpenItem.textContent = chrome.i18n.getMessage("extRemoveOpenItem"); 
+      elements.captions.removeOpenItem.textContent = chrome.i18n.getMessage("extRemoveOpenItem");
       elements.captions.autoSort.textContent       = chrome.i18n.getMessage("extAutoSort");
       elements.captions.ascending.textContent      = chrome.i18n.getMessage("extAscending");
       elements.captions.descending.textContent     = chrome.i18n.getMessage("extDescending");
@@ -161,7 +161,7 @@
         storage.fontSize    !== undefined ? storage.fontSize : BG.ui_defaultFontSize;
       elements.noNewTab.checked =
         storage.noNewTab       == "true" ? true : false;
-      elements.removeOpenItem.checked = 
+      elements.removeOpenItem.checked =
         storage.removeOpenItem == "true" ? true : false;
       elements.hideFavicon.checked =
         storage.hideFavicon    == "true" ? true : false;
