@@ -61,21 +61,17 @@
     },
 
     launch: function(title) {
-      var items;
+      var items = [];
 
       if (BG.currentTab === "items-local") {
         items = JSON.parse(localStorage.getItem(BG.ITEMS_ID));
         stockItems.execute(items, title);
-
       } else { // === "items-sync"
         chrome.storage.sync.get("items", function(data) {
-          if (chrome.runtime.lastError) {
+          if (chrome.runtime.lastError || !isArrayValid(data.items)) {
             return;
           }
-          var d = data.items;
-          if (d !== undefined && data.items.length > 0) {
-            items = data.items;
-          }
+          items = data.items || items;
           stockItems.execute(items, title);
         });
       }
@@ -226,7 +222,6 @@
     btnAdd: function() {
       chrome.tabs.getSelected(window.id, function (tab) {
         if (BG.currentTab === "items-local") {
-          console.log(tab.url);
           if (!BG.utils.isDuplicated(tab.url)) {
             stockItems.append(tab);
           } else {
@@ -276,7 +271,6 @@
       } else { // === "#sync"
         BG.currentTab = "items-sync";
       }
-      console.log("Tab switched: " + BG.currentTab);
     },
 
     onLoad: function() {
