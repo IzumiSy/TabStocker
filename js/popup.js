@@ -15,7 +15,7 @@
   var removeBtn = $("#remove");
   var optsBtn   = $("#options");
   var tabsArea  = $("div#tabs");
-  
+
   var itemsElm    = $(".items");
   var itemLink    = $("li > a.ui-menu-item");
   var tabNav      = $(".ui-tabs-nav");
@@ -34,16 +34,16 @@
       BG.storageUpdater.appendItem(item.title, item.url, BG.currentTab);
     },
 
-    // TODO: 
+    // TODO:
     // BG.isDuplicated() cannot be used for sync tab
     // This is just a workaround that should be re-written.
     appendSync: function(tab) {
       chrome.storage.sync.get("items", function(data) {
-        if (chrome.runtime.lastError) { 
-          return; 
+        if (chrome.runtime.lastError) {
+          return;
         }
         var items = data.items;
-        if (isArrayValid(items)/*items !== undefined && items.length > 0*/) {
+        if (isArrayValid(items)) {
           items.forEach(function(item, i) {
             if (item["url"] === tab.url) {
               BG.notifications.error();
@@ -86,13 +86,13 @@
         selectedTab = tabs[0];
         chrome.tabs.update(selectedTab.id, { url: array[i]["url"] });
       };
-      
+
       for (var i in array) {
         if (array[i]["title"] == title) {
           if (localStorage.getItem(BG.OPTIONS.NO_NEW_TAB) == "true") {
             chrome.tabs.query({ active: true, currentWindow: true }, queryCallback);
           } else {
-            chrome.tabs.create({url: array[i]["url"], selected: false});  
+            chrome.tabs.create({url: array[i]["url"], selected: false});
           }
           break;
         }
@@ -104,39 +104,39 @@
         var items = [];
         var data = localStorage.getItem(BG.ITEMS_ID);
         var isSortOn = (localStorage.getItem(BG.OPTIONS.AUTO_SORT) == "true");
-        
+
         if (!isArrayValid(data)) {
           return;
         }
-  
+
         items = JSON.parse(data);
         items = isSortOn ? BG.utils.sorting(items) : items;
-        
+
         items.forEach(function(item, i) {
           if (!item) return;
           stockItems.applyUI.appendItem(item["title"], item["url"], "items-local");
         });
-        
+
         chrome.browserAction.setBadgeText({text: String(items.length)});
       },
-      
+
       syncItems: function() {
-        var isSortOn = (localStorage.getItem(BG.OPTIONS.AUTO_SORT) == "true");        
-        
+        var isSortOn = (localStorage.getItem(BG.OPTIONS.AUTO_SORT) == "true");
+
         chrome.storage.sync.get("items", function(data) {
           var items = [];
-          
+
           if (chrome.runtime.lastError || !isArrayValid(data.items)) {
             return;
           }
-          
+
           items = isSortOn ? BG.utils.sorting(data.items) : data.items;
-          
+
           items.forEach(function(item, i) {
             if (!item) return;
             stockItems.applyUI.appendItem(item["title"], item["url"], "items-sync");
           });
-        });         
+        });
       }
     },
 
@@ -281,7 +281,7 @@
 
     onLoad: function() {
       BG.utils.undefinedResolver();
-      
+
       body.css("font-size", localStorage.getItem(BG.OPTIONS.FONT_SIZE) + "em");
       body.width(localStorage.getItem(BG.OPTIONS.POPUP_WIDTH));
       itemsElm.width(body.width() - 4);
