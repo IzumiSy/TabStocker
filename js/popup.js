@@ -25,7 +25,7 @@
   var syncItem    = $("#sync li");
 
   var isArrayValid = function(n) {
-    return (n !== undefined && n.length > 0);
+    return (n !== null && n !== undefined || n.length > 0);
   };
 
   var stockItems = {
@@ -43,7 +43,7 @@
           return; 
         }
         var items = data.items;
-        if (items !== undefined && items.length > 0) {
+        if (isArrayValid(items)/*items !== undefined && items.length > 0*/) {
           items.forEach(function(item, i) {
             if (item["url"] === tab.url) {
               BG.notifications.error();
@@ -177,14 +177,10 @@
         localStorage.setItem(BG.ITEMS_ID, orderedItems);
       } else { // == "items-sync"
         chrome.storage.sync.get("items", function(data) {
-          if (chrome.runtime.lastError ||
-              data.items !== null  ||
-             !data.items.length) {
+          if (chrome.runtime.lastError || !isArrayValid(data.items)) {
             return;
           }
-          items = data.items;
-          orderedItems = stockItems.reorder(items);
-          chrome.storage.sync.set({ "items": orderdItems }, function() {
+          chrome.storage.sync.set({ "items": stockItems.reorder(data.items) }, function() {
             console.log("Reordered: items-sync");
           });
         });
