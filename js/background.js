@@ -54,7 +54,7 @@ var eventHandlers = {
       chrome.tabs.getSelected(window.id, function(tab) {
         if (!utils.isDuplicated(tab.url, "items-local")) {
           notifications.success(tab.title);
-          AddDataAndUpdateStorage(tab.title, tab.url, currentTab);
+          storageUpdater.appendItem(tab.title, tab.url, currentTab);
         } else {
           notifications.error();
         }
@@ -105,7 +105,7 @@ var eventHandlers = {
 
       if (!utils.isDuplicated(url, "items-local")) {
         notifications.success(title);
-        AddDataAndUpdateStorage(title, url, currentTab);
+        storageUpdater.appendItem(title, url, currentTab);
       } else {
         notifications.error();
       }
@@ -200,7 +200,7 @@ var storageUpdater = {
     Items.push({ "title": title, "url": url });
     chrome.storage.sync.set({ "items": Items }, function() {
       if (chrome.runtime.lastError) {
-        console.error("Runtime error: AddDataAndUpdateStorage");
+        console.error("Runtime error: chrome.storage.sync in storageUpdater.appendItem");
       }
     });
   },
