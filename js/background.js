@@ -148,7 +148,7 @@ var utils = {
 
     return Items;
   },
-  
+
   undefinedResolver: function() {
     if (!localStorage.getItem(OPTIONS.POPUP_WIDTH)) {
       localStorage.setItem(OPTIONS.POPUP_WIDTH, ui_menu_defaultPopupWidth);
@@ -161,7 +161,7 @@ var utils = {
     }
     if (!localStorage.getItem(ITEMS_ID)) {
       localStorage.setItem(ITEMS_ID, []);
-    }    
+    }
   }
 };
 
