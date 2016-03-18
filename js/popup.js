@@ -121,6 +121,8 @@
       },
       
       syncItems: function() {
+        var isSortOn = (localStorage.getItem(BG.OPTIONS.AUTO_SORT) == "true");        
+        
         chrome.storage.sync.get("items", function(data) {
           var items = [];
           
