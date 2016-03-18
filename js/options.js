@@ -15,57 +15,103 @@
     }
   };
 
+  //
+  // Miscellaneous utility functions
+  //
+
+  var i18n = function(id) {
+    return chrome.i18n.getMessage(id);
+  };
+
+  var convBoolean = function(data) {
+    return data == "true" ? true : false;
+  };
+
+  var undefDefault = function(undefValue, otherwise) {
+    return undefValue !== undefined ? undefValue : otherwise;
+  };
+
+  var elm = {
+    id: function(id) {
+      return document.getElementById(id);
+    },
+
+    name: function(name) {
+      return document.getElementsByName(name);
+    }
+  };
+
+  var data = {
+    s: function(id, data) {
+      localStorage.setItem(id, data);
+    },
+
+    g: function(id) {
+      return localStorage.getItem(id);
+    }
+  };
+
+  //
+  // Element selectors
+  //
+
   var elements = {
-    saveButton:     document.getElementById("save-button"),
-    cancelButton:   document.getElementById("cancel-button"),
-    popupWidth:     document.getElementById("popup_width"),
-    popupHeight:    document.getElementById("popup_height"),
-    fontSize:       document.getElementById("font_size"),
-    hideFavicon:    document.getElementById("hide_favicon"),
-    noNewTab:       document.getElementById("no_new_tab"),
-    removeOpenItem: document.getElementById("remove_open_item"),
-    autoSort:       document.getElementById("auto_sort"),
-    direction:      document.getElementsByName("sort_direction"),
-    sortBy:         document.getElementsByName("sort_type"),
+    saveButton:     elm.id("save-button"),
+    cancelButton:   elm.id("cancel-button"),
+    popupWidth:     elm.id("popup_width"),
+    popupHeight:    elm.id("popup_height"),
+    fontSize:       elm.id("font_size"),
+    hideFavicon:    elm.id("hide_favicon"),
+    noNewTab:       elm.id("no_new_tab"),
+    removeOpenItem: elm.id("remove_open_item"),
+    autoSort:       elm.id("auto_sort"),
+    direction:      elm.name("sort_direction"),
+    sortBy:         elm.name("sort_type"),
 
     captions: {
-      popupWidth:     document.getElementById("caption-popup-width"),
-      popupHeight:    document.getElementById("caption-popup-height"),
-      fontSize:       document.getElementById("caption-font-size"),
-      noNewTab:       document.getElementById("caption-no-new-tab"),
-      removeOpenItem: document.getElementById("caption-remove-open-item"),
-      hideFavicon:    document.getElementById("caption-hide-favicon"),
-      autoSort:       document.getElementById("caption-auto-sort"),
-      ascending:      document.getElementById("caption-ascending"),
-      descending:     document.getElementById("caption-descending"),
-      byTitle:        document.getElementById("caption-by-title"),
-      byUrl:          document.getElementById("caption-by-url"),
+      popupWidth:     elm.id("caption-popup-width"),
+      popupHeight:    elm.id("caption-popup-height"),
+      fontSize:       elm.id("caption-font-size"),
+      noNewTab:       elm.id("caption-no-new-tab"),
+      removeOpenItem: elm.id("caption-remove-open-item"),
+      hideFavicon:    elm.id("caption-hide-favicon"),
+      autoSort:       elm.id("caption-auto-sort"),
+      ascending:      elm.id("caption-ascending"),
+      descending:     elm.id("caption-descending"),
+      byTitle:        elm.id("caption-by-title"),
+      byUrl:          elm.id("caption-by-url"),
     }
   };
+
+  console.log(elements);
 
   var storage = {
-    popupWidth:     localStorage.getItem(BG.OPTIONS.POPUP_WIDTH),
-    popupHeight:    localStorage.getItem(BG.OPTIONS.POPUP_HEIGHT),
-    fontSize:       localStorage.getItem(BG.OPTIONS.FONT_SIZE),
-    noNewTab:       localStorage.getItem(BG.OPTIONS.NO_NEW_TAB),
-    removeOpenItem: localStorage.getItem(BG.OPTIONS.REMOVE_OPEN_ITEM),
-    hideFavicon:    localStorage.getItem(BG.OPTIONS.HIDE_FAVICONS),
-    autoSort:       localStorage.getItem(BG.OPTIONS.AUTO_SORT),
-    direction:      localStorage.getItem(BG.OPTIONS.DIRECTION),
-    sortBy:         localStorage.getItem(BG.OPTIONS.SORTBY),
+    popupWidth:     data.g(BG.OPTIONS.POPUP_WIDTH),
+    popupHeight:    data.g(BG.OPTIONS.POPUP_HEIGHT),
+    fontSize:       data.g(BG.OPTIONS.FONT_SIZE),
+    noNewTab:       data.g(BG.OPTIONS.NO_NEW_TAB),
+    removeOpenItem: data.g(BG.OPTIONS.REMOVE_OPEN_ITEM),
+    hideFavicon:    data.g(BG.OPTIONS.HIDE_FAVICONS),
+    autoSort:       data.g(BG.OPTIONS.AUTO_SORT),
+    direction:      data.g(BG.OPTIONS.DIRECTION),
+    sortBy:         data.g(BG.OPTIONS.SORTBY),
 
     setter: {
-      width:          function(v) { localStorage.setItem(BG.OPTIONS.POPUP_WIDTH, v);      },
-      height:         function(v) { localStorage.setItem(BG.OPTIONS.POPUP_HEIGHT, v);     },
-      fontSize:       function(v) { localStorage.setItem(BG.OPTIONS.FONT_SIZE, v);        },
-      noNewTab:       function(v) { localStorage.setItem(BG.OPTIONS.NO_NEW_TAB, v);       },
-      removeOpenItem: function(v) { localStorage.setItem(BG.OPTIONS.REMOVE_OPEN_ITEM, v); },
-      hideFavicon:    function(v) { localStorage.setItem(BG.OPTIONS.HIDE_FAVICONS, v);    },
-      autoSort:       function(v) { localStorage.setItem(BG.OPTIONS.AUTO_SORT, v);        },
-      direction:      function(v) { localStorage.setItem(BG.OPTIONS.DIRECTION, v);        },
-      sortBy:         function(v) { localStorage.setItem(BG.OPTIONS.SORTBY, v);           }
+      width:          function(v) { data.s(BG.OPTIONS.POPUP_WIDTH, v);      },
+      height:         function(v) { data.s(BG.OPTIONS.POPUP_HEIGHT, v);     },
+      fontSize:       function(v) { data.s(BG.OPTIONS.FONT_SIZE, v);        },
+      noNewTab:       function(v) { data.s(BG.OPTIONS.NO_NEW_TAB, v);       },
+      removeOpenItem: function(v) { data.s(BG.OPTIONS.REMOVE_OPEN_ITEM, v); },
+      hideFavicon:    function(v) { data.s(BG.OPTIONS.HIDE_FAVICONS, v);    },
+      autoSort:       function(v) { data.s(BG.OPTIONS.AUTO_SORT, v);        },
+      direction:      function(v) { data.s(BG.OPTIONS.DIRECTION, v);        },
+      sortBy:         function(v) { data.s(BG.OPTIONS.SORTBY, v);           }
     }
   };
+
+  //
+  // Handler functions
+  //
 
   var settingHandlers = {
     setupOnClick: function() {
@@ -134,39 +180,33 @@
     i18nApply: function() {
       console.log("Execute: i18nApply()");
 
-      elements.captions.popupWidth.textContent     = chrome.i18n.getMessage("extPopupWidth");
-      elements.captions.popupHeight.textContent    = chrome.i18n.getMessage("extPopupHeight");
-      elements.captions.fontSize.textContent       = chrome.i18n.getMessage("extFontSize");
-      elements.captions.hideFavicon.textContent    = chrome.i18n.getMessage("extHideFavicon");
-      elements.captions.noNewTab.textContent       = chrome.i18n.getMessage("extNoNewTab");
-      elements.captions.removeOpenItem.textContent = chrome.i18n.getMessage("extRemoveOpenItem");
-      elements.captions.autoSort.textContent       = chrome.i18n.getMessage("extAutoSort");
-      elements.captions.ascending.textContent      = chrome.i18n.getMessage("extAscending");
-      elements.captions.descending.textContent     = chrome.i18n.getMessage("extDescending");
-      elements.captions.byTitle.textContent        = chrome.i18n.getMessage("extByTitle");
-      elements.captions.byUrl.textContent          = chrome.i18n.getMessage("extByURL");
+      elements.captions.popupWidth.textContent     = i18n("extPopupWidth");
+      elements.captions.popupHeight.textContent    = i18n("extPopupHeight");
+      elements.captions.fontSize.textContent       = i18n("extFontSize");
+      elements.captions.hideFavicon.textContent    = i18n("extHideFavicon");
+      elements.captions.noNewTab.textContent       = i18n("extNoNewTab");
+      elements.captions.removeOpenItem.textContent = i18n("extRemoveOpenItem");
+      elements.captions.autoSort.textContent       = i18n("extAutoSort");
+      elements.captions.ascending.textContent      = i18n("extAscending");
+      elements.captions.descending.textContent     = i18n("extDescending");
+      elements.captions.byTitle.textContent        = i18n("extByTitle");
+      elements.captions.byUrl.textContent          = i18n("extByURL");
 
-      elements.saveButton.textContent = chrome.i18n.getMessage("extSaveButton");
-      elements.cancelButton.textContent = chrome.i18n.getMessage("extCancelButton");
+      elements.saveButton.textContent =   i18n("extSaveButton");
+      elements.cancelButton.textContent = i18n("extCancelButton");
     },
 
     loadSettings: function() {
       console.log("Execute: loadSettings()");
 
-      elements.popupWidth.value =
-        storage.popupWidth  !== undefined ? storage.popupWidth : BG.ui_menu_defaultPopupWidth;
-      elements.popupHeight.value =
-        storage.popupHeight !== undefined ? storage.popupHeight : BG.ui_menu_defaultPopupHeight;
-      elements.fontSize.value =
-        storage.fontSize    !== undefined ? storage.fontSize : BG.ui_defaultFontSize;
-      elements.noNewTab.checked =
-        storage.noNewTab       == "true" ? true : false;
-      elements.removeOpenItem.checked =
-        storage.removeOpenItem == "true" ? true : false;
-      elements.hideFavicon.checked =
-        storage.hideFavicon    == "true" ? true : false;
-      elements.autoSort.checked =
-        storage.autoSort       == "true" ? true : false;
+      elements.popupWidth.value =  undefDefault(storage.popupWidth, BG.ui_menu_defaultPopupWidth);
+      elements.popupHeight.value = undefDefault(storage.popupHeight, BG.ui_menu_defaultPopupHeight);
+      elements.fontSize.value =    undefDefault(storage.fontSize, BG.ui_defaultFontSize);
+
+      elements.noNewTab.checked =       convBoolean(storage.noNewTab);
+      elements.removeOpenItem.checked = convBoolean(storage.removeOpenItem);
+      elements.hideFavicon.checked =    convBoolean(storage.hideFavicon);
+      elements.autoSort.checked =       convBoolean(storage.autoSort);
 
       switch (storage.direction) {
         case consts.direction.ASC:  elements.direction[0].checked = true; break;
