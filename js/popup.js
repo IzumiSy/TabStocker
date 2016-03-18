@@ -193,7 +193,9 @@
 
     applyUI: {
       eliminateItem: function(index, tab) {
-        $("#" + tab + " li:eq(" + index + ")").hide('slide', {direction: 'right'}, 200);
+        $("#" + tab + " li:eq(" + index + ")").hide(100, function() {
+          item.remove();
+        });
       },
 
       appendItem: function(title, url, tab) {
