@@ -63,6 +63,7 @@
     fontSize:       elm.id("font_size"),
     hideFavicon:    elm.id("hide_favicon"),
     noNewTab:       elm.id("no_new_tab"),
+    closeOnAdd:     elm.id("close_on_add"),
     removeOpenItem: elm.id("remove_open_item"),
     autoSort:       elm.id("auto_sort"),
     direction:      elm.name("sort_direction"),
@@ -73,6 +74,7 @@
       popupHeight:    elm.id("caption-popup-height"),
       fontSize:       elm.id("caption-font-size"),
       noNewTab:       elm.id("caption-no-new-tab"),
+      closeOnAdd:     elm.id("caption-close-on-add"),
       removeOpenItem: elm.id("caption-remove-open-item"),
       hideFavicon:    elm.id("caption-hide-favicon"),
       autoSort:       elm.id("caption-auto-sort"),
@@ -90,6 +92,7 @@
     popupHeight:    data.g(BG.OPTIONS.POPUP_HEIGHT),
     fontSize:       data.g(BG.OPTIONS.FONT_SIZE),
     noNewTab:       data.g(BG.OPTIONS.NO_NEW_TAB),
+    closeOnAdd:     data.g(BG.OPTIONS.CLOSE_ON_ADD),
     removeOpenItem: data.g(BG.OPTIONS.REMOVE_OPEN_ITEM),
     hideFavicon:    data.g(BG.OPTIONS.HIDE_FAVICONS),
     autoSort:       data.g(BG.OPTIONS.AUTO_SORT),
@@ -101,6 +104,7 @@
       height:         function(v) { data.s(BG.OPTIONS.POPUP_HEIGHT, v);     },
       fontSize:       function(v) { data.s(BG.OPTIONS.FONT_SIZE, v);        },
       noNewTab:       function(v) { data.s(BG.OPTIONS.NO_NEW_TAB, v);       },
+      closeOnAdd:     function(v) { data.s(BG.OPTIONS.CLOSE_ON_ADD, v);     },
       removeOpenItem: function(v) { data.s(BG.OPTIONS.REMOVE_OPEN_ITEM, v); },
       hideFavicon:    function(v) { data.s(BG.OPTIONS.HIDE_FAVICONS, v);    },
       autoSort:       function(v) { data.s(BG.OPTIONS.AUTO_SORT, v);        },
@@ -152,6 +156,7 @@
         storage.setter.height(popup_height);
         storage.setter.fontSize(font_size);
         storage.setter.noNewTab(elements.noNewTab.checked);
+        storage.setter.closeOnAdd(elements.closeOnAdd.checked);
         storage.setter.removeOpenItem(elements.removeOpenItem.checked);
         storage.setter.hideFavicon(elements.hideFavicon.checked);
         storage.setter.autoSort(elements.autoSort.checked);
@@ -185,6 +190,7 @@
       elements.captions.fontSize.textContent       = i18n("extFontSize");
       elements.captions.hideFavicon.textContent    = i18n("extHideFavicon");
       elements.captions.noNewTab.textContent       = i18n("extNoNewTab");
+      elements.captions.closeOnAdd.textContent     = i18n("extCloseOnAdd");
       elements.captions.removeOpenItem.textContent = i18n("extRemoveOpenItem");
       elements.captions.autoSort.textContent       = i18n("extAutoSort");
       elements.captions.ascending.textContent      = i18n("extAscending");
@@ -204,6 +210,7 @@
       elements.fontSize.value =    undefDefault(storage.fontSize, BG.ui_defaultFontSize);
 
       elements.noNewTab.checked =       convBoolean(storage.noNewTab);
+      elements.closeOnAdd.checked =     convBoolean(storage.closeOnAdd);
       elements.removeOpenItem.checked = convBoolean(storage.removeOpenItem);
       elements.hideFavicon.checked =    convBoolean(storage.hideFavicon);
       elements.autoSort.checked =       convBoolean(storage.autoSort);
