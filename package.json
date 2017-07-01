@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "name": "tab-stocker",
+  "version": "1.13.0",
+  "description": "Chrome extension to stock tabs to see later",
+  "author": "IzumiSy",
+  "license": "MIT"
+  "scripts": {}
+}
