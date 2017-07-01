@@ -1,4 +1,5 @@
 import "jquery";
+import "jquery-ui";
 
 //
 // popup.js
