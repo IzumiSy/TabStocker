@@ -4,6 +4,12 @@
   "version": "1.13.0",
   "description": "Chrome extension to stock tabs to see later",
   "author": "IzumiSy",
-  "license": "MIT"
-  "scripts": {}
+  "license": "MIT",
+  "scripts": {
+    "build": "echo hello"
+  },
+  "devDependencies": {
+    "babelify": "^7.3.0",
+    "browserify": "^14.4.0"
+  }
 }
