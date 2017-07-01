@@ -5,10 +5,10 @@
   "description": "__MSG_extDesc__",
   "default_locale": "ja",
 
-  "options_page": "html/options.html",
+  "options_page": "dists/options.html",
 
   "background": {
-    "scripts": ["js/background.js"]
+    "scripts": ["dists/background.js"]
   },
 
   "permissions": [
@@ -24,7 +24,7 @@
   "browser_action": {
     "default_icon": "assets/main.png",
     "default_title": "Tab Stocker",
-    "default_popup": "html/popup.html"
+    "default_popup": "dists/popup.html"
   },
 
   "commands": {
