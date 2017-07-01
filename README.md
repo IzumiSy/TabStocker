@@ -1,6 +1,6 @@
 # TabStocker
 [![Release](https://img.shields.io/github/release/IzumiSy/TabStocker.svg)](https://github.com/IzumiSy/TabStocker/releases)
-> Chrome extension to stock a tab to see later
+> Chrome extension to stock tabs to see later
 
 ![TabStocker](http://ftpexp.suppa.jp/screen_shots/tabstocker_ss.png)
 
@@ -9,7 +9,7 @@ https://chrome.google.com/webstore/detail/tab-stocker/kjjjockipnpomghfnpbilhhcjj
 ## Features
 - Simple and easy interface
 - Shortcut Key (Alt + S)
-- Drag & drop or automatic sorting
+- Drag / automatic sorting
 - Context menu support
 - Synchronization
 
