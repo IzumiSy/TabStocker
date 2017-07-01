@@ -3,12 +3,12 @@
     "message": "Tab Stocker",
     "description": "Extension name"
   },
-  
+
   "extDesc": {
     "message": "Stocks tabs to see later",
     "description": "Extension description"
   },
-  
+
   "extShortcutDesc": {
     "message": "Stock a tab",
     "description": "Shortcut name"
@@ -29,7 +29,7 @@
   "extHideFavicon": {
     "message": "Hide favicons:"
   },
-  
+
   "extNoNewTab": {
     "message": "Don't open a new tab:"
   },
@@ -40,7 +40,7 @@
 
   "extRemoveOpenItem": {
     "message": "Remove the item opened:"
-  },  
+  },
 
   "extAutoSort": {
     "message": "Automatically sort:"
