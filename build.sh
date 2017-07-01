@@ -14,5 +14,6 @@ uglifyjs dists/options.js -o dists/options.js
 uglifyjs dists/popup.js -o dists/popup.js
 echo "JS uglification has done"
 
-cleancss src/styles.css -o dists/styles.css
-echo "CSS cleaning has done"
+node-sass src/styles.scss dists/styles.css --output-style="compressed"
+echo "Sass compiling has done"
+
