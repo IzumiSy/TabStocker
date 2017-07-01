@@ -1,5 +1,9 @@
+import "jquery";
 
+//
 // popup.js
+//
+
 
 (function(){
   const FAVICON_API     = "http://favicon.hatena.ne.jp/?url=";
@@ -31,7 +35,7 @@
   var stockItems = {
     append: function(item) {
       this.applyUI.appendItem(item.title, item.url, BG.currentTab);
-      BG.storageUpdater.appendItem(item.title, item.url, BG.currentTab);      
+      BG.storageUpdater.appendItem(item.title, item.url, BG.currentTab);
     },
 
     // TODO:
@@ -231,7 +235,7 @@
           }
         } else { // === "items-sync"
           stockItems.appendSync(tab);
-        }        
+        }
       });
     },
 
