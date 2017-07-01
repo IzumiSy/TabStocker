@@ -11,5 +11,9 @@
   "devDependencies": {
     "babelify": "^7.3.0",
     "browserify": "^14.4.0"
+  },
+  "dependencies": {
+    "immutable": "^3.8.1",
+    "jquery": "^3.2.1"
   }
 }
