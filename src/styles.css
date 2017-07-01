@@ -86,7 +86,7 @@ div#tabs ul.items.ui-menu {
   height: 26px;
   width: 30px;
   float: right;
-  background-image: url("./assets/bin.png");
+  background-image: url("../assets/bin.png");
   background-size: contain;
   background-repeat: no-repeat;
   -webkit-user-select: none;
@@ -95,7 +95,7 @@ div#tabs ul.items.ui-menu {
 #add {
   height: 28px;
   width: 45px;
-  background-image: url("./assets/add.png");
+  background-image: url("../assets/add.png");
   background-size: contain;
   background-repeat: no-repeat;
   -webkit-user-select: none;
@@ -104,7 +104,7 @@ div#tabs ul.items.ui-menu {
 #options {
   height: 28px;
   width: 45px;
-  background-image: url("./assets/preference.png");
+  background-image: url("../assets/preference.png");
   background-size: contain;
   background-repeat: no-repeat;
   -webkit-user-select: none;
