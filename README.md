@@ -1,8 +1,8 @@
 # TabStocker
-[![Release](https://img.shields.io/github/release/IzumiSy/TabStocker.svg)](https://github.com/IzumiSy/TabStocker/releases)  
-![TabStocker](http://ftpexp.suppa.jp/screen_shots/tabstocker_ss.png)  
-This is a Chrome extension that allows the users to stock tabs to see later.  
-It also solves an issue that Chrome tends to use much memory when keeping many tabs.  
+[![Release](https://img.shields.io/github/release/IzumiSy/TabStocker.svg)](https://github.com/IzumiSy/TabStocker/releases)
+> Chrome extension to stock a tab to see later
+
+![TabStocker](http://ftpexp.suppa.jp/screen_shots/tabstocker_ss.png)
 
 https://chrome.google.com/webstore/detail/tab-stocker/kjjjockipnpomghfnpbilhhcjjkombla
 
@@ -12,6 +12,15 @@ https://chrome.google.com/webstore/detail/tab-stocker/kjjjockipnpomghfnpbilhhcjj
 - Drag & drop or automatic sorting
 - Context menu support
 - Synchronization
+
+## Development
+```bash
+$ npm install
+$ npm run build
+```
+
+## Contribution
+PRs accepted.
 
 ## License
 MIT
