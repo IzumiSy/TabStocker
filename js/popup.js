@@ -31,7 +31,7 @@
   var stockItems = {
     append: function(item) {
       this.applyUI.appendItem(item.title, item.url, BG.currentTab);
-      BG.storageUpdater.appendItem(item.title, item.url, BG.currentTab);
+      BG.storageUpdater.appendItem(item.title, item.url, BG.currentTab);      
     },
 
     // TODO:
@@ -43,15 +43,17 @@
           return;
         }
         var items = data.items;
+        var isDupe = false;
         if (isArrayValid(items)) {
           items.forEach(function(item, i) {
             if (item["url"] === tab.url) {
               BG.notifications.error();
-              return;
+              isDupe = true;
             }
           });
         }
-        stockItems.append(tab);
+        if (!isDupe)
+            stockItems.append(tab);
       });
     },
 
@@ -229,7 +231,7 @@
           }
         } else { // === "items-sync"
           stockItems.appendSync(tab);
-        }
+        }        
       });
     },
 

@@ -16,6 +16,7 @@ var OPTIONS = {
   FONT_SIZE:        "FontSize",
   HIDE_FAVICONS:    "HideFavicon",
   NO_NEW_TAB:       "NoNewTab",
+  CLOSE_ON_ADD:     "CloseOnAdd",
   REMOVE_OPEN_ITEM: "RemoveOpenItem",
   AUTO_SORT:        "AutomaticSort",
   DIRECTION:        "SortDirection",
@@ -29,7 +30,7 @@ var notifications = {
     chrome.notifications.create(NOTIFY_ID, {
       type: "basic",
       title: "TabStocker: Error",
-      message: "The same titled tab is now already stocked",
+      message: "Tab already stocked",
       iconUrl: "assets/error.png"
     }, function(){});
   },
@@ -54,7 +55,10 @@ var eventHandlers = {
       chrome.tabs.getSelected(window.id, function(tab) {
         if (!utils.isDuplicated(tab.url, "items-local")) {
           notifications.success(tab.title);
-          storageUpdater.appendItem(tab.title, tab.url, currentTab);
+          storageUpdater.appendItem(tab.title, tab.url, "items-local");   
+          if (localStorage.getItem(OPTIONS.CLOSE_ON_ADD) == "true") {
+            chrome.tabs.remove(tab.id);       
+          }
         } else {
           notifications.error();
         }

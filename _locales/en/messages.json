@@ -33,7 +33,11 @@
   "extNoNewTab": {
     "message": "Don't open a new tab:"
   },
-  
+
+  "extCloseOnAdd": {
+    "message": "Close tab when stocking using the shortcut key:"
+  },
+
   "extRemoveOpenItem": {
     "message": "Remove the item opened:"
   },  
