@@ -29,11 +29,15 @@
   "extHideFavicon": {
     "message": "ファビコンを隠す:"
   },
-  
+
   "extNoNewTab": {
     "message": "新しいタブを開かない:"
   },
-  
+
+  "extCloseOnAdd": {
+    "message": "追加したタブを閉じる:"
+  },
+
   "extRemoveOpenItem": {
     "message": "開いたアイテムを除去:"
   },
