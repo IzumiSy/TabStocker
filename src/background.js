@@ -10,7 +10,7 @@ var ui_defaultFontSize = 0.7;
 var NOTIFY_ID = "default";
 var ITEMS_ID  = "Items";
 
-var OPTIONS = {
+window.OPTIONS = {
   POPUP_WIDTH:      "PopupWidth",
   POPUP_HEIGHT:     "PopupHeight",
   FONT_SIZE:        "FontSize",
@@ -117,7 +117,7 @@ var eventHandlers = {
   }
 };
 
-var utils = {
+window.utils = {
   isDuplicated: function(url) {
     var r = false;
     if (localStorage.getItem(ITEMS_ID).length > 0) {
