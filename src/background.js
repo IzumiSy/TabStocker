@@ -169,7 +169,7 @@ window.utils = {
   }
 };
 
-var storageUpdater = {
+window.storageUpdater = {
   appendItem: function(title, url, target) {
     var Items = [];
 
