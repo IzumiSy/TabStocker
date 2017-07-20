@@ -1,13 +1,14 @@
 
 // background.js
 
+import notifications from 'notifications';
+
 var ui_menu_defaultPopupWidth = 250;
 var ui_menu_defaultPopupHeight = 200;
 var ui_menu_maxPopupWidth = 500;
 var ui_menu_maxPopupHeight = 500;
 var ui_defaultFontSize = 0.7;
 
-const NOTIFY_ID = "default";
 const ITEMS_ID  = "Items";
 
 window.OPTIONS = {
@@ -24,30 +25,6 @@ window.OPTIONS = {
 };
 
 window.currentTab = "items-local";
-
-var notifications = {
-  error: function() {
-    chrome.notifications.create(NOTIFY_ID, {
-      type: "basic",
-      title: "TabStocker: Error",
-      message: "Tab already stocked",
-      iconUrl: "assets/error.png"
-    }, function(){});
-  },
-
-  success: function(title) {
-    if (!title) {
-      console.log("Error: notification.success() needs a page title");
-      return;
-    }
-    chrome.notifications.create(NOTIFY_ID, {
-      type: "basic",
-      title: "TabStocker: Success",
-      message: title,
-      iconUrl: "assets/main.png"
-    }, function(){});
-  }
-};
 
 var eventHandlers = {
   shortcutKey: function(command) {
