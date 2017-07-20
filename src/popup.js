@@ -24,8 +24,6 @@ const itemLink = $('li > a.ui-menu-item');
 const tabNav = $('.ui-tabs-nav');
 const syncTabElm = $('#items-sync');
 const localTabElm = $('#items-local');
-const localItem = $('#local li');
-const syncItem = $('#sync li');
 
 const isArrayValid = function(n) {
   return (n !== null && n !== undefined && n.length > 0);
@@ -196,28 +194,26 @@ const stockItems = {
     },
 
     appendItem: function(title, url, tab) {
-      var newAnchor = document.createElement("a");
-      var newList = document.createElement("li");
-      var newDiv = document.createElement("div");
-      var mainMenu = document.getElementById(tab);
-      var newFavicon;
+      const newAnchor = document.createElement('a');
+      const newList = document.createElement('li');
+      const mainMenu = document.getElementById(tab);
 
       // For favicon hide option
-      if (localStorage.getItem(BG.OPTIONS.HIDE_FAVICONS) != "true") {
-        newFavicon = document.createElement("img");
-        newFavicon.setAttribute("src", FAVICON_API + url);
-        newFavicon.setAttribute("class", "favicon");
+      if (localStorage.getItem(BG.OPTIONS.HIDE_FAVICONS) != 'true') {
+        const newFavicon = document.createElement('img');
+        newFavicon.setAttribute('src', FAVICON_API + url);
+        newFavicon.setAttribute('class', 'favicon');
         newAnchor.appendChild(newFavicon);
       }
 
       newAnchor.appendChild(document.createTextNode(title));
-      newAnchor.setAttribute("class", "ui-corner-all");
-      newAnchor.setAttribute("role", "menuitem");
-      newAnchor.setAttribute("style", "width: " + $("body").width() - 12 + "px");
+      newAnchor.setAttribute('class', 'ui-corner-all');
+      newAnchor.setAttribute('role', 'menuitem');
+      newAnchor.setAttribute('style', 'width: ' + $('body').width() - 12 + 'px');
       newList.appendChild(newAnchor);
-      newList.setAttribute("class", "ui-menu-item");
-      newList.setAttribute("role", "presentation");
-      newList.setAttribute("style", "width: " + $("body").width() - 12 + "px");
+      newList.setAttribute('class', 'uimenu-item');
+      newList.setAttribute('role', 'presentation');
+      newList.setAttribute('style', 'width: ' + $('body').width() - 12 + 'px');
       mainMenu.appendChild(newList);
     }
   }
