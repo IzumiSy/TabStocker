@@ -1,110 +1,80 @@
-.ui-menu {
-  border: none;
+html, body {
   cursor: default;
-  height: 400px;
-  overflow-y: scroll;
-}
-
-.ui-widget {
   font-family: 'Lucida Grande', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
 }
 
-.ui-state-highlight {
-  height: 1.5em; line-height: 1.2em;
-}
-
-.ui-tabs-anchor {
-  height: 11px;
-}
-
-.ui-tabs .ui-tabs-panel {
-  padding: 0;
-}
-
-.ui-tabs-nav {
-  height: 25px;
-}
-
-.ui-tabs-nav li {
-  height: 23px;
-}
-
-a {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-img.favicon {
-  margin: 0 5px 3px 0;
-  vertical-align: middle;
-}
-
-hr.separator {
-  border: 0;
-  height: 0;
-  border-top: 1px solid rgba(0, 0, 0, 0.1);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-}
-
 .ui-tabs {
-  padding: 0;
+  &.ui-widget {
+    padding: 0;
+  }
+
+  .ui-tabs-panel {
+    padding: 0 4px;
+    margin-top: 5px;
+  }
 }
 
-.ui-tabs li.ui-tabs-active a.tab {
-  cursor: default;
-  -webkit-user-select: none;
+ul.ui-tabs-nav {
+  li.ui-tabs-tab > a.ui-tabs-anchor {
+    cursor: pointer;
+  }
 }
 
-.ui-tabs li a {
-  -webkit-user-select: none;
-}
-
-.ui-tabs li a.delete-mode {
-  color: red;
-}
-
-.ui-tabs > ul.ui-tabs-nav {
-  width: initial !important;
-}
-
-button:focus, a.tab:focus {
-  outline: none;
-}
-
-div#tabs {
+.ui-menu {
   border: none;
-  margin-top: 3px;
+  overflow-y: scroll;
 }
 
-div#tabs ul.items.ui-menu {
-  width: inherit !important;
+.ui-menu.items {
+  li > div {
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+      background: rgba(255, 255, 0, 0.24);
+    }
+
+    > img.item-favicon {
+      height: 20px;
+      width: 20px;
+      padding: 2px;
+    }
+
+    > .item-title {
+      width: calc(100% - 40px);
+      display: inline-block;
+      vertical-align: top;
+      height: 20px;
+      line-height: 2;
+      margin-left: 3px;
+      padding: 2px 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
 }
 
-#rmmode {
-  height: 26px;
-  width: 30px;
-  float: right;
-  background-image: url("../assets/bin.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  -webkit-user-select: none;
+.ui-widget.ui-widget-content {
+  border: none;
+  margin-top: 5px;
 }
 
-#add {
-  height: 28px;
-  width: 45px;
-  background-image: url("../assets/add.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  -webkit-user-select: none;
-}
+.header {
+  button {
+    height: 28px;
+    width: 28px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    -webkit-user-select: none;
+    user-select: none;
+  }
 
-#options {
-  height: 28px;
-  width: 45px;
-  background-image: url("../assets/preference.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  -webkit-user-select: none;
+  #add {
+    background-image: url("../assets/add.png");
+  }
+
+  #options {
+    background-image: url("../assets/preference.png");
+  }
 }
