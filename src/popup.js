@@ -229,7 +229,7 @@ function stockCurrentTab(tab) {
  * @param {object} item
  */
 function openSelectedItem(item) {
-
+  // TODO
 }
 
 $(function() {
