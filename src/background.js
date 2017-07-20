@@ -7,8 +7,8 @@ var ui_menu_maxPopupWidth = 500;
 var ui_menu_maxPopupHeight = 500;
 var ui_defaultFontSize = 0.7;
 
-var NOTIFY_ID = "default";
-var ITEMS_ID  = "Items";
+const NOTIFY_ID = "default";
+const ITEMS_ID  = "Items";
 
 window.OPTIONS = {
   POPUP_WIDTH:      "PopupWidth",
@@ -23,7 +23,7 @@ window.OPTIONS = {
   SORTBY:           "SortBy"
 };
 
-var currentTab = "items-local";
+window.currentTab = "items-local";
 
 var notifications = {
   error: function() {
