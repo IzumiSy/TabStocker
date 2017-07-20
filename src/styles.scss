@@ -29,6 +29,8 @@ ul.ui-tabs-nav {
   li > div {
     cursor: pointer;
     user-select: none;
+    height: 24px;
+    padding: 1px 0;
 
     &:hover {
       background: rgba(255, 255, 0, 0.24);
@@ -47,7 +49,7 @@ ul.ui-tabs-nav {
       height: 20px;
       line-height: 2;
       margin-left: 3px;
-      padding: 2px 0;
+      padding: 1px 0;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
