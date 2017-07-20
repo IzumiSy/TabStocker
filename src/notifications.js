@@ -1,6 +1,6 @@
 const NOTIFY_ID = 'default';
 
-export default notifications = {
+const notifications = {
   error() {
     chrome.notifications.create(NOTIFY_ID, {
       type: 'basic',
@@ -28,3 +28,4 @@ export default notifications = {
   },
 };
 
+export default notifications;
