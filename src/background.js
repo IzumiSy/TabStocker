@@ -11,22 +11,21 @@ var ui_menu_maxPopupWidth = 500;
 var ui_menu_maxPopupHeight = 500;
 var ui_defaultFontSize = 0.7;
 
-const ITEMS_ID  = "Items";
+window.currentTab = 'items-local';
+window.ITEMS_ID = 'Items';
 
 window.OPTIONS = {
-  POPUP_WIDTH:      "PopupWidth",
-  POPUP_HEIGHT:     "PopupHeight",
-  FONT_SIZE:        "FontSize",
-  HIDE_FAVICONS:    "HideFavicon",
-  NO_NEW_TAB:       "NoNewTab",
-  CLOSE_ON_ADD:     "CloseOnAdd",
-  REMOVE_OPEN_ITEM: "RemoveOpenItem",
-  AUTO_SORT:        "AutomaticSort",
-  DIRECTION:        "SortDirection",
-  SORTBY:           "SortBy"
+  POPUP_WIDTH: 'PopupWidth',
+  POPUP_HEIGHT: 'PopupHeight',
+  FONT_SIZE: 'FontSize',
+  HIDE_FAVICONS: 'HideFavicon',
+  NO_NEW_TAB: 'NoNewTab',
+  CLOSE_ON_ADD: 'CloseOnAdd',
+  REMOVE_OPEN_ITEM: 'RemoveOpenItem',
+  AUTO_SORT: 'AutomaticSort',
+  DIRECTION: 'SortDirection',
+  SORTBY: 'SortBy'
 };
-
-window.currentTab = "items-local";
 
 var eventHandlers = {
   shortcutKey: function(command) {
