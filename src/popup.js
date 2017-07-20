@@ -322,7 +322,7 @@ var popupBodyHandlers = {
     stockItems.restore.syncItems();
 
     // Resets a flag for remove mode
-    removeModeOn = false;
+    removeMode = false;
   }
 };
 
