@@ -5,33 +5,33 @@ import $ from 'jquery';
 //
 
 
-const FAVICON_API     = "http://favicon.hatena.ne.jp/?url=";
-const ITEMS_SYNC_TAB  = 0;
+const FAVICON_API = 'http://favicon.hatena.ne.jp/?url=';
+const ITEMS_SYNC_TAB = 0;
 const ITEMS_LOCAL_TAB = 1;
 
-var BG         = chrome.extension.getBackgroundPage();
+const BG = chrome.extension.getBackgroundPage();
 var removeMode = false;
 
 // DOMs
-var body      = $("body");
-var addBtn    = $("#add");
-var removeBtn = $("#remove");
-var optsBtn   = $("#options");
-var tabsArea  = $("div#tabs");
+const body = $('body');
+const addBtn = $('#add');
+const removeBtn = $('#remove');
+const optsBtn= $('#options');
+const tabsArea = $('div#tabs');
 
-var itemsElm    = $(".items");
-var itemLink    = $("li > a.ui-menu-item");
-var tabNav      = $(".ui-tabs-nav");
-var syncTabElm  = $("#items-sync");
-var localTabElm = $("#items-local");
-var localItem   = $("#local li");
-var syncItem    = $("#sync li");
+const itemsElm = $('.items');
+const itemLink = $('li > a.ui-menu-item');
+const tabNav = $('.ui-tabs-nav');
+const syncTabElm = $('#items-sync');
+const localTabElm = $('#items-local');
+const localItem = $('#local li');
+const syncItem = $('#sync li');
 
-var isArrayValid = function(n) {
+const isArrayValid = function(n) {
   return (n !== null && n !== undefined || n.length > 0);
 };
 
-var stockItems = {
+const stockItems = {
   append: function(item) {
     this.applyUI.appendItem(item.title, item.url, BG.currentTab);
     BG.storageUpdater.appendItem(item.title, item.url, BG.currentTab);
