@@ -1,7 +1,9 @@
 
 // background.js
 
-import notifications from 'notifications';
+import notifications from './notifications';
+
+window.notifications = notifications;
 
 var ui_menu_defaultPopupWidth = 250;
 var ui_menu_defaultPopupHeight = 200;
