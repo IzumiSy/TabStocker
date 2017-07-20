@@ -28,7 +28,7 @@ const localItem = $('#local li');
 const syncItem = $('#sync li');
 
 const isArrayValid = function(n) {
-  return (n !== null && n !== undefined || n.length > 0);
+  return (n !== null && n !== undefined && n.length > 0);
 };
 
 const stockItems = {
