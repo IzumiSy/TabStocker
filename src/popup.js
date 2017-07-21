@@ -160,7 +160,7 @@ $(function() {
     });
   });
   $optionButton.on('click', () => {
-    chrome.tabs.create({url: 'html/options.html', selected: true});
+    chrome.tabs.create({ url: 'dists/options.html', selected: true });
   });
 
   /* **********************
