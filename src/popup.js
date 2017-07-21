@@ -5,54 +5,19 @@ import yo from 'yo-yo';
 // popup.js
 //
 
-const ITEMS_SYNC_TAB = 0;
-const ITEMS_LOCAL_TAB = 1;
-
 const BG = chrome.extension.getBackgroundPage();
 
-const isArrayValid = function(n) {
-  return (n !== null && n !== undefined && n.length > 0);
-};
-
-/*
-const stockItems = {
-  append: function(item) {
-    this.applyUI.appendItem(item.title, item.url, BG.currentTab);
-    BG.storageUpdater.appendItem(item.title, item.url, BG.currentTab);
-  },
-
-  // TODO:
-  // BG.isDuplicated() cannot be used for sync tab
-  // This is just a workaround that should be re-written.
-  appendSync: function(tab) {
-    chrome.storage.sync.get("items", function(data) {
-      if (chrome.runtime.lastError) {
-        return;
-      }
-      var items = data.items;
-      var isDupe = false;
-      if (isArrayValid(items)) {
-        items.forEach(function(item, i) {
-          if (item["url"] === tab.url) {
-            BG.notifications.error();
-            isDupe = true;
-          }
-        });
-      }
-      if (!isDupe)
-          stockItems.append(tab);
-    });
-  },
-};
-*/
-
-
-
+const ITEMS_SYNC_TAB = 0;
+const ITEMS_LOCAL_TAB = 1;
 
 const FAVICON_API = 'http://favicon.hatena.ne.jp/?url=';
 const _updaters = {
   local: _listUpdater('local', []),
   sync: _listUpdater('sync', []),
+};
+
+const isArrayValid = function(n) {
+  return (n !== null && n !== undefined && n.length > 0);
 };
 
 /**
@@ -140,10 +105,10 @@ function loadSyncStorageItems() {
 function stockCurrentTab(tab) {
   switch (BG.currentTab) {
     case ITEMS_LOCAL_TAB:
-      stockItems.append(tab);
+      // stockItems.append(tab);
       break;
     case ITEMS_SYNC_TAB:
-      stockItems.appendSync(tab);
+      // stockItems.appendSync(tab);
       break;
     default:
       // TODO
