@@ -15,8 +15,14 @@ html, body {
 }
 
 ul.ui-tabs-nav {
-  li.ui-tabs-tab > a.ui-tabs-anchor {
+  li.ui-tabs-tab > a.ui-tabs-anchor,
+  li.ui-tabs-tab.ui-tabs-active > a.ui-tabs-anchor {
+    outline: none;
     cursor: pointer;
+
+    &.ui-tabs-active {
+      cursor: pointer;
+    }
   }
 }
 
@@ -60,6 +66,7 @@ ul.ui-tabs-nav {
 
 .header {
   button {
+    outline: none;
     height: 28px;
     width: 28px;
     background-size: contain;
