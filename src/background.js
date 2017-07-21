@@ -11,7 +11,7 @@ var ui_menu_maxPopupWidth = 500;
 var ui_menu_maxPopupHeight = 500;
 var ui_defaultFontSize = 0.7;
 
-window.currentTab = 'items-local';
+window.currentTab = null;
 window.ITEMS_ID = 'Items';
 
 window.OPTIONS = {

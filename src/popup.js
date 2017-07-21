@@ -1,14 +1,10 @@
 import $ from 'jquery';
 import yo from 'yo-yo';
 
-//
-// popup.js
-//
-
 const BG = chrome.extension.getBackgroundPage();
 
-const ITEMS_SYNC_TAB = 0;
-const ITEMS_LOCAL_TAB = 1;
+const ITEMS_LOCAL_TAB = 0;
+const ITEMS_SYNC_TAB = 1;
 
 const FAVICON_API = 'http://favicon.hatena.ne.jp/?url=';
 const _updaters = {
@@ -173,13 +169,18 @@ $(function() {
   const $tabsArea = $('div#tabs');
 
   $tabsArea.tabs({
+    active: BG.currentTab,
     activate(event, ui) {
-      BG.currentTab =
-        ui.newPanel.selector === '#local' ?
-          'items-local' : 'items-sync';
+      const newTabId = ui.newPanel.get(0).id;
+      switch (newTabId) {
+        case 'sync-tab':
+          BG.currentTab = ITEMS_SYNC_TAB;
+          break;
+        case 'local-tab':
+        default:
+          BG.currentTab = ITEMS_LOCAL_TAB;
+      }
     },
-    active: BG.currentTab == 'items-sync' ?
-      ITEMS_LOCAL_TAB : ITEMS_SYNC_TAB,
   });
 
   /* *************************
