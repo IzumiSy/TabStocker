@@ -25,19 +25,7 @@ const isArrayValid = function(n) {
 function _listUpdater(target, items) {
   const $items = items.map((item) => {
     const _openItem = (_e) => {
-      if (localStorage.getItem(BG.OPTIONS.NO_NEW_TAB) == 'true') {
-        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-          selectedTab = tabs[0];
-          chrome.tabs.update(selectedTab.id, { url: item.url });
-        });
-      } else {
-        chrome.tabs.create({ url: item.url, selected: false });
-      }
-
-      //
-      // *TODO*
-      // Close the opened tab here.
-      //
+      openStockedItem(item);
     };
 
     return yo`
@@ -99,6 +87,7 @@ function loadSyncStorageItems() {
  * @param {object} tab
  */
 function stockCurrentTab(tab) {
+  /*
   switch (BG.currentTab) {
     case ITEMS_LOCAL_TAB:
       // stockItems.append(tab);
@@ -110,16 +99,16 @@ function stockCurrentTab(tab) {
       // TODO
   }
 
-  /*
-      if (BG.currentTab === 'items-local') {
-        if (!BG.utils.isDuplicated(tab.url)) {
+  //  if (BG.currentTab === 'items-local') {
+  //    if (!BG.utils.isDuplicated(tab.url)) {
+  //
+  //    } else {
+  //      BG.notifications.error();
+  //    }
+  //  } else { // === "items-sync"
+  //
+  //   }
 
-        } else {
-          BG.notifications.error();
-        }
-      } else { // === "items-sync"
-
-      }
   */
 }
 
@@ -127,8 +116,20 @@ function stockCurrentTab(tab) {
  * @function openSelectedItem
  * @param {object} item
  */
-function openSelectedItem(item) {
-  // TODO
+function openStockedItem(item) {
+  if (localStorage.getItem(BG.OPTIONS.NO_NEW_TAB) == 'true') {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      selectedTab = tabs[0];
+      chrome.tabs.update(selectedTab.id, { url: item.url });
+    });
+  } else {
+    chrome.tabs.create({ url: item.url, selected: false });
+  }
+
+  //
+  // *TODO*
+  // Close the opened tab here.
+  //
 }
 
 $(function() {
