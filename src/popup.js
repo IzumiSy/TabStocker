@@ -39,7 +39,7 @@ function _listUpdater(target, items) {
       }
 
       //
-      // TODO
+      // *TODO*
       // Close the opened tab here.
       //
     };
