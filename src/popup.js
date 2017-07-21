@@ -5,7 +5,6 @@ import yo from 'yo-yo';
 // popup.js
 //
 
-
 const ITEMS_SYNC_TAB = 0;
 const ITEMS_LOCAL_TAB = 1;
 
@@ -44,93 +43,6 @@ const stockItems = {
           stockItems.append(tab);
     });
   },
-
-  eliminate: function(item) {
-    this.applyUI.eliminateItem(item["index"], BG.currentTab);
-    BG.storageUpdater.eliminateItem(item["title"], BG.currentTab);
-  },
-
-  launch: function(title) {
-    var items = [];
-
-    if (BG.currentTab === "items-local") {
-      items = JSON.parse(localStorage.getItem(BG.ITEMS_ID));
-      stockItems.execute(items, title);
-    } else { // === "items-sync"
-      chrome.storage.sync.get("items", function(data) {
-        if (chrome.runtime.lastError || !isArrayValid(data.items)) {
-          return;
-        }
-        items = data.items || items;
-        stockItems.execute(items, title);
-      });
-    }
-  },
-
-  execute: function(array, title) {
-    var queryCallback = function(tabs) {
-      selectedTab = tabs[0];
-      chrome.tabs.update(selectedTab.id, { url: array[i]["url"] });
-    };
-
-    for (var i in array) {
-      if (array[i]["title"] == title) {
-        if (localStorage.getItem(BG.OPTIONS.NO_NEW_TAB) == "true") {
-          chrome.tabs.query({ active: true, currentWindow: true }, queryCallback);
-        } else {
-          chrome.tabs.create({url: array[i]["url"], selected: false});
-        }
-        break;
-      }
-    }
-  },
-
-  reorder: function(array) {
-    var storageLength = array.length;
-    var targetList;
-    var temps = [];
-    var url;
-
-    if (BG.currentTab == "items-local") {
-      targetList = $("#local li");
-    } else { // == "items-sync"
-      targetList = $("#sync li");
-    }
-
-    for (i = 0;i < targetList.length ;i++) {
-      title = targetList[i].textContent;
-      url = undefined;
-      for (var j in array) {
-        if (array[j]["title"] == title) {
-          url = array[j]["url"];
-          temps.push({"title": title, "url": url});
-          break;
-        }
-      }
-    }
-
-    return temps;
-  },
-
-  orderedSave: function() {
-    var items;
-    var orderedItems;
-
-    if (BG.currentTab == "items-local") {
-      items = JSON.parse(localStorage.getItem(BG.ITEMS_ID));
-      orderedItems = JSON.stringify(stockItems.reorder(items));
-      localStorage.setItem(BG.ITEMS_ID, orderedItems);
-    } else { // == "items-sync"
-      chrome.storage.sync.get("items", function(data) {
-        if (chrome.runtime.lastError || !isArrayValid(data.items)) {
-          return;
-        }
-        chrome.storage.sync.set({ "items": stockItems.reorder(data.items) }, function() {
-          console.log("Reordered: items-sync");
-        });
-      });
-    }
-  },
 };
 */
 
@@ -151,11 +63,26 @@ const _updaters = {
  */
 function _listUpdater(target, items) {
   const $items = items.map((item) => {
-    const imageSource = FAVICON_API + item.url;
+    const _openItem = (_e) => {
+      if (localStorage.getItem(BG.OPTIONS.NO_NEW_TAB) == 'true') {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+          selectedTab = tabs[0];
+          chrome.tabs.update(selectedTab.id, { url: item.url });
+        });
+      } else {
+        chrome.tabs.create({ url: item.url, selected: false });
+      }
+
+      //
+      // TODO
+      // Close the opened tab here.
+      //
+    };
+
     return yo`
       <li>
-        <div>
-          <img src="${imageSource}" class="item-favicon" />
+        <div onclick=${_openItem}>
+          <img src="${FAVICON_API + item.url}" class="item-favicon" />
           <div class="item-title">${item.title}</div>
         </div>
       </li>
@@ -211,15 +138,26 @@ function loadSyncStorageItems() {
  * @param {object} tab
  */
 function stockCurrentTab(tab) {
+  switch (BG.currentTab) {
+    case ITEMS_LOCAL_TAB:
+      stockItems.append(tab);
+      break;
+    case ITEMS_SYNC_TAB:
+      stockItems.appendSync(tab);
+      break;
+    default:
+      // TODO
+  }
+
   /*
       if (BG.currentTab === 'items-local') {
         if (!BG.utils.isDuplicated(tab.url)) {
-          stockItems.append(tab);
+
         } else {
           BG.notifications.error();
         }
       } else { // === "items-sync"
-        stockItems.appendSync(tab);
+
       }
   */
 }
@@ -304,12 +242,14 @@ $(function() {
   $itemsElement.menu({
     select: itemSelectHandler,
   });
+  /*
   if (localStorage.getItem(BG.OPTIONS.AUTO_SORT) == 'false') {
     $itemsElement.sortable({
       placeholder: 'ui-state-highlight',
       update: stockItems.orderedSave,
     }).disableSelection();
   }
+  */
 });
 
 // This is required to use jquery-ui
