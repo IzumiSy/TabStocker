@@ -141,14 +141,11 @@ const settingHandlers = {
     };
 
     elements.autoSort.onclick = function() {
-      var details = document.getElementsByClassName("sort_details");
-
-      for (var i in details) {
-        if (elements.autoSort.checked !== true) {
-          details[i].disabled = true;
-        }
-        else details[i].disabled = false;
-      }
+      document
+        .querySelectorAll('.sort_details')
+        .forEach((e) => {
+          e.disabled = !elements.autoSort.checked;
+        });
     };
   },
 
