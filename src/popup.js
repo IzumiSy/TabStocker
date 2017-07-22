@@ -54,7 +54,9 @@ function loadLocalStorageItems() {
   const items = LocalRepository.getAll();
   const viewList = _listUpdater('local', items);
   yo.update(_updaters.local, viewList);
-  chrome.browserAction.setBadgeText({ text: items.length });
+  chrome.browserAction.setBadgeText({
+     text: String(items.length),
+  });
 };
 
 /**
@@ -184,9 +186,11 @@ $(function() {
     openSelectedItem(ui.item);
   };
 
-  $itemsElement.height(Prefs.get(Constants.optionKeys.POPUP_HEIGHT));
-  $itemsElement.menu({
-    select: itemSelectHandler,
+  setTimeout(() => {
+    $itemsElement.height(Prefs.get(Constants.optionKeys.POPUP_HEIGHT));
+    $itemsElement.menu({
+      select: itemSelectHandler,
+    });
   });
   /*
   if (!Prefs.get(Constants.optionKeys.AUTO_SORT)) {
