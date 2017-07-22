@@ -79,126 +79,127 @@ const storage = {
     hideFavicon: (v) => set(BG.OPTIONS.HIDE_FAVICONS, v),
     autoSort: (v) => set(BG.OPTIONS.AUTO_SORT, v),
     direction: (v) => set(BG.OPTIONS.DIRECTION, v),
-    sortBy: (v) => data.s(BG.OPTIONS.SORTBY, v),
+    sortBy: (v) => set(BG.OPTIONS.SORTBY, v),
   },
 };
 
-//
-// Handler functions
-//
+/**
+ * @function i18nApply
+ * @description Apply internationaliztion to elements
+ */
+function i18nApply() {
+  elements.captions.popupWidth.textContent = i18n('extPopupWidth');
+  elements.captions.popupHeight.textContent = i18n('extPopupHeight');
+  elements.captions.fontSize.textContent = i18n('extFontSize');
+  elements.captions.hideFavicon.textContent = i18n('extHideFavicon');
+  elements.captions.noNewTab.textContent = i18n('extNoNewTab');
+  elements.captions.closeOnAdd.textContent = i18n('extCloseOnAdd');
+  elements.captions.removeOpenItem.textContent = i18n('extRemoveOpenItem');
+  elements.captions.autoSort.textContent = i18n('extAutoSort');
+  elements.captions.ascending.textContent = i18n('extAscending');
+  elements.captions.descending.textContent = i18n('extDescending');
+  elements.captions.byTitle.textContent = i18n('extByTitle');
+  elements.captions.byUrl.textContent = i18n('extByURL');
+  elements.saveButton.textContent = i18n('extSaveButton');
+  elements.cancelButton.textContent = i18n('extCancelButton');
+};
 
-const settingHandlers = {
-  setupOnClick: function() {
-    console.log("Execute: setupOnClick()");
+/**
+ * @function loadSettings
+ * @description The function to load settings from localStorage
+ */
+function loadSettings() {
+  elements.popupWidth.value =
+    undefDefault(storage.popupWidth, BG.ui_menu_defaultPopupWidth);
+  elements.popupHeight.value =
+    undefDefault(storage.popupHeight, BG.ui_menu_defaultPopupHeight);
+  elements.fontSize.value =
+    undefDefault(storage.fontSize, BG.ui_defaultFontSize);
 
-    elements.saveButton.onclick = function() {
-      var popup_width, popup_height;
-      var font_size, direction, sortby;
+  elements.noNewTab.checked = convBoolean(storage.noNewTab);
+  elements.closeOnAdd.checked = convBoolean(storage.closeOnAdd);
+  elements.removeOpenItem.checked = convBoolean(storage.removeOpenItem);
+  elements.hideFavicon.checked = convBoolean(storage.hideFavicon);
+  elements.autoSort.checked = convBoolean(storage.autoSort);
 
-      font_size = elements.fontSize.value <= 0 ? BG.ui_defaultFontSize : elements.fontSize.value;
-
-      if (elements.direction[0].checked) {
-        direction = DIRECTION_ASC;
-      } else if (elements.direction[1].checked) {
-        direction = DIRECTION_DESC;
-      }
-
-      if (elements.sortBy[0].checked) {
-        sortby = SORT_BY_TITLE;
-      } else if (elements.sortBy[1].checked) {
-        sortby = SORT_BY_URL;
-      }
-
-      popup_width = elements.popupWidth.value;
-      if (popup_width < BG.ui_menu_defaultPopupWidth ||
-          popup_width > BG.ui_menu_maxPopupWidth) {
-        alert("The value of Popup width should be set in the range from 250px to 500px");
-        return;
-      }
-      popup_height = elements.popupHeight.value;
-      if (popup_height < BG.ui_menu_defaultPopupHeight ||
-          popup_height > BG.ui_menu_maxPopupHeight) {
-        alert("The value of Popup height should set in the range from 200px to 530px");
-        return;
-      }
-
-      storage.setter.width(popup_width);
-      storage.setter.height(popup_height);
-      storage.setter.fontSize(font_size);
-      storage.setter.noNewTab(elements.noNewTab.checked);
-      storage.setter.closeOnAdd(elements.closeOnAdd.checked);
-      storage.setter.removeOpenItem(elements.removeOpenItem.checked);
-      storage.setter.hideFavicon(elements.hideFavicon.checked);
-      storage.setter.autoSort(elements.autoSort.checked);
-      storage.setter.direction(direction);
-      storage.setter.sortBy(sortby);
-
-      window.close();
-    };
-
-    elements.cancelButton.onclick = function() {
-      window.close();
-    };
-
-    elements.autoSort.onclick = function() {
-      document
-        .querySelectorAll('.sort_details')
-        .forEach((e) => {
-          e.disabled = !elements.autoSort.checked;
-        });
-    };
-  },
-
-  i18nApply: function() {
-    console.log("Execute: i18nApply()");
-
-    elements.captions.popupWidth.textContent     = i18n("extPopupWidth");
-    elements.captions.popupHeight.textContent    = i18n("extPopupHeight");
-    elements.captions.fontSize.textContent       = i18n("extFontSize");
-    elements.captions.hideFavicon.textContent    = i18n("extHideFavicon");
-    elements.captions.noNewTab.textContent       = i18n("extNoNewTab");
-    elements.captions.closeOnAdd.textContent     = i18n("extCloseOnAdd");
-    elements.captions.removeOpenItem.textContent = i18n("extRemoveOpenItem");
-    elements.captions.autoSort.textContent       = i18n("extAutoSort");
-    elements.captions.ascending.textContent      = i18n("extAscending");
-    elements.captions.descending.textContent     = i18n("extDescending");
-    elements.captions.byTitle.textContent        = i18n("extByTitle");
-    elements.captions.byUrl.textContent          = i18n("extByURL");
-
-    elements.saveButton.textContent =   i18n("extSaveButton");
-    elements.cancelButton.textContent = i18n("extCancelButton");
-  },
-
-  loadSettings: function() {
-    console.log("Execute: loadSettings()");
-
-    elements.popupWidth.value =  undefDefault(storage.popupWidth, BG.ui_menu_defaultPopupWidth);
-    elements.popupHeight.value = undefDefault(storage.popupHeight, BG.ui_menu_defaultPopupHeight);
-    elements.fontSize.value =    undefDefault(storage.fontSize, BG.ui_defaultFontSize);
-
-    elements.noNewTab.checked =       convBoolean(storage.noNewTab);
-    elements.closeOnAdd.checked =     convBoolean(storage.closeOnAdd);
-    elements.removeOpenItem.checked = convBoolean(storage.removeOpenItem);
-    elements.hideFavicon.checked =    convBoolean(storage.hideFavicon);
-    elements.autoSort.checked =       convBoolean(storage.autoSort);
-
-    switch (storage.direction) {
-      case DIRECTION_ASC:  elements.direction[0].checked = true; break;
-      case DIRECTION_DESC: elements.direction[1].checked = true; break;
-      case undefined: break;
-    }
-    switch (storage.sortBy) {
-      case SORT_BY_TITLE: elements.sortBy[0].checked = true; break;
-      case SORT_BY_URL:   elements.sortBy[1].checked = true; break;
-      case undefined: break;
-    }
-
-    console.log(storage);
+  switch (storage.direction) {
+    case DIRECTION_ASC: elements.direction[0].checked = true; break;
+    case DIRECTION_DESC: elements.direction[1].checked = true; break;
+    case undefined: break;
+  }
+  switch (storage.sortBy) {
+    case SORT_BY_TITLE: elements.sortBy[0].checked = true; break;
+    case SORT_BY_URL: elements.sortBy[1].checked = true; break;
+    case undefined: break;
   }
 };
 
-document.body.onload = function() {
-  settingHandlers.setupOnClick();
-  settingHandlers.i18nApply();
-  settingHandlers.loadSettings();
+/**
+ * @function setupOnClickHandlers
+ * @description registers click handlers.
+ */
+function setupOnClickHandlers() {
+  elements.saveButton.onclick = function() {
+    const fontSize =
+      elements.fontSize.value <= 0 ?
+      BG.ui_defaultFontSize : elements.fontSize.value;
+
+    let direction;
+    if (elements.direction[0].checked) {
+      direction = DIRECTION_ASC;
+    } else if (elements.direction[1].checked) {
+      direction = DIRECTION_DESC;
+    }
+
+    let sortby;
+    if (elements.sortBy[0].checked) {
+      sortby = SORT_BY_TITLE;
+    } else if (elements.sortBy[1].checked) {
+      sortby = SORT_BY_URL;
+    }
+
+    const popupWidth = elements.popupWidth.value;
+    if (popupWidth < BG.ui_menu_defaultPopupWidth ||
+        popupWidth > BG.ui_menu_maxPopupWidth) {
+      alert('The value of Popup width should be set in the range from 250px to 500px');
+      return;
+    }
+    const popupHeight = elements.popupHeight.value;
+    if (popupHeight < BG.ui_menu_defaultPopupHeight ||
+        popupHeight > BG.ui_menu_maxPopupHeight) {
+      alert('The value of Popup height should set in the range from 200px to 530px');
+      return;
+    }
+
+    storage.setter.width(popupWidth);
+    storage.setter.height(popupHeight);
+    storage.setter.fontSize(fontSize);
+    storage.setter.noNewTab(elements.noNewTab.checked);
+    storage.setter.closeOnAdd(elements.closeOnAdd.checked);
+    storage.setter.removeOpenItem(elements.removeOpenItem.checked);
+    storage.setter.hideFavicon(elements.hideFavicon.checked);
+    storage.setter.autoSort(elements.autoSort.checked);
+    storage.setter.direction(direction);
+    storage.setter.sortBy(sortby);
+
+    window.close();
+  };
+
+  elements.cancelButton.onclick = function() {
+    window.close();
+  };
+
+  elements.autoSort.onclick = function() {
+    document
+      .querySelectorAll('.sort_details')
+      .forEach((e) => {
+        e.disabled = !elements.autoSort.checked;
+      });
+  };
 };
+
+$(function() {
+  setupOnClickHandlers();
+  i18nApply();
+  loadSettings();
+});
