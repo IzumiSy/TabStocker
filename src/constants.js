@@ -15,7 +15,17 @@ export default {
     CLOSE_ON_ADD: 'CloseOnAdd',
     REMOVE_OPEN_ITEM: 'RemoveOpenItem',
     AUTO_SORT: 'AutomaticSort',
+
     DIRECTION: 'SortDirection',
+    DIRECTION_WAY: {
+      ASC: '_asc',
+      DESC: '_desc',
+    },
+
     SORTBY: 'SortBy',
+    SORTBY_WAY: {
+      TITLE: '_bytitle',
+      URL: '_byurl',
+    },
   },
 };

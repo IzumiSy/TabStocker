@@ -2,11 +2,6 @@ import $ from 'jquery';
 import Constants from './constants';
 import Prefs from './preference';
 
-const DIRECTION_ASC = '_asc';
-const DIRECTION_DESC = '_desc';
-const SORT_BY_TITLE = '_bytitle';
-const SORT_BY_URL = '_byurl';
-
 //
 // Element selectors
 //
@@ -75,14 +70,25 @@ function loadSettings() {
     Prefs.get(Constants.optionKeys.AUTO_SORT);
 
   switch (Prefs.get(Constants.optionKeys.DIRECTION)) {
-    case DIRECTION_ASC: $direction[0].checked = true; break;
-    case DIRECTION_DESC: $direction[1].checked = true; break;
-    case undefined: break;
+    case Constants.optionKeys.DIRECTION_WAY.ASC:
+      $direction[0].checked = true;
+      break;
+    case Constants.optionKeys.DIRECTION_WAY.DESC:
+      $direction[1].checked = true;
+      break;
+    case undefined:
+      // noop
   }
+
   switch (Prefs.get(Constants.optionKeys.SORTBY)) {
-    case SORT_BY_TITLE: $sortBy[0].checked = true; break;
-    case SORT_BY_URL: $sortBy[1].checked = true; break;
-    case undefined: break;
+    case Constants.optionKeys.SORTBY_WAY.TITLE:
+      $sortBy[0].checked = true;
+      break;
+    case Constants.optionKeys.SORTBY_WAY.URL:
+      $sortBy[1].checked = true;
+      break;
+    case undefined:
+      // noop
   }
 };
 
@@ -98,16 +104,16 @@ function setupOnClickHandlers() {
 
     let direction;
     if ($direction[0].checked) {
-      direction = DIRECTION_ASC;
+      direction = Constants.optionKeys.DIRECTION_WAY.ASC;
     } else if ($direction[1].checked) {
-      direction = DIRECTION_DESC;
+      direction = Constants.optionKeys.DIRECTION_WAY.DESC;
     }
 
     let sortby;
     if ($sortBy[0].checked) {
-      sortby = SORT_BY_TITLE;
+      sortby = Constants.optionKeys.SORTBY_WAY.TITLE;
     } else if ($sortBy[1].checked) {
-      sortby = SORT_BY_URL;
+      sortby = Constants.optionKeys.SORTBY_WAY.URL;
     }
 
     const popupWidth = $popupWidth.value;
