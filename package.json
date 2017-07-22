@@ -21,6 +21,7 @@
   "dependencies": {
     "immutable": "^3.8.1",
     "jquery": "^3.2.1",
+    "lockr": "^0.8.4",
     "yo-yo": "^1.4.1"
   }
 }
