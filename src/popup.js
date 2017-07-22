@@ -72,30 +72,19 @@ async function loadSyncStorageItems() {
  * @function stockCurrentTab
  * @param {object} tab
  */
-function stockCurrentTab(tab) {
-  /*
+async function stockCurrentTab(tab) {
   switch (BG.currentTab) {
     case ITEMS_LOCAL_TAB:
-      // stockItems.append(tab);
+      LocalRepository.append(tab);
+      loadLocalStorageItems();
       break;
     case ITEMS_SYNC_TAB:
-      // stockItems.appendSync(tab);
+      await SyncRepository.append(tab);
+      loadSyncStorageItems();
       break;
     default:
       // TODO
   }
-
-  //  if (BG.currentTab === 'items-local') {
-  //    if (!BG.utils.isDuplicated(tab.url)) {
-  //
-  //    } else {
-  //      BG.notifications.error();
-  //    }
-  //  } else { // === "items-sync"
-  //
-  //   }
-
-  */
 }
 
 /**
