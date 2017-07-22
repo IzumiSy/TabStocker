@@ -1,4 +1,12 @@
 export default {
+  dataKey: {
+    // [NOTE] this is a data key for localStorage/chrome.storage.sync
+    // This value must never be changed to keep compatibility of
+    // the previous release of TabStocker.
+    localItem: 'Items',
+    syncItem: 'items',
+  },
+
   default: {
     popupWidth: 250,
     popupHeight: 200,
@@ -6,6 +14,7 @@ export default {
     maxPopupHeight: 500,
     fontSize: 0.7,
   },
+
   optionKeys: {
     POPUP_WIDTH: 'PopupWidth',
     POPUP_HEIGHT: 'PopupHeight',
