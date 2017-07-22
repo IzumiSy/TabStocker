@@ -2,6 +2,8 @@ import $ from 'jquery';
 import yo from 'yo-yo';
 import Constants from './constants';
 import Prefs from './preference';
+import StorageRepository from './storage';
+import SyncRepository from './sync';
 
 const BG = chrome.extension.getBackgroundPage();
 
@@ -14,10 +16,6 @@ const _updaters = {
   sync: _listUpdater('sync', []),
 };
 
-const isArrayValid = function(n) {
-  return (n !== null && n !== undefined && n.length > 0);
-};
-
 /**
  * @function _listUpdater
  * @param {string} target
@@ -25,11 +23,13 @@ const isArrayValid = function(n) {
  * @return {object} yo-yoified DOM object
  */
 function _listUpdater(target, items) {
-  const $items = items.map((item) => {
+  const $items = (
+    Prefs.get(Constants.optionKeys.AUTO_SORT) ?
+    BG.utils.sorting(items) : items
+  ).map((item) => {
     const _openItem = (_e) => {
       openStockedItem(item);
     };
-
     return yo`
       <li>
         <div onclick=${_openItem}>
@@ -51,41 +51,19 @@ function _listUpdater(target, items) {
  * @function loadLocalStorageItems
  */
 function loadLocalStorageItems() {
-  /*
-  const isSortOn = (localStorage.getItem(.AUTO_SORT) == 'true');
-  const data = localStorage.getItem(BG.ITEMS_ID);
-
-  if (!isArrayValid(data)) {
-    return;
-  }
-
-  let items = JSON.parse(data);
-  items = isSortOn ? BG.utils.sorting(items) : items;
-
+  const items = StorageRepository.getAll();
   const viewList = _listUpdater('local', items);
   yo.update(_updaters.local, viewList);
-
   chrome.browserAction.setBadgeText({text: String(items.length)});
-  */
 };
 
 /**
  * @function loadSyncStorageItems
  */
-function loadSyncStorageItems() {
-  /*
-  const isSortOn = Prefs.get(Constants.optionKeys.AUTO_SORT);
-  chrome.storage.sync.get('items', function(data) {
-    if (chrome.runtime.lastError || !isArrayValid(data)) {
-      return;
-    }
-
-    let items = isSortOn ? BG.utils.sorting(data.items) : data.items;
-
-    const viewList = _listUpdater('sync', items);
-    yo.update(_updaters.sync, viewList);
-  });
-  */
+async function loadSyncStorageItems() {
+  const items = await SyncRepository.getAll();
+  const viewList = _listUpdater('sync', items);
+  yo.update(_updaters.sync, viewList);
 };
 
 /**

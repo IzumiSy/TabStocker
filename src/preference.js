@@ -16,7 +16,7 @@ export default new class Prefs {
    * @param {*} value
    */
   set(key, value) {
-    switchPrefix();
+    this.switchPrefix();
     Lockr.set(key, value);
   }
 
@@ -26,7 +26,7 @@ export default new class Prefs {
    * @return {*} The content associated with the given key
    */
   get(key) {
-    switchPrefix();
+    this.switchPrefix();
 
     let _default = undefined;
 

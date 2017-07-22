@@ -4,7 +4,6 @@
 import Notifier from './notifier';
 import Constants from './constants';
 import Prefs from './preference';
-import StorageRepository from './storage';
 
 window.Notifier = Notifier;
 

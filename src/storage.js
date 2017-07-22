@@ -1,55 +1,36 @@
 import Lockr from 'lockr';
-import { List } from 'immutable';
+import Constants from './constants';
 
-/** A wrapper class to manipulate LocalStorage */
+/**
+ * A wrapper class to manipulate LocalStorage
+ */
 export default new class StorageRepository {
   /**
-   * Creates an instance of StorageRepository
+   * Creates an instance
    */
-  constructor() {
-    this.ItemData = List();
-  }
+  constructor() {}
 
   /**
    * Append one item to the storage
    */
   append() {
-    switchPrefix();
-
-    // TODO
-  }
-
-  /**
-   * Delete one item from the storage
-   */
-  delete() {
-    switchPrefix();
-
-    // TODO
-  }
-
-  /**
-   * Gets the size of stored items in the storage
-   */
-  count() {
-    switchPrefix();
-
+    this.resetPrefix();
     // TODO
   }
 
   /**
    * Gets all item from the storage
+   * @return {array}
    */
   getAll() {
-    switchPrefix();
-
-    // TODO
+    this.resetPrefix();
+    return Lockr.get(Constants.dataKey.localItem, []);
   }
 
   /**
-   * Switches the key prefix
+   * Reset the key prefix
    */
-  switchPrefix() {
-    Lockr.prefix = '_tabStocker_data_';
+  resetPrefix() {
+    Lockr.prefix = null;
   }
 };
