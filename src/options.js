@@ -14,35 +14,18 @@ const SORT_BY_URL = '_byurl';
 const byId = (id) => document.getElementById(id);
 const byName = (name) => document.getElementsByName(name);
 
-const elements = {
-  saveButton: byId('save-button'),
-  cancelButton: byId('cancel-button'),
-  popupWidth: byId('popup_width'),
-  popupHeight: byId('popup_height'),
-  fontSize: byId('font_size'),
-  hideFavicon: byId('hide_favicon'),
-  noNewTab: byId('no_new_tab'),
-  closeOnAdd: byId('close_on_add'),
-  removeOpenItem: byId('remove_open_item'),
-  autoSort: byId('auto_sort'),
-  direction: byName('sort_direction'),
-  sortBy: byName('sort_type'),
-
-  captions: {
-    popupWidth: byId('caption-popup-width'),
-    popupHeight: byId('caption-popup-height'),
-    fontSize: byId('caption-font-size'),
-    noNewTab: byId('caption-no-new-tab'),
-    closeOnAdd: byId('caption-close-on-add'),
-    removeOpenItem: byId('caption-remove-open-item'),
-    hideFavicon: byId('caption-hide-favicon'),
-    autoSort: byId('caption-auto-sort'),
-    ascending: byId('caption-ascending'),
-    descending: byId('caption-descending'),
-    byTitle: byId('caption-by-title'),
-    byUrl: byId('caption-by-url'),
-  },
-};
+const $saveButton = byId('save-button');
+const $cancelButton = byId('cancel-button');
+const $popupWidth = byId('popup_width');
+const $popupHeight = byId('popup_height');
+const $fontSize = byId('font_size');
+const $hideFavicon = byId('hide_favicon');
+const $noNewTab = byId('no_new_tab');
+const $closeOnAdd = byId('close_on_add');
+const $removeOpenItem = byId('remove_open_item');
+const $autoSort = byId('auto_sort');
+const $direction = byName('sort_direction');
+const $sortBy = byName('sort_type');
 
 /**
  * @function i18nApply
@@ -52,20 +35,20 @@ function i18nApply() {
   const i18n =
     (id) => chrome.i18n.getMessage(id);
 
-  elements.captions.popupWidth.textContent = i18n('extPopupWidth');
-  elements.captions.popupHeight.textContent = i18n('extPopupHeight');
-  elements.captions.fontSize.textContent = i18n('extFontSize');
-  elements.captions.hideFavicon.textContent = i18n('extHideFavicon');
-  elements.captions.noNewTab.textContent = i18n('extNoNewTab');
-  elements.captions.closeOnAdd.textContent = i18n('extCloseOnAdd');
-  elements.captions.removeOpenItem.textContent = i18n('extRemoveOpenItem');
-  elements.captions.autoSort.textContent = i18n('extAutoSort');
-  elements.captions.ascending.textContent = i18n('extAscending');
-  elements.captions.descending.textContent = i18n('extDescending');
-  elements.captions.byTitle.textContent = i18n('extByTitle');
-  elements.captions.byUrl.textContent = i18n('extByURL');
-  elements.saveButton.textContent = i18n('extSaveButton');
-  elements.cancelButton.textContent = i18n('extCancelButton');
+  $('#caption-popup-width').text(i18n('extPopupWidth'));
+  $('#caption-popup-height').text(i18n('extPopupHeight'));
+  $('#caption-font-size').text(i18n('extFontSize'));
+  $('#caption-hide-favicon').text(i18n('extHideFavicon'));
+  $('#caption-no-new-tab').text(i18n('extNoNewTab'));
+  $('#caption-close-on-add').text(i18n('extCloseOnAdd'));
+  $('#caption-remove-open-item').text(i18n('extRemoveOpenItem'));
+  $('#caption-auto-sort').text(i18n('extAutoSort'));
+  $('#caption-ascending').text(i18n('extAscending'));
+  $('#caption-descending').text(i18n('extDescending'));
+  $('#caption-by-title').text(i18n('extByTitle'));
+  $('#caption-by-url').text(i18n('extByURL'));
+  $('#save-button').text(i18n('extSaveButton'));
+  $('#cancel-button').text(i18n('extCancelButton'));
 };
 
 /**
@@ -73,32 +56,32 @@ function i18nApply() {
  * @description The function to load settings from localStorage
  */
 function loadSettings() {
-  elements.popupWidth.value =
+  $popupWidth.value =
     Prefs.get(Constants.optionKeys.POPUP_WIDTH);
-  elements.popupHeight.value =
+  $popupHeight.value =
     Prefs.get(Constants.optionKeys.POPUP_HEIGHT);
-  elements.fontSize.value =
+  $fontSize.value =
     Prefs.get(Constants.optionKeys.FONT_SIZE);
 
-  elements.noNewTab.checked =
+  $noNewTab.checked =
     Prefs.get(Constants.optionKeys.NO_NEW_TAB);
-  elements.closeOnAdd.checked =
+  $closeOnAdd.checked =
     Prefs.get(Constants.optionKeys.CLOSE_ON_ADD);
-  elements.removeOpenItem.checked =
+  $removeOpenItem.checked =
     Prefs.get(Constants.optionKeys.REMOVE_OPEN_ITEM);
-  elements.hideFavicon.checked =
+  $hideFavicon.checked =
     Prefs.get(Constants.optionKeys.HIDE_FAVICONS);
-  elements.autoSort.checked =
+  $autoSort.checked =
     Prefs.get(Constants.optionKeys.AUTO_SORT);
 
   switch (Prefs.get(Constants.optionKeys.DIRECTION)) {
-    case DIRECTION_ASC: elements.direction[0].checked = true; break;
-    case DIRECTION_DESC: elements.direction[1].checked = true; break;
+    case DIRECTION_ASC: $direction[0].checked = true; break;
+    case DIRECTION_DESC: $direction[1].checked = true; break;
     case undefined: break;
   }
   switch (Prefs.get(Constants.optionKeys.SORTBY)) {
-    case SORT_BY_TITLE: elements.sortBy[0].checked = true; break;
-    case SORT_BY_URL: elements.sortBy[1].checked = true; break;
+    case SORT_BY_TITLE: $sortBy[0].checked = true; break;
+    case SORT_BY_URL: $sortBy[1].checked = true; break;
     case undefined: break;
   }
 };
@@ -108,32 +91,32 @@ function loadSettings() {
  * @description registers click handlers.
  */
 function setupOnClickHandlers() {
-  elements.saveButton.onclick = function() {
+  $saveButton.onclick = function() {
     const fontSize =
-      elements.fontSize.value <= 0 ?
-      Constants.default.fontSize : elements.fontSize.value;
+      $fontSize.value <= 0 ?
+      Constants.default.fontSize : $fontSize.value;
 
     let direction;
-    if (elements.direction[0].checked) {
+    if ($direction[0].checked) {
       direction = DIRECTION_ASC;
-    } else if (elements.direction[1].checked) {
+    } else if ($direction[1].checked) {
       direction = DIRECTION_DESC;
     }
 
     let sortby;
-    if (elements.sortBy[0].checked) {
+    if ($sortBy[0].checked) {
       sortby = SORT_BY_TITLE;
-    } else if (elements.sortBy[1].checked) {
+    } else if ($sortBy[1].checked) {
       sortby = SORT_BY_URL;
     }
 
-    const popupWidth = elements.popupWidth.value;
+    const popupWidth = $popupWidth.value;
     if (popupWidth < Constants.default.popupWidth ||
         popupWidth > Constants.default.maxPopupWidth) {
       alert('The value of Popup width should be set in the range from 250px to 500px');
       return;
     }
-    const popupHeight = elements.popupHeight.value;
+    const popupHeight = $popupHeight.value;
     if (popupHeight < Constants.default.popupHeight ||
         popupHeight > Constants.default.maxPopupHeight) {
       alert('The value of Popup height should set in the range from 200px to 530px');
@@ -143,26 +126,26 @@ function setupOnClickHandlers() {
     Prefs.set(Constants.optionKeys.POPUP_WIDTH, popupWidth);
     Prefs.set(Constants.optionKeys.POPUP_HEIGHT, popupHeight);
     Prefs.set(Constants.optionKeys.FONT_SIZE, fontSize);
-    Prefs.set(Constants.optionKeys.NO_NEW_TAB, elements.noNewTab.checked);
-    Prefs.set(Constants.optionKeys.CLOSE_ON_ADD, elements.closeOnAdd.checked);
-    Prefs.set(Constants.optionKeys.REMOVE_OPEN_ITEM, elements.removeOpenItem.checked);
-    Prefs.set(Constants.optionKeys.HIDE_FAVICONS, elements.hideFavicon.checked);
-    Prefs.set(Constants.optionKeys.AUTO_SORT, elements.autoSort.checked);
+    Prefs.set(Constants.optionKeys.NO_NEW_TAB, $noNewTab.checked);
+    Prefs.set(Constants.optionKeys.CLOSE_ON_ADD, $closeOnAdd.checked);
+    Prefs.set(Constants.optionKeys.REMOVE_OPEN_ITEM, $removeOpenItem.checked);
+    Prefs.set(Constants.optionKeys.HIDE_FAVICONS, $hideFavicon.checked);
+    Prefs.set(Constants.optionKeys.AUTO_SORT, $autoSort.checked);
     Prefs.set(Constants.optionKeys.DIRECTION, direction);
     Prefs.set(Constants.optionKeys.SORTBY, sortby);
 
     window.close();
   };
 
-  elements.cancelButton.onclick = function() {
+  $cancelButton.onclick = function() {
     window.close();
   };
 
-  elements.autoSort.onclick = function() {
+  $autoSort.onclick = function() {
     document
       .querySelectorAll('.sort_details')
       .forEach((e) => {
-        e.disabled = !elements.autoSort.checked;
+        e.disabled = !$autoSort.checked;
       });
   };
 };
