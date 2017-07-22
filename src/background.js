@@ -3,6 +3,7 @@
 
 import Notifier from './notifier';
 import Constants from './constants';
+import Prefs from './preference';
 import StorageRepository from './storage';
 
 window.Notifier = Notifier;
@@ -19,7 +20,7 @@ const eventHandlers = {
 
           /*
           storageUpdater.appendItem(tab.title, tab.url, "items-local");
-          if (localStorage.getItem(Constants.optionKeys.CLOSE_ON_ADD) == "true") {
+          if (Prefs.get(Constants.optionKeys.CLOSE_ON_ADD)) {
             chrome.tabs.remove(tab.id);
           }
           */
@@ -95,19 +96,18 @@ window.utils = {
   },
 
   sorting: function(array) {
-    var Items = array;
-    var elements = null, r = null;
-    var sortby = localStorage.getItem(Constants.optionKeys.SORTBY);
-    var direction = localStorage.getItem(Constants.optionKeys.DIRECTION);
+    let Items = array;
+    let elements = null;
+    let r = null;
 
-    switch (sortby) {
-      case "by_title": elements = "title"; break;
-      case "by_url": elements = "url"; break;
+    switch (Prefs.get(Constants.optionKeys.SORTBY)) {
+      case 'by_title': elements = 'title'; break;
+      case 'by_url': elements = 'url'; break;
     }
     Items.sort(function(a, b) {
-      switch (direction) {
-        case "asc": r = 1; break;
-        case "desc": r = -1; break;
+      switch (Prefs.get(Constants.optionKeys.DIRECTION)) {
+        case 'asc': r = 1; break;
+        case 'desc': r = -1; break;
       }
       if (a[elements] > b[elements]) return r;
       if (a[elements] < b[elements]) return -r;
@@ -118,19 +118,17 @@ window.utils = {
   },
 
   undefinedResolver: function() {
-    if (!localStorage.getItem(Constants.optionKeys.POPUP_WIDTH)) {
-      localStorage.setItem(Constants.optionKeys.POPUP_WIDTH, Constants.default.popupWidth);
-    }
-    if (!localStorage.getItem(Constants.optionKeys.POPUP_HEIGHT)) {
-      localStorage.setItem(Constants.optionKeys.POPUP_HEIGHT, Constants.default.popupHeight);
-    }
-    if (!localStorage.getItem(Constants.optionKeys.FONT_SIZE)) {
-      localStorage.setItem(Constants.optionKeys.FONT_SIZE, Constants.default.fontSize);
-    }
+    Prefs.set(Constants.optionKeys.POPUP_WIDTH,
+      Prefs.get(Constants.optionKeys.POPUP_WIDTH));
+    Prefs.set(Constants.optionKeys.POPUP_HEIGHT,
+      Prefs.get(Constants.optionKeys.POPUP_HEIGHT));
+    Prefs.set(Constants.optionKeys.FONT_SIZE,
+      Prefs.get(Constants.optionKeys.FONT_SIZE));
+
     if (!localStorage.getItem(ITEMS_ID)) {
       localStorage.setItem(ITEMS_ID, []);
     }
-  }
+  },
 };
 
 /*

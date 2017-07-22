@@ -1,24 +1,11 @@
 import $ from 'jquery';
 import Constants from './constants';
-
-const BG = chrome.extension.getBackgroundPage();
+import Prefs from './preference';
 
 const DIRECTION_ASC = '_asc';
 const DIRECTION_DESC = '_desc';
 const SORT_BY_TITLE = '_bytitle';
 const SORT_BY_URL = '_byurl';
-
-//
-// Miscellaneous utility functions
-//
-
-const i18n =
-  (id) => chrome.i18n.getMessage(id);
-const convBoolean =
-  (data) => (data == 'true' ? true : false);
-const undefDefault =
-  (undefValue, otherwise) =>
-    (undefValue !== undefined ? undefValue : otherwise);
 
 //
 // Element selectors
@@ -57,40 +44,14 @@ const elements = {
   },
 };
 
-const get = (id) => localStorage.getItem(id);
-const set = (id, data) => localStorage.setItem(id, data);
-
-const storage = {
-  popupWidth: get(Constants.optionKeys.POPUP_WIDTH),
-  popupHeight: get(Constants.optionKeys.POPUP_HEIGHT),
-  fontSize: get(Constants.optionKeys.FONT_SIZE),
-  noNewTab: get(Constants.optionKeys.NO_NEW_TAB),
-  closeOnAdd: get(Constants.optionKeys.CLOSE_ON_ADD),
-  removeOpenItem: get(Constants.optionKeys.REMOVE_OPEN_ITEM),
-  hideFavicon: get(Constants.optionKeys.HIDE_FAVICONS),
-  autoSort: get(Constants.optionKeys.AUTO_SORT),
-  direction: get(Constants.optionKeys.DIRECTION),
-  sortBy: get(Constants.optionKeys.SORTBY),
-
-  setter: {
-    width: (v) => set(Constants.optionKeys.POPUP_WIDTH, v),
-    height: (v) => set(Constants.optionKeys.POPUP_HEIGHT, v),
-    fontSize: (v) => set(Constants.optionKeys.FONT_SIZE, v),
-    noNewTab: (v) => set(Constants.optionKeys.NO_NEW_TAB, v),
-    closeOnAdd: (v) => set(Constants.optionKeys.CLOSE_ON_ADD, v),
-    removeOpenItem: (v) => set(Constants.optionKeys.REMOVE_OPEN_ITEM, v),
-    hideFavicon: (v) => set(Constants.optionKeys.HIDE_FAVICONS, v),
-    autoSort: (v) => set(Constants.optionKeys.AUTO_SORT, v),
-    direction: (v) => set(Constants.optionKeys.DIRECTION, v),
-    sortBy: (v) => set(Constants.optionKeys.SORTBY, v),
-  },
-};
-
 /**
  * @function i18nApply
  * @description Apply internationaliztion to elements
  */
 function i18nApply() {
+  const i18n =
+    (id) => chrome.i18n.getMessage(id);
+
   elements.captions.popupWidth.textContent = i18n('extPopupWidth');
   elements.captions.popupHeight.textContent = i18n('extPopupHeight');
   elements.captions.fontSize.textContent = i18n('extFontSize');
@@ -113,24 +74,29 @@ function i18nApply() {
  */
 function loadSettings() {
   elements.popupWidth.value =
-    undefDefault(storage.popupWidth, Constants.default.popupWidth);
+    Prefs.get(Constants.optionKeys.POPUP_WIDTH);
   elements.popupHeight.value =
-    undefDefault(storage.popupHeight, Constants.default.popupHeight);
+    Prefs.get(Constants.optionKeys.POPUP_HEIGHT);
   elements.fontSize.value =
-    undefDefault(storage.fontSize, Constants.default.fontSize);
+    Prefs.get(Constants.optionKeys.FONT_SIZE);
 
-  elements.noNewTab.checked = convBoolean(storage.noNewTab);
-  elements.closeOnAdd.checked = convBoolean(storage.closeOnAdd);
-  elements.removeOpenItem.checked = convBoolean(storage.removeOpenItem);
-  elements.hideFavicon.checked = convBoolean(storage.hideFavicon);
-  elements.autoSort.checked = convBoolean(storage.autoSort);
+  elements.noNewTab.checked =
+    Prefs.get(Constants.optionKeys.NO_NEW_TAB);
+  elements.closeOnAdd.checked =
+    Prefs.get(Constants.optionKeys.CLOSE_ON_ADD);
+  elements.removeOpenItem.checked =
+    Prefs.get(Constants.optionKeys.REMOVE_OPEN_ITEM);
+  elements.hideFavicon.checked =
+    Prefs.get(Constants.optionKeys.HIDE_FAVICONS);
+  elements.autoSort.checked =
+    Prefs.get(Constants.optionKeys.AUTO_SORT);
 
-  switch (storage.direction) {
+  switch (Prefs.get(Constants.optionKeys.DIRECTION)) {
     case DIRECTION_ASC: elements.direction[0].checked = true; break;
     case DIRECTION_DESC: elements.direction[1].checked = true; break;
     case undefined: break;
   }
-  switch (storage.sortBy) {
+  switch (Prefs.get(Constants.optionKeys.SORTBY)) {
     case SORT_BY_TITLE: elements.sortBy[0].checked = true; break;
     case SORT_BY_URL: elements.sortBy[1].checked = true; break;
     case undefined: break;
@@ -174,16 +140,16 @@ function setupOnClickHandlers() {
       return;
     }
 
-    storage.setter.width(popupWidth);
-    storage.setter.height(popupHeight);
-    storage.setter.fontSize(fontSize);
-    storage.setter.noNewTab(elements.noNewTab.checked);
-    storage.setter.closeOnAdd(elements.closeOnAdd.checked);
-    storage.setter.removeOpenItem(elements.removeOpenItem.checked);
-    storage.setter.hideFavicon(elements.hideFavicon.checked);
-    storage.setter.autoSort(elements.autoSort.checked);
-    storage.setter.direction(direction);
-    storage.setter.sortBy(sortby);
+    Prefs.set(Constants.optionKeys.POPUP_WIDTH, popupWidth);
+    Prefs.set(Constants.optionKeys.POPUP_HEIGHT, popupHeight);
+    Prefs.set(Constants.optionKeys.FONT_SIZE, fontSize);
+    Prefs.set(Constants.optionKeys.NO_NEW_TAB, elements.noNewTab.checked);
+    Prefs.set(Constants.optionKeys.CLOSE_ON_ADD, elements.closeOnAdd.checked);
+    Prefs.set(Constants.optionKeys.REMOVE_OPEN_ITEM, elements.removeOpenItem.checked);
+    Prefs.set(Constants.optionKeys.HIDE_FAVICONS, elements.hideFavicon.checked);
+    Prefs.set(Constants.optionKeys.AUTO_SORT, elements.autoSort.checked);
+    Prefs.set(Constants.optionKeys.DIRECTION, direction);
+    Prefs.set(Constants.optionKeys.SORTBY, sortby);
 
     window.close();
   };

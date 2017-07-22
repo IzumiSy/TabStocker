@@ -1,6 +1,7 @@
 import $ from 'jquery';
 import yo from 'yo-yo';
 import Constants from './constants';
+import Prefs from './preference';
 
 const BG = chrome.extension.getBackgroundPage();
 
@@ -73,7 +74,7 @@ function loadLocalStorageItems() {
  */
 function loadSyncStorageItems() {
   /*
-  const isSortOn = (localStorage.getItem(Constants.optionKeys.AUTO_SORT) == 'true');
+  const isSortOn = Prefs.get(Constants.optionKeys.AUTO_SORT);
   chrome.storage.sync.get('items', function(data) {
     if (chrome.runtime.lastError || !isArrayValid(data)) {
       return;
@@ -122,7 +123,7 @@ function stockCurrentTab(tab) {
  * @param {object} item
  */
 function openStockedItem(item) {
-  if (localStorage.getItem(Constants.optionKeys.NO_NEW_TAB) == 'true') {
+  if (Prefs.get(Constants.optionKeys.NO_NEW_TAB)) {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       selectedTab = tabs[0];
       chrome.tabs.update(selectedTab.id, { url: item.url });
@@ -140,10 +141,10 @@ $(function() {
    * ***********/
 
   const $body = $('body');
-  const fontSize = localStorage.getItem(Constants.optionKeys.FONT_SIZE);
+  const fontSize = Prefs.get(Constants.optionKeys.FONT_SIZE);
 
   $body.css('font-size', `${fontSize}em`);
-  $body.width(localStorage.getItem(Constants.optionKeys.POPUP_WIDTH));
+  $body.width(Prefs.get(Constants.optionKeys.POPUP_WIDTH));
 
   /* **************
    *    Buttons
@@ -205,12 +206,12 @@ $(function() {
     openSelectedItem(ui.item);
   };
 
-  $itemsElement.height(localStorage.getItem(Constants.optionKeys.POPUP_HEIGHT));
+  $itemsElement.height(Prefs.get(Constants.optionKeys.POPUP_HEIGHT));
   $itemsElement.menu({
     select: itemSelectHandler,
   });
   /*
-  if (localStorage.getItem(Constants.optionKeys.AUTO_SORT) == 'false') {
+  if (!Prefs.get(Constants.optionKeys.AUTO_SORT)) {
     $itemsElement.sortable({
       placeholder: 'ui-state-highlight',
       update: stockItems.orderedSave,
