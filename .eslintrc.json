@@ -5,7 +5,8 @@
        "browser": true
     },
     "parserOptions": {
-        "sourceType": "module"
+        "sourceType": "module",
+        "ecmaVersion": 8
     },
     "rules": {
         "object-curly-spacing": "off",
