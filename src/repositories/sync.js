@@ -1,4 +1,4 @@
-import Constants from './constants';
+import Constants from './../constants';
 
 /**
  * A wrapper class to manipulate chrome.storage.sync

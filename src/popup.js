@@ -2,8 +2,8 @@ import $ from 'jquery';
 import yo from 'yo-yo';
 import Constants from './constants';
 import Prefs from './preference';
-import StorageRepository from './storage';
-import SyncRepository from './sync';
+import LocalRepository from './repositories/local';
+import SyncRepository from './repositories/sync';
 
 const BG = chrome.extension.getBackgroundPage();
 
@@ -51,10 +51,10 @@ function _listUpdater(target, items) {
  * @function loadLocalStorageItems
  */
 function loadLocalStorageItems() {
-  const items = StorageRepository.getAll();
+  const items = LocalRepository.getAll();
   const viewList = _listUpdater('local', items);
   yo.update(_updaters.local, viewList);
-  chrome.browserAction.setBadgeText({text: String(items.length)});
+  chrome.browserAction.setBadgeText({ text: items.length });
 };
 
 /**

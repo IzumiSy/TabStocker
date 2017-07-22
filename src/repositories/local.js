@@ -1,10 +1,10 @@
 import Lockr from 'lockr';
-import Constants from './constants';
+import Constants from './../constants';
 
 /**
  * A wrapper class to manipulate LocalStorage
  */
-export default new class StorageRepository {
+export default new class LocalRepository {
   /**
    * Creates an instance
    */
