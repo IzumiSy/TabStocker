@@ -1,3 +1,5 @@
+import $ from 'jquery';
+
 const BG = chrome.extension.getBackgroundPage();
 
 const DIRECTION_ASC = '_asc';
