@@ -23,10 +23,10 @@ const Prefs = {
         break;
     };
 
-    _result = Lockr.get(key, _default);
+    const _result = Lockr.get(key, _default);
 
     // Converting stringified boolean to the actual boolean
-    if (_reuslt == 'true') return true;
+    if (_result == 'true') return true;
     if (_result == 'false') return false;
 
     return _result;
