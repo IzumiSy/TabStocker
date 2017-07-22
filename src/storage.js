@@ -1,18 +1,21 @@
 import Lockr from 'lockr';
-
-Lockr.prefix = '_tabStocker_';
+import { List } from 'immutable';
 
 /** A wrapper class to manipulate LocalStorage */
-export default class StorageRepository {
+export default new class StorageRepository {
   /**
    * Creates an instance of StorageRepository
    */
-  constructor() {}
+  constructor() {
+    this.ItemData = List();
+  }
 
   /**
    * Append one item to the storage
    */
   append() {
+    switchPrefix();
+
     // TODO
   }
 
@@ -20,6 +23,8 @@ export default class StorageRepository {
    * Delete one item from the storage
    */
   delete() {
+    switchPrefix();
+
     // TODO
   }
 
@@ -27,6 +32,8 @@ export default class StorageRepository {
    * Gets the size of stored items in the storage
    */
   count() {
+    switchPrefix();
+
     // TODO
   }
 
@@ -34,6 +41,15 @@ export default class StorageRepository {
    * Gets all item from the storage
    */
   getAll() {
-    Lockr.getAll();
+    switchPrefix();
+
+    // TODO
+  }
+
+  /**
+   * Switches the key prefix
+   */
+  switchPrefix() {
+    Lockr.prefix = '_tabStocker_data_';
   }
 };
