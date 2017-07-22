@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import Constants from './constants';
 
 const BG = chrome.extension.getBackgroundPage();
 
@@ -60,28 +61,28 @@ const get = (id) => localStorage.getItem(id);
 const set = (id, data) => localStorage.setItem(id, data);
 
 const storage = {
-  popupWidth: get(BG.OPTIONS.POPUP_WIDTH),
-  popupHeight: get(BG.OPTIONS.POPUP_HEIGHT),
-  fontSize: get(BG.OPTIONS.FONT_SIZE),
-  noNewTab: get(BG.OPTIONS.NO_NEW_TAB),
-  closeOnAdd: get(BG.OPTIONS.CLOSE_ON_ADD),
-  removeOpenItem: get(BG.OPTIONS.REMOVE_OPEN_ITEM),
-  hideFavicon: get(BG.OPTIONS.HIDE_FAVICONS),
-  autoSort: get(BG.OPTIONS.AUTO_SORT),
-  direction: get(BG.OPTIONS.DIRECTION),
-  sortBy: get(BG.OPTIONS.SORTBY),
+  popupWidth: get(Constants.optionKeys.POPUP_WIDTH),
+  popupHeight: get(Constants.optionKeys.POPUP_HEIGHT),
+  fontSize: get(Constants.optionKeys.FONT_SIZE),
+  noNewTab: get(Constants.optionKeys.NO_NEW_TAB),
+  closeOnAdd: get(Constants.optionKeys.CLOSE_ON_ADD),
+  removeOpenItem: get(Constants.optionKeys.REMOVE_OPEN_ITEM),
+  hideFavicon: get(Constants.optionKeys.HIDE_FAVICONS),
+  autoSort: get(Constants.optionKeys.AUTO_SORT),
+  direction: get(Constants.optionKeys.DIRECTION),
+  sortBy: get(Constants.optionKeys.SORTBY),
 
   setter: {
-    width: (v) => set(BG.OPTIONS.POPUP_WIDTH, v),
-    height: (v) => set(BG.OPTIONS.POPUP_HEIGHT, v),
-    fontSize: (v) => set(BG.OPTIONS.FONT_SIZE, v),
-    noNewTab: (v) => set(BG.OPTIONS.NO_NEW_TAB, v),
-    closeOnAdd: (v) => set(BG.OPTIONS.CLOSE_ON_ADD, v),
-    removeOpenItem: (v) => set(BG.OPTIONS.REMOVE_OPEN_ITEM, v),
-    hideFavicon: (v) => set(BG.OPTIONS.HIDE_FAVICONS, v),
-    autoSort: (v) => set(BG.OPTIONS.AUTO_SORT, v),
-    direction: (v) => set(BG.OPTIONS.DIRECTION, v),
-    sortBy: (v) => set(BG.OPTIONS.SORTBY, v),
+    width: (v) => set(Constants.optionKeys.POPUP_WIDTH, v),
+    height: (v) => set(Constants.optionKeys.POPUP_HEIGHT, v),
+    fontSize: (v) => set(Constants.optionKeys.FONT_SIZE, v),
+    noNewTab: (v) => set(Constants.optionKeys.NO_NEW_TAB, v),
+    closeOnAdd: (v) => set(Constants.optionKeys.CLOSE_ON_ADD, v),
+    removeOpenItem: (v) => set(Constants.optionKeys.REMOVE_OPEN_ITEM, v),
+    hideFavicon: (v) => set(Constants.optionKeys.HIDE_FAVICONS, v),
+    autoSort: (v) => set(Constants.optionKeys.AUTO_SORT, v),
+    direction: (v) => set(Constants.optionKeys.DIRECTION, v),
+    sortBy: (v) => set(Constants.optionKeys.SORTBY, v),
   },
 };
 
@@ -112,11 +113,11 @@ function i18nApply() {
  */
 function loadSettings() {
   elements.popupWidth.value =
-    undefDefault(storage.popupWidth, BG.ui_menu_defaultPopupWidth);
+    undefDefault(storage.popupWidth, Constants.default.popupWidth);
   elements.popupHeight.value =
-    undefDefault(storage.popupHeight, BG.ui_menu_defaultPopupHeight);
+    undefDefault(storage.popupHeight, Constants.default.popupHeight);
   elements.fontSize.value =
-    undefDefault(storage.fontSize, BG.ui_defaultFontSize);
+    undefDefault(storage.fontSize, Constants.default.fontSize);
 
   elements.noNewTab.checked = convBoolean(storage.noNewTab);
   elements.closeOnAdd.checked = convBoolean(storage.closeOnAdd);
@@ -144,7 +145,7 @@ function setupOnClickHandlers() {
   elements.saveButton.onclick = function() {
     const fontSize =
       elements.fontSize.value <= 0 ?
-      BG.ui_defaultFontSize : elements.fontSize.value;
+      Constants.default.fontSize : elements.fontSize.value;
 
     let direction;
     if (elements.direction[0].checked) {
@@ -161,14 +162,14 @@ function setupOnClickHandlers() {
     }
 
     const popupWidth = elements.popupWidth.value;
-    if (popupWidth < BG.ui_menu_defaultPopupWidth ||
-        popupWidth > BG.ui_menu_maxPopupWidth) {
+    if (popupWidth < Constants.default.popupWidth ||
+        popupWidth > Constants.default.maxPopupWidth) {
       alert('The value of Popup width should be set in the range from 250px to 500px');
       return;
     }
     const popupHeight = elements.popupHeight.value;
-    if (popupHeight < BG.ui_menu_defaultPopupHeight ||
-        popupHeight > BG.ui_menu_maxPopupHeight) {
+    if (popupHeight < Constants.default.popupHeight ||
+        popupHeight > Constants.default.maxPopupHeight) {
       alert('The value of Popup height should set in the range from 200px to 530px');
       return;
     }

@@ -1,44 +1,30 @@
 
 // background.js
 
-import notifications from './notifications';
+import Notifier from './notifier';
+import Constants from './constants';
+import StorageRepository from './storage';
 
-window.notifications = notifications;
-
-var ui_menu_defaultPopupWidth = 250;
-var ui_menu_defaultPopupHeight = 200;
-var ui_menu_maxPopupWidth = 500;
-var ui_menu_maxPopupHeight = 500;
-var ui_defaultFontSize = 0.7;
+window.Notifier = Notifier;
 
 window.currentTab = null;
 window.ITEMS_ID = 'Items';
 
-window.OPTIONS = {
-  POPUP_WIDTH: 'PopupWidth',
-  POPUP_HEIGHT: 'PopupHeight',
-  FONT_SIZE: 'FontSize',
-  HIDE_FAVICONS: 'HideFavicon',
-  NO_NEW_TAB: 'NoNewTab',
-  CLOSE_ON_ADD: 'CloseOnAdd',
-  REMOVE_OPEN_ITEM: 'RemoveOpenItem',
-  AUTO_SORT: 'AutomaticSort',
-  DIRECTION: 'SortDirection',
-  SORTBY: 'SortBy'
-};
-
-var eventHandlers = {
+const eventHandlers = {
   shortcutKey: function(command) {
     if (command == "stock-tab") {
       chrome.tabs.getSelected(window.id, function(tab) {
         if (!utils.isDuplicated(tab.url, "items-local")) {
-          notifications.success(tab.title);
-          storageUpdater.appendItem(tab.title, tab.url, "items-local");   
-          if (localStorage.getItem(OPTIONS.CLOSE_ON_ADD) == "true") {
-            chrome.tabs.remove(tab.id);       
+          Notifier.success(tab.title);
+
+          /*
+          storageUpdater.appendItem(tab.title, tab.url, "items-local");
+          if (localStorage.getItem(Constants.optionKeys.CLOSE_ON_ADD) == "true") {
+            chrome.tabs.remove(tab.id);
           }
+          */
         } else {
-          notifications.error();
+          Notifier.error();
         }
       });
     }
@@ -86,10 +72,10 @@ var eventHandlers = {
       }
 
       if (!utils.isDuplicated(url, "items-local")) {
-        notifications.success(title);
-        storageUpdater.appendItem(title, url, currentTab);
+        Notifier.success(title);
+        // storageUpdater.appendItem(title, url, currentTab);
       } else {
-        notifications.error();
+        Notifier.error();
       }
     }
   }
@@ -111,8 +97,8 @@ window.utils = {
   sorting: function(array) {
     var Items = array;
     var elements = null, r = null;
-    var sortby = localStorage.getItem(OPTIONS.SORTBY);
-    var direction = localStorage.getItem(OPTIONS.DIRECTION);
+    var sortby = localStorage.getItem(Constants.optionKeys.SORTBY);
+    var direction = localStorage.getItem(Constants.optionKeys.DIRECTION);
 
     switch (sortby) {
       case "by_title": elements = "title"; break;
@@ -132,14 +118,14 @@ window.utils = {
   },
 
   undefinedResolver: function() {
-    if (!localStorage.getItem(OPTIONS.POPUP_WIDTH)) {
-      localStorage.setItem(OPTIONS.POPUP_WIDTH, ui_menu_defaultPopupWidth);
+    if (!localStorage.getItem(Constants.optionKeys.POPUP_WIDTH)) {
+      localStorage.setItem(Constants.optionKeys.POPUP_WIDTH, Constants.default.popupWidth);
     }
-    if (!localStorage.getItem(OPTIONS.POPUP_HEIGHT)) {
-      localStorage.setItem(OPTIONS.POPUP_HEIGHT, ui_menu_defaultPopupHeight);
+    if (!localStorage.getItem(Constants.optionKeys.POPUP_HEIGHT)) {
+      localStorage.setItem(Constants.optionKeys.POPUP_HEIGHT, Constants.default.popupHeight);
     }
-    if (!localStorage.getItem(OPTIONS.FONT_SIZE)) {
-      localStorage.setItem(OPTIONS.FONT_SIZE, ui_defaultFontSize);
+    if (!localStorage.getItem(Constants.optionKeys.FONT_SIZE)) {
+      localStorage.setItem(Constants.optionKeys.FONT_SIZE, Constants.default.fontSize);
     }
     if (!localStorage.getItem(ITEMS_ID)) {
       localStorage.setItem(ITEMS_ID, []);
@@ -147,6 +133,7 @@ window.utils = {
   }
 };
 
+/*
 window.storageUpdater = {
   appendItem: function(title, url, target) {
     var Items = [];
@@ -225,6 +212,7 @@ window.storageUpdater = {
     });
   }
 };
+*/
 
 chrome.commands.onCommand.addListener(eventHandlers.shortcutKey);
 chrome.contextMenus.create({

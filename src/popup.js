@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import yo from 'yo-yo';
+import Constants from './constants';
 
 const BG = chrome.extension.getBackgroundPage();
 
@@ -49,7 +50,8 @@ function _listUpdater(target, items) {
  * @function loadLocalStorageItems
  */
 function loadLocalStorageItems() {
-  const isSortOn = (localStorage.getItem(BG.OPTIONS.AUTO_SORT) == 'true');
+  /*
+  const isSortOn = (localStorage.getItem(.AUTO_SORT) == 'true');
   const data = localStorage.getItem(BG.ITEMS_ID);
 
   if (!isArrayValid(data)) {
@@ -63,13 +65,15 @@ function loadLocalStorageItems() {
   yo.update(_updaters.local, viewList);
 
   chrome.browserAction.setBadgeText({text: String(items.length)});
+  */
 };
 
 /**
  * @function loadSyncStorageItems
  */
 function loadSyncStorageItems() {
-  const isSortOn = (localStorage.getItem(BG.OPTIONS.AUTO_SORT) == 'true');
+  /*
+  const isSortOn = (localStorage.getItem(Constants.optionKeys.AUTO_SORT) == 'true');
   chrome.storage.sync.get('items', function(data) {
     if (chrome.runtime.lastError || !isArrayValid(data)) {
       return;
@@ -80,6 +84,7 @@ function loadSyncStorageItems() {
     const viewList = _listUpdater('sync', items);
     yo.update(_updaters.sync, viewList);
   });
+  */
 };
 
 /**
@@ -117,7 +122,7 @@ function stockCurrentTab(tab) {
  * @param {object} item
  */
 function openStockedItem(item) {
-  if (localStorage.getItem(BG.OPTIONS.NO_NEW_TAB) == 'true') {
+  if (localStorage.getItem(Constants.optionKeys.NO_NEW_TAB) == 'true') {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
       selectedTab = tabs[0];
       chrome.tabs.update(selectedTab.id, { url: item.url });
@@ -125,11 +130,6 @@ function openStockedItem(item) {
   } else {
     chrome.tabs.create({ url: item.url, selected: false });
   }
-
-  //
-  // *TODO*
-  // Close the opened tab here.
-  //
 }
 
 $(function() {
@@ -140,10 +140,10 @@ $(function() {
    * ***********/
 
   const $body = $('body');
-  const fontSize = localStorage.getItem(BG.OPTIONS.FONT_SIZE);
+  const fontSize = localStorage.getItem(Constants.optionKeys.FONT_SIZE);
 
   $body.css('font-size', `${fontSize}em`);
-  $body.width(localStorage.getItem(BG.OPTIONS.POPUP_WIDTH));
+  $body.width(localStorage.getItem(Constants.optionKeys.POPUP_WIDTH));
 
   /* **************
    *    Buttons
@@ -205,12 +205,12 @@ $(function() {
     openSelectedItem(ui.item);
   };
 
-  $itemsElement.height(localStorage.getItem(BG.OPTIONS.POPUP_HEIGHT));
+  $itemsElement.height(localStorage.getItem(Constants.optionKeys.POPUP_HEIGHT));
   $itemsElement.menu({
     select: itemSelectHandler,
   });
   /*
-  if (localStorage.getItem(BG.OPTIONS.AUTO_SORT) == 'false') {
+  if (localStorage.getItem(Constants.optionKeys.AUTO_SORT) == 'false') {
     $itemsElement.sortable({
       placeholder: 'ui-state-highlight',
       update: stockItems.orderedSave,

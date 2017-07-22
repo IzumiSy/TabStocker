@@ -1,6 +1,6 @@
 const NOTIFY_ID = 'default';
 
-const notifications = {
+const Notifier = {
   error() {
     chrome.notifications.create(NOTIFY_ID, {
       type: 'basic',
@@ -8,7 +8,7 @@ const notifications = {
       message: 'Tab already stocked',
       iconUrl: 'assets/error.png',
     }, () => {
-      // TODO 
+      // TODO
     });
   },
 
@@ -28,4 +28,4 @@ const notifications = {
   },
 };
 
-export default notifications;
+export default Notifier;
