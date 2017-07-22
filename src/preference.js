@@ -1,14 +1,33 @@
 import Lockr from 'lockr';
 import Constants from './constants';
 
-Lockr.prefix = '_tabStocker_preference_';
+/**
+ * A wrapper class to manipulate localStraoge to store user prefetences
+ */
+export default new class Prefs {
+  /**
+   * Creates an instance of Prefs
+   */
+  constructor() {}
 
-const Prefs = {
+  /**
+   * Store data into the storage
+   * @param {string} key
+   * @param {*} value
+   */
   set(key, value) {
+    switchPrefix();
     Lockr.set(key, value);
-  },
+  }
 
+  /**
+   * Gets data from the storage
+   * @param {string} key
+   * @return {*} The content associated with the given key
+   */
   get(key) {
+    switchPrefix();
+
     let _default = undefined;
 
     switch (key) {
@@ -30,7 +49,12 @@ const Prefs = {
     if (_result == 'false') return false;
 
     return _result;
-  },
-};
+  }
 
-export default Prefs;
+  /**
+   * Switches the key prefix
+   */
+  switchPrefix() {
+    Lockr.prefix = '_tabStocker_preference_';
+  }
+};
