@@ -16,7 +16,6 @@ export default new class Prefs {
    * @param {*} value
    */
   set(key, value) {
-    this.switchPrefix();
     Lockr.set(key, value);
   }
 
@@ -26,8 +25,6 @@ export default new class Prefs {
    * @return {*} The content associated with the given key
    */
   get(key) {
-    this.switchPrefix();
-
     let _default = undefined;
 
     switch (key) {
@@ -49,12 +46,5 @@ export default new class Prefs {
     if (_result == 'false') return false;
 
     return _result;
-  }
-
-  /**
-   * Switches the key prefix
-   */
-  switchPrefix() {
-    Lockr.prefix = '_tabStocker_preference_';
   }
 };
