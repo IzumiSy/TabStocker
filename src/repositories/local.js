@@ -21,7 +21,7 @@ export default new class LocalRepository {
    * @return {array}
    */
   getAll() {
-    const _result = localStorage.get(Constants.dataKey.localItem)
+    const _result = localStorage.getItem(Constants.dataKey.localItem)
     return _result != null ? _result : []
   }
 };
