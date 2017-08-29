@@ -39,11 +39,11 @@ export default new class Prefs {
     };
 
     const _result = localStorage.getItem(key);
-    _result === null && _result = _default;
 
     // Converting stringified boolean to the actual boolean
     if (_result == 'true') return true;
     if (_result == 'false') return false;
+    if (_result === null) return _default;
 
     return _result;
   }
