@@ -13,8 +13,7 @@ export default new class LocalRepository {
   /**
    * Append one item to the storage
    */
-  append() {
-    this.resetPrefix();
+  append(tab) {
     // TODO
   }
 
@@ -23,14 +22,6 @@ export default new class LocalRepository {
    * @return {array}
    */
   getAll() {
-    this.resetPrefix();
     return Lockr.get(Constants.dataKey.localItem, []);
-  }
-
-  /**
-   * Reset the key prefix
-   */
-  resetPrefix() {
-    Lockr.prefix = null;
   }
 };
