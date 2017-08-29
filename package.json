@@ -6,23 +6,32 @@
   "author": "IzumiSy",
   "license": "MIT",
   "scripts": {
-    "build": "./build.sh"
+    "start": "webpack --verbose --progress --watch",
+    "build": "webpack --display-error-details --progress --release"
   },
   "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "7.1.1",
     "babel-plugin-transform-async-to-generator": "^6.24.1",
     "babel-plugin-transform-runtime": "^6.23.0",
     "babel-preset-es2015": "^6.24.1",
-    "babelify": "^7.3.0",
-    "browserify": "^14.4.0",
+    "babel-preset-stage-0": "^6.24.1",
+    "copy-webpack-plugin": "^4.0.1",
+    "css-loader": "^0.28.5",
     "eslint": "^4.2.0",
     "eslint-config-google": "^0.9.1",
-    "html-minifier": "^3.5.2",
+    "eslint-loader": "^1.9.0",
+    "file-loader": "^0.11.2",
     "node-sass": "^4.5.3",
-    "uglify-js": "^3.0.22"
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.18.2",
+    "webpack": "^1.15.0"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "immutable": "^3.8.1",
     "jquery": "^3.2.1",
+    "jquery-ui-bundle": "^1.12.1",
     "yo-yo": "^1.4.1"
   }
 }

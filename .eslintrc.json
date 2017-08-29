@@ -1,15 +1,16 @@
 {
-    "extends": "google",
-    "env": {
-       "es6": true,
-       "browser": true
-    },
-    "parserOptions": {
-        "sourceType": "module",
-        "ecmaVersion": 8
-    },
-    "rules": {
-        "object-curly-spacing": "off",
-        "new-cap": "off"
-    }
+  "extends": "google",
+  "env": {
+    "es6": true,
+    "browser": true
+  },
+  "parserOptions": {
+    "sourceType": "module",
+   "ecmaVersion": 8
+  },
+  "rules": {
+    "object-curly-spacing": "off",
+    "new-cap": "off",
+    "max-len": "off"
+  }
 }

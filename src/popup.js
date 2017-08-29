@@ -1,9 +1,11 @@
-import $ from 'jquery';
 import yo from 'yo-yo';
 import Constants from './constants';
 import Prefs from './preference';
 import LocalRepository from './repositories/local';
 import SyncRepository from './repositories/sync';
+import 'jquery-ui-bundle/jquery-ui.min.js';
+import 'jquery-ui-bundle/jquery-ui.min.css';
+import './styles.scss';
 
 const BG = chrome.extension.getBackgroundPage();
 
@@ -26,7 +28,9 @@ function _listUpdater(target, items) {
   const $items = (
     Prefs.get(Constants.optionKeys.AUTO_SORT) ?
     BG.utils.sorting(items) : items
-  ).map((item) => {
+  )
+
+  $items.map((item) => {
     const _openItem = (_e) => {
       openStockedItem(item);
     };
@@ -190,6 +194,3 @@ $(function() {
   }
   */
 });
-
-// This is required to use jquery-ui
-window.jQuery = $;
