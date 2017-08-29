@@ -1,4 +1,3 @@
-import Lockr from 'lockr';
 import Constants from './constants';
 
 /**
@@ -16,7 +15,7 @@ export default new class Prefs {
    * @param {*} value
    */
   set(key, value) {
-    Lockr.set(key, value);
+    localStorage.setItem(key, value);
   }
 
   /**
@@ -39,7 +38,8 @@ export default new class Prefs {
         break;
     };
 
-    const _result = Lockr.get(key, _default);
+    const _result = localStorage.getItem(key);
+    _result === null && _result = _default;
 
     // Converting stringified boolean to the actual boolean
     if (_result == 'true') return true;

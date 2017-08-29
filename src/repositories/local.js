@@ -1,4 +1,3 @@
-import Lockr from 'lockr';
 import Constants from './../constants';
 
 /**
@@ -22,6 +21,8 @@ export default new class LocalRepository {
    * @return {array}
    */
   getAll() {
-    return Lockr.get(Constants.dataKey.localItem, []);
+    const _result = localStorage.get(Constants.dataKey.localItem)
+    _result === null && _result = [];
+    return _result;
   }
 };
