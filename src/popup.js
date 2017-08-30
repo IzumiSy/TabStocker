@@ -45,7 +45,9 @@ function _listUpdater(target, items) {
   });
 
   return yo`
-    <ul id="items-${target}" class="items">
+    <ul id="items-${target}" role="menu" tabindex="0"
+      class="items ui-menu ui-widget ui-widget-content"
+      style="height: ${Prefs.get(Constants.optionKeys.POPUP_HEIGHT)}px;">
       ${$items}
     </ul>
   `;
@@ -92,7 +94,7 @@ async function stockCurrentTab(tab) {
 }
 
 /**
- * @function openSelectedItem
+ * @function openStockedItem
  * @param {object} item
  */
 function openStockedItem(item) {
@@ -175,16 +177,8 @@ $(function() {
    * ***********************/
 
   const $itemsElement = $('.items');
-  const itemSelectHandler = function(event, ui) {
-    openSelectedItem(ui.item);
-  };
+  $itemsElement.menu();
 
-  setTimeout(() => {
-    $itemsElement.height(Prefs.get(Constants.optionKeys.POPUP_HEIGHT));
-    $itemsElement.menu({
-      select: itemSelectHandler,
-    });
-  });
   /*
   if (!Prefs.get(Constants.optionKeys.AUTO_SORT)) {
     $itemsElement.sortable({
