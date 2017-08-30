@@ -28,7 +28,7 @@ function _listUpdater(target, items) {
   const $items = (
     Prefs.get(Constants.optionKeys.AUTO_SORT) ?
     BG.utils.sorting(items) : items
-  )
+  );
 
   $items.map((item) => {
     const _openItem = (_e) => {
