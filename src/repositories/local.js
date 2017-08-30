@@ -11,6 +11,7 @@ export default new class LocalRepository {
 
   /**
    * Append one item to the storage
+   * @param {tab} tab
    */
   append(tab) {
     // TODO
@@ -21,7 +22,7 @@ export default new class LocalRepository {
    * @return {array}
    */
   getAll() {
-    const _result = localStorage.getItem(Constants.dataKey.localItem)
-    return _result ? _result : []
+    const _result = localStorage.getItem(Constants.dataKey.localItem);
+    return _result ? _result : [];
   }
 };
