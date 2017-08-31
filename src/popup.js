@@ -42,7 +42,7 @@ function _listUpdater(target, items) {
     `;
   });
 
-  const popupHeight = Prefs.get(Constants.optionKeys.POPUP_HEIGHT)
+  const popupHeight = Prefs.get(Constants.optionKeys.POPUP_HEIGHT);
   return yo`
     <ul id="items-${target}" role="menu" tabindex="0"
       class="items ui-menu ui-widget ui-widget-content"
@@ -69,7 +69,6 @@ function loadLocalStorageItems() {
  */
 async function loadSyncStorageItems() {
   const items = await SyncRepository.getAll();
-  console.log(items);
   const viewList = _listUpdater('sync', items);
   yo.update(_updaters.sync, viewList);
 };
