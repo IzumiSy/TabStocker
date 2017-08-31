@@ -10,9 +10,6 @@ import './styles.scss';
 
 const BG = chrome.extension.getBackgroundPage();
 
-const ITEMS_LOCAL_TAB = 0;
-const ITEMS_SYNC_TAB = 1;
-
 const FAVICON_API = 'http://favicon.hatena.ne.jp/?url=';
 const _updaters = {
   local: _listUpdater('local', []),
@@ -82,16 +79,14 @@ async function loadSyncStorageItems() {
  */
 async function stockCurrentTab(tabItem) {
   switch (BG.currentTab) {
-    case ITEMS_LOCAL_TAB:
-      LocalRepository.append(tabItem);
-      loadLocalStorageItems();
-      break;
-    case ITEMS_SYNC_TAB:
+    case Constants.tabs.SYNC:
       await SyncRepository.append(tabItem);
       loadSyncStorageItems();
       break;
+    case Constants.tabs.LOCAL:
     default:
-      // TODO
+      LocalRepository.append(tabItem);
+      loadLocalStorageItems();
   }
 }
 
@@ -157,11 +152,11 @@ $(function() {
       const newTabId = ui.newPanel.get(0).id;
       switch (newTabId) {
         case 'sync-tab':
-          BG.currentTab = ITEMS_SYNC_TAB;
+          BG.currentTab = Constants.tabs.SYNC;
           break;
         case 'local-tab':
         default:
-          BG.currentTab = ITEMS_LOCAL_TAB;
+          BG.currentTab = Constants.tabs.LOCAL;
       }
     },
   });

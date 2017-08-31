@@ -15,6 +15,11 @@ export default {
     fontSize: 0.7,
   },
 
+  tabs: {
+    LOCAL: 0,
+    SYNC: 0,
+  },
+
   optionKeys: {
     POPUP_WIDTH: 'PopupWidth',
     POPUP_HEIGHT: 'PopupHeight',
