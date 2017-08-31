@@ -1,3 +1,4 @@
+import I from 'immutable';
 import Constants from './../constants';
 
 /**
@@ -11,18 +12,36 @@ export default new class LocalRepository {
 
   /**
    * Append one item to the storage
-   * @param {tab} tab
+   * @param {TabItem} tabItem the tabItem to store
+   * @return {number} the size of stored items after update.
    */
-  append(tab) {
+  append(tabItem) {
+    const items = this.getAll();
+    const updatedItems = items.push(tabItem);
+    const rawUpdatedItems = updatedItems.map((item) => item.toJS());
+    localStorage.setItem(Constants.dataKey.localItem, rawUpdatedItems());
+    return rawUpdatedItems.size;
+  }
+
+  /**
+   * Delete one item from the storage
+   * @param {TabItem} tabItem the tabItem to delete from storage.
+   * @return {number} the size of stored item after delete.
+   */
+  delete(tabItem) {
+    const items = this.getAll();
+    //
     // TODO
+    //
+    return items.size;
   }
 
   /**
    * Gets all item from the storage
-   * @return {array}
+   * @return {I.List} Items stored in localStorage
    */
   getAll() {
     const _result = localStorage.getItem(Constants.dataKey.localItem);
-    return _result ? _result : [];
+    return I.List(_result);
   }
 };
