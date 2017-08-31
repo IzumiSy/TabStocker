@@ -6,31 +6,29 @@ import Constants from './constants';
 import Prefs from './preference';
 
 window.Notifier = Notifier;
-
 window.currentTab = null;
-window.ITEMS_ID = 'Items';
 
 const eventHandlers = {
   shortcutKey: function(command) {
-    if (command == "stock-tab") {
+    if (command == 'stock-tab') {
       chrome.tabs.getSelected(window.id, function(tab) {
-        if (!utils.isDuplicated(tab.url, "items-local")) {
+        /*
+        if (!utils.isDuplicated(tab.url, 'items-local')) {
           Notifier.success(tab.title);
-
-          /*
           storageUpdater.appendItem(tab.title, tab.url, "items-local");
           if (Prefs.get(Constants.optionKeys.CLOSE_ON_ADD)) {
             chrome.tabs.remove(tab.id);
           }
-          */
         } else {
           Notifier.error();
         }
+        */
       });
     }
   },
 
   contextMenu: function(info, tab) {
+    /*
     var title, url;
     var r = new XMLHttpRequest();
 
@@ -45,9 +43,11 @@ const eventHandlers = {
     r.send(null);
 
     console.log("[REQUESTED] " + info.linkUrl);
+    */
   },
 
   HTTPrequestHandler: function(args) {
+    /*
     var request = args.requestObj;
     if (!request || !request.responseXML) {
       return;
@@ -78,10 +78,12 @@ const eventHandlers = {
         Notifier.error();
       }
     }
-  }
+    */
+  },
 };
 
 window.utils = {
+  /*
   isDuplicated: function(url) {
     var r = false;
     if (localStorage.getItem(ITEMS_ID).length > 0) {
@@ -93,6 +95,7 @@ window.utils = {
     }
     return r;
   },
+  */
 
   sorting: function(array) {
     let Items = array;
@@ -123,9 +126,8 @@ window.utils = {
       Prefs.get(Constants.optionKeys.POPUP_HEIGHT));
     Prefs.set(Constants.optionKeys.FONT_SIZE,
       Prefs.get(Constants.optionKeys.FONT_SIZE));
-
-    if (!localStorage.getItem(ITEMS_ID)) {
-      localStorage.setItem(ITEMS_ID, []);
+    if (!localStorage.getItem(Constants.dataKey.localItem)) {
+      localStorage.setItem(Constants.dataKey.localItem, JSON.stringify([]));
     }
   },
 };
