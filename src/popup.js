@@ -1,6 +1,7 @@
 import yo from 'yo-yo';
 import Constants from './constants';
 import Prefs from './preference';
+import TabItem from './models/tabItem.js';
 import LocalRepository from './repositories/local';
 import SyncRepository from './repositories/sync';
 import 'jquery-ui-bundle/jquery-ui.min.js';
@@ -44,10 +45,11 @@ function _listUpdater(target, items) {
     `;
   });
 
+  const popupHeight = Prefs.get(Constants.optionKeys.POPUP_HEIGHT)
   return yo`
     <ul id="items-${target}" role="menu" tabindex="0"
       class="items ui-menu ui-widget ui-widget-content"
-      style="height: ${Prefs.get(Constants.optionKeys.POPUP_HEIGHT)}px;">
+      style="height: ${popupHeight}px;">
       ${$items}
     </ul>
   `;
@@ -76,16 +78,16 @@ async function loadSyncStorageItems() {
 
 /**
  * @function stockCurrentTab
- * @param {object} tab
+ * @param {TabItem} tabItem
  */
-async function stockCurrentTab(tab) {
+async function stockCurrentTab(tabItem) {
   switch (BG.currentTab) {
     case ITEMS_LOCAL_TAB:
-      LocalRepository.append(tab);
+      LocalRepository.append(tabItem);
       loadLocalStorageItems();
       break;
     case ITEMS_SYNC_TAB:
-      await SyncRepository.append(tab);
+      await SyncRepository.append(tabItem);
       loadSyncStorageItems();
       break;
     default:
@@ -132,7 +134,11 @@ $(function() {
   $optionButton.button();
   $addButton.on('click', () => {
     chrome.tabs.getSelected(window.id, (tab) => {
-      stockCurrentTab(tab);
+      const tabItem = new TabItem({
+        title: tab.title,
+        url: tab.url,
+      });
+      stockCurrentTab(tabItem);
     });
   });
   $optionButton.on('click', () => {
