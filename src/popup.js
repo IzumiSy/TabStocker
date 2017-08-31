@@ -69,6 +69,7 @@ function loadLocalStorageItems() {
  */
 async function loadSyncStorageItems() {
   const items = await SyncRepository.getAll();
+  console.log(items);
   const viewList = _listUpdater('sync', items);
   yo.update(_updaters.sync, viewList);
 };
