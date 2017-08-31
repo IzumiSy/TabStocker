@@ -19,7 +19,8 @@ export default new class LocalRepository {
     const items = this.getAll();
     const updatedItems = items.push(tabItem);
     const rawUpdatedItems = updatedItems.map((item) => item.toJS());
-    localStorage.setItem(Constants.dataKey.localItem, rawUpdatedItems());
+    const _jsonified = JSON.stringify(rawUpdatedItems.toJS());
+    localStorage.setItem(Constants.dataKey.localItem, _jsonified);
     return rawUpdatedItems.size;
   }
 
@@ -42,6 +43,7 @@ export default new class LocalRepository {
    */
   getAll() {
     const _result = localStorage.getItem(Constants.dataKey.localItem);
-    return I.List(_result);
+    const _jsonified = JSON.parse(_result);
+    return I.List(_jsonified);
   }
 };
