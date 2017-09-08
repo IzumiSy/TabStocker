@@ -42,20 +42,20 @@ ul.ui-tabs-nav {
   li.ui-menu-item {
     .ui-menu-item-wrapper {
       width: calc(100% - 5px);
-      height: 26px;
+      height: 23px;
+      padding: 0;
     }
 
     > div {
       cursor: pointer;
       user-select: none;
-      padding: 1px 0;
     }
 
 
     img.item-favicon {
-      height: 20px;
-      width: 20px;
-      padding: 2px;
+      height: 15px;
+      width: 15px;
+      padding: 4px;
     }
   }
 
