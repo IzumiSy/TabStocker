@@ -125,8 +125,13 @@ $(function() {
   const $addButton = $('#add');
   const $optionButton = $('#options');
 
-  $addButton.button();
-  $optionButton.button();
+  $addButton.button({
+    text: false
+  });
+  $optionButton.button({
+    text: false
+  });
+
   $addButton.on('click', () => {
     chrome.tabs.getSelected(window.id, (tab) => {
       const tabItem = new TabItem({
