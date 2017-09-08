@@ -14,8 +14,18 @@ https://chrome.google.com/webstore/detail/tab-stocker/kjjjockipnpomghfnpbilhhcjj
 - Synchronization
 
 ## Development
+### Setup
 ```bash
 $ npm install
+```
+
+### Build with watch
+```bash
+$ npm start
+```
+
+### Release build
+```
 $ npm run build
 ```
 
