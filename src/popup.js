@@ -33,8 +33,8 @@ function _listUpdater(target, items) {
       openStockedItem(item);
     };
     return yo`
-      <li>
-        <div onclick=${_openItem}>
+      <li class="ui-menu-item">
+        <div onclick=${_openItem} tabindex="-1" role="menuitem" class="ui-menu-item-wrapper">
           <img src="${FAVICON_API + item.url}" class="item-favicon" />
           <div class="item-title">${item.title}</div>
         </div>
