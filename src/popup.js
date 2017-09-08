@@ -23,12 +23,12 @@ const _updaters = {
  * @return {object} yo-yoified DOM object
  */
 function _listUpdater(target, items) {
-  const $items = (
+  const _items = (
     Prefs.get(Constants.optionKeys.AUTO_SORT) ?
     BG.utils.sorting(items) : items
   );
 
-  $items.map((item) => {
+  const $items = _items.map((item) => {
     const _openItem = (_e) => {
       openStockedItem(item);
     };
@@ -57,7 +57,7 @@ function _listUpdater(target, items) {
  */
 function loadLocalStorageItems() {
   const items = LocalRepository.getAll();
-  const viewList = _listUpdater('local', items);
+  const viewList = _listUpdater('local', items.toJS());
   yo.update(_updaters.local, viewList);
   chrome.browserAction.setBadgeText({
      text: String(items.size),
@@ -69,7 +69,7 @@ function loadLocalStorageItems() {
  */
 async function loadSyncStorageItems() {
   const items = await SyncRepository.getAll();
-  const viewList = _listUpdater('sync', items);
+  const viewList = _listUpdater('sync', items.toJS());
   yo.update(_updaters.sync, viewList);
 };
 
