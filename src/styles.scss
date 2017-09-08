@@ -32,30 +32,36 @@ ul.ui-tabs-nav {
 }
 
 .ui-menu.items {
-  li > div {
-    cursor: pointer;
-    user-select: none;
-    height: 24px;
-    padding: 1px 0;
+  li.ui-menu-item {
+    .ui-menu-item-wrapper {
+      width: calc(100% - 5px);
+    }
 
-    > img.item-favicon {
+    > div {
+      cursor: pointer;
+      user-select: none;
+      height: 24px;
+      padding: 1px 0;
+    }
+
+
+    img.item-favicon {
       height: 20px;
       width: 20px;
       padding: 2px;
     }
+  }
 
-    > .item-title {
-      width: calc(100% - 40px);
-      display: inline-block;
-      vertical-align: top;
-      height: 20px;
-      line-height: 2;
-      margin-left: 3px;
-      padding: 1px 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
+  .item-title {
+    display: inline-block;
+    vertical-align: top;
+    height: 20px;
+    line-height: 2;
+    margin-left: 3px;
+    padding: 1px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
 
