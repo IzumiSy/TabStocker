@@ -1,3 +1,4 @@
+import I from 'immutable';
 import Constants from './../constants';
 
 /**
@@ -26,7 +27,8 @@ export default new class SyncRepository {
         if (chrome.runtime.lastError) {
           reject(chrome.runtime.lastError);
         }
-        resolve(data[Constants.dataKey.syncItem] || []);
+        const _data = data[Constants.dataKey.syncItem] || [];
+        resolve(I.List(_data));
       });
     });
   }
