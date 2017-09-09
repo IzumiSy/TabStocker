@@ -1,6 +1,5 @@
 import I from 'immutable';
 import Constants from '../constants';
-import Notifier from '../notifier';
 import TabItem from '../models/tabItem';
 
 /**
