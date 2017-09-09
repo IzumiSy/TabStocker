@@ -11,7 +11,6 @@ import './styles.scss';
 
 const BG = chrome.extension.getBackgroundPage();
 
-const FAVICON_API = 'http://favicon.hatena.ne.jp/?url=';
 const _updaters = {
   local: _listUpdater('local', I.List([])),
   sync: _listUpdater('sync', I.List([])),
@@ -24,31 +23,16 @@ const _updaters = {
  * @return {object} yo-yoified DOM object
  */
 function _listUpdater(target, items) {
-  const _items = (
+  const _items =
     Prefs.get(Constants.optionKeys.AUTO_SORT) ?
-    TabItem.sort(items) : items
-  );
-
-  const $items = _items.toArray().map((item) => {
-    const _openItem = (_e) => {
-      openStockedItem(item);
-    };
-    return yo`
-      <li class="ui-menu-item">
-        <div onclick=${_openItem} tabindex="-1" role="menuitem" class="ui-menu-item-wrapper">
-          <img src="${FAVICON_API + item.url}" class="item-favicon" />
-          <div class="item-title">${item.title}</div>
-        </div>
-      </li>
-    `;
-  });
+    TabItem.sort(items) : items;
 
   const popupHeight = Prefs.get(Constants.optionKeys.POPUP_HEIGHT);
   return yo`
     <ul id="items-${target}" role="menu" tabindex="0"
       class="items ui-menu ui-widget ui-widget-content"
       style="height: ${popupHeight}px;">
-      ${$items}
+      ${_items.map((item) => item.listItemDOM()).toArray()}
     </ul>
   `;
 };
@@ -88,21 +72,6 @@ async function stockCurrentTab(tabItem) {
     default:
       LocalRepository.append(tabItem);
       loadLocalStorageItems();
-  }
-}
-
-/**
- * @function openStockedItem
- * @param {object} item
- */
-function openStockedItem(item) {
-  if (Prefs.get(Constants.optionKeys.NO_NEW_TAB)) {
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      selectedTab = tabs[0];
-      chrome.tabs.update(selectedTab.id, { url: item.url });
-    });
-  } else {
-    chrome.tabs.create({ url: item.url, selected: false });
   }
 }
 
