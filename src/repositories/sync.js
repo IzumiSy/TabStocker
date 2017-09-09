@@ -57,7 +57,8 @@ export default new class SyncRepository {
         if (typeof _data === 'undefined') {
           _data = [];
         }
-        resolve(I.List(_data.map((item) => new TabItem(item))));
+        const _jsonified = JSON.parse(_data);
+        resolve(I.List(_jsonified.map((item) => new TabItem(item))));
       });
     });
   }
