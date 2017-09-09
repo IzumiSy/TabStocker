@@ -9,43 +9,6 @@ window.Notifier = Notifier;
 window.currentTab = null;
 
 const eventHandlers = {
-  shortcutKey: function(command) {
-    if (command == 'stock-tab') {
-      chrome.tabs.getSelected(window.id, function(tab) {
-        /*
-        if (!utils.isDuplicated(tab.url, 'items-local')) {
-          Notifier.success(tab.title);
-          storageUpdater.appendItem(tab.title, tab.url, "items-local");
-          if (Prefs.get(Constants.optionKeys.CLOSE_ON_ADD)) {
-            chrome.tabs.remove(tab.id);
-          }
-        } else {
-          Notifier.error();
-        }
-        */
-      });
-    }
-  },
-
-  contextMenu: function(info, tab) {
-    /*
-    var title, url;
-    var r = new XMLHttpRequest();
-
-    r.onreadystatechange = function() {
-      eventHandlers.HTTPrequestHandler({
-        requestObj: r,
-        url: info.linkUrl
-      });
-    };
-    r.open("GET", info.linkUrl, true);
-    r.responseType = "document";
-    r.send(null);
-
-    console.log("[REQUESTED] " + info.linkUrl);
-    */
-  },
-
   HTTPrequestHandler: function(args) {
     /*
     var request = args.requestObj;
@@ -96,9 +59,43 @@ window.utils = {
   },
 };
 
-chrome.commands.onCommand.addListener(eventHandlers.shortcutKey);
+chrome.commands.onCommand.addListener((command) => {
+  if (command == 'stock-tab') {
+    chrome.tabs.getSelected(window.id, function(tab) {
+      /*
+      if (!utils.isDuplicated(tab.url, 'items-local')) {
+        Notifier.success(tab.title);
+        storageUpdater.appendItem(tab.title, tab.url, "items-local");
+        if (Prefs.get(Constants.optionKeys.CLOSE_ON_ADD)) {
+          chrome.tabs.remove(tab.id);
+        }
+      } else {
+        Notifier.error();
+      }
+      */
+    });
+  }
+});
+
 chrome.contextMenus.create({
   "title": "Stock this link",
   "contexts": ["link"],
-  "onclick": eventHandlers.contextMenu
+  "onclick": (info, tab) => {
+    /*
+    var title, url;
+    var r = new XMLHttpRequest();
+
+    r.onreadystatechange = function() {
+      eventHandlers.HTTPrequestHandler({
+        requestObj: r,
+        url: info.linkUrl
+      });
+    };
+    r.open("GET", info.linkUrl, true);
+    r.responseType = "document";
+    r.send(null);
+
+    console.log("[REQUESTED] " + info.linkUrl);
+    */
+  }
 });
