@@ -26,7 +26,7 @@ const _updaters = {
 function _listUpdater(target, items) {
   const _items = (
     Prefs.get(Constants.optionKeys.AUTO_SORT) ?
-    BG.utils.sorting(items) : items
+    TabItem.sort(items) : items
   );
 
   const $items = _items.toArray().map((item) => {
