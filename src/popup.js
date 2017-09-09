@@ -1,3 +1,4 @@
+import I from 'immutable';
 import yo from 'yo-yo';
 import Constants from './constants';
 import Prefs from './preference';
@@ -12,8 +13,8 @@ const BG = chrome.extension.getBackgroundPage();
 
 const FAVICON_API = 'http://favicon.hatena.ne.jp/?url=';
 const _updaters = {
-  local: _listUpdater('local', []),
-  sync: _listUpdater('sync', []),
+  local: _listUpdater('local', I.List([])),
+  sync: _listUpdater('sync', I.List([])),
 };
 
 /**
