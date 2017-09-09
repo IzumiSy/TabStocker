@@ -53,7 +53,10 @@ export default new class SyncRepository {
         if (chrome.runtime.lastError) {
           reject(chrome.runtime.lastError);
         }
-        const _data = data[Constants.dataKey.syncItem] || [];
+        let _data = data[Constants.dataKey.syncItem];
+        if (typeof _data === 'undefined') {
+          _data = [];
+        }
         resolve(I.List(_data.map((item) => new TabItem(item))));
       });
     });
