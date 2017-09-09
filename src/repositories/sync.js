@@ -14,14 +14,20 @@ export default new class SyncRepository {
   /**
    * Method to append item to ItemData
    * @param {TabItem} tabItem the tabItem to store
-   * @return {number} the size of items after update
+   * @return {Promise<number>} the size of items after update
    */
   async append(tabItem) {
     const items = await this.getAll();
-    //
-    // TODO
-    //
-    return items.size;
+    const updatedItems = items.push(tabItem);
+    const _jsonified = JSON.stringify(updatedItems.toJS());
+    return new Promise((resolve, reject) => {
+      chrome.storage.sync.set({ [Constants.dataKey.syncItem]: _jsonified }, () => {
+        if (chrome.runtime.lastError) {
+          reject(chrome.runtime.lastError);
+        }
+        resolve(updatedItems.size);
+      })
+    });
   }
 
   /**
@@ -39,7 +45,7 @@ export default new class SyncRepository {
 
   /**
    * Method to get all data from the storage
-   * @return {array}
+   * @return {Promise<I.List>} the tabItem instances
    */
   getAll() {
     return new Promise((resolve, reject) => {
