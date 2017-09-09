@@ -57,7 +57,7 @@ function _listUpdater(target, items) {
  */
 function loadLocalStorageItems() {
   const items = LocalRepository.getAll();
-  const viewList = _listUpdater('local', items.toJS());
+  const viewList = _listUpdater('local', items.toArray());
   yo.update(_updaters.local, viewList);
   chrome.browserAction.setBadgeText({
      text: String(items.size),
@@ -69,7 +69,7 @@ function loadLocalStorageItems() {
  */
 async function loadSyncStorageItems() {
   const items = await SyncRepository.getAll();
-  const viewList = _listUpdater('sync', items.toJS());
+  const viewList = _listUpdater('sync', items.toArray());
   yo.update(_updaters.sync, viewList);
 };
 
