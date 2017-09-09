@@ -19,7 +19,7 @@ export default new class SyncRepository {
   async append(tabItem) {
     const items = await this.getAll();
     const updatedItems = items.push(tabItem);
-    const _jsonified = JSON.stringify(updatedItems.toJS());
+    const _jsonified = JSON.stringify(updatedItems.toArray());
     return new Promise((resolve, reject) => {
       chrome.storage.sync.set({ [Constants.dataKey.syncItem]: _jsonified }, () => {
         if (chrome.runtime.lastError) {
