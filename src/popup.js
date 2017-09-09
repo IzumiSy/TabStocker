@@ -45,7 +45,7 @@ function loadLocalStorageItems() {
   const viewList = _listUpdater('local', items);
   yo.update(_updaters.local, viewList);
   chrome.browserAction.setBadgeText({
-     text: String(items.size),
+    text: String(items.size),
   });
 };
 
