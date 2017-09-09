@@ -26,7 +26,7 @@ export default new class SyncRepository {
           reject(chrome.runtime.lastError);
         }
         resolve(updatedItems.size);
-      })
+      });
     });
   }
 
