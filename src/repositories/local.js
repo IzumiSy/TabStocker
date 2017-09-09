@@ -21,7 +21,7 @@ export default new class LocalRepository {
       return 0;
     }
     const items = this.getAll();
-    const updatedItems = items.push(tabItem.toJS());
+    const updatedItems = items.push(tabItem);
     const _jsonified = JSON.stringify(updatedItems.toJS());
     localStorage.setItem(Constants.dataKey.localItem, _jsonified);
     return updatedItems.size;
