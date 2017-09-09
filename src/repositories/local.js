@@ -17,6 +17,9 @@ export default new class LocalRepository {
    */
   append(tabItem) {
     const items = this.getAll();
+    //
+    // TODO: duplication checke
+    //
     const updatedItems = items.push(tabItem.toJS());
     const _jsonified = JSON.stringify(updatedItems.toJS());
     localStorage.setItem(Constants.dataKey.localItem, _jsonified);

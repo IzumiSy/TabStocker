@@ -13,10 +13,12 @@ export default new class SyncRepository {
   /**
    * Method to append item to ItemData
    */
-  append() {
+  async append() {
+    const items = await this.getAll();
     //
     // TODO
     //
+    return items.size;
   }
 
   async delete(tabItem) {
