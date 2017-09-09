@@ -76,7 +76,7 @@ function loadSettings() {
     case Constants.optionKeys.DIRECTION_WAY.DESC:
       $direction[1].checked = true;
       break;
-    case undefined:
+    default:
       // noop
   }
 
@@ -87,7 +87,7 @@ function loadSettings() {
     case Constants.optionKeys.SORTBY_WAY.URL:
       $sortBy[1].checked = true;
       break;
-    case undefined:
+    default:
       // noop
   }
 };
