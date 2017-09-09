@@ -8,7 +8,7 @@ const Notifier = {
       message: 'Tab already stocked',
       iconUrl: 'assets/error.png',
     }, () => {
-      console.warn("Tab already stocked")
+      console.warn('Tab already stocked');
     });
   },
 
@@ -23,7 +23,7 @@ const Notifier = {
       message: title,
       iconUrl: 'assets/main.png',
     }, () => {
-      console.info(`Tab successfully stocked: ${title}`)
+      console.info(`Tab successfully stocked: ${title}`);
     });
   },
 };
