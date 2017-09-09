@@ -174,13 +174,4 @@ $(function() {
 
   const $itemsElement = $('.items');
   $itemsElement.menu();
-
-  /*
-  if (!Prefs.get(Constants.optionKeys.AUTO_SORT)) {
-    $itemsElement.sortable({
-      placeholder: 'ui-state-highlight',
-      update: stockItems.orderedSave,
-    }).disableSelection();
-  }
-  */
 });

@@ -9,9 +9,8 @@ https://chrome.google.com/webstore/detail/tab-stocker/kjjjockipnpomghfnpbilhhcjj
 ## Features
 - Simple and easy interface
 - Shortcut Key (Alt + S)
-- Drag / automatic sorting
 - Context menu support
-- Synchronization
+- Chrome synchronization
 
 ## Development
 ### Setup
