@@ -29,7 +29,7 @@ function _listUpdater(target, items) {
     BG.utils.sorting(items) : items
   );
 
-  const $items = _items.map((item) => {
+  const $items = _items.toArray().map((item) => {
     const _openItem = (_e) => {
       openStockedItem(item);
     };
@@ -58,7 +58,7 @@ function _listUpdater(target, items) {
  */
 function loadLocalStorageItems() {
   const items = LocalRepository.getAll();
-  const viewList = _listUpdater('local', items.toArray());
+  const viewList = _listUpdater('local', items);
   yo.update(_updaters.local, viewList);
   chrome.browserAction.setBadgeText({
      text: String(items.size),
@@ -70,7 +70,7 @@ function loadLocalStorageItems() {
  */
 async function loadSyncStorageItems() {
   const items = await SyncRepository.getAll();
-  const viewList = _listUpdater('sync', items.toArray());
+  const viewList = _listUpdater('sync', items);
   yo.update(_updaters.sync, viewList);
 };
 
