@@ -17,9 +17,6 @@ export default new class SyncRepository {
    * @return {number} the size of items after update
    */
   async append(tabItem) {
-    if (await this.isDuplicated(tabItem)) {
-      return 0;
-    }
     const items = await this.getAll();
     //
     // TODO
@@ -54,18 +51,5 @@ export default new class SyncRepository {
         resolve(I.List(_data));
       });
     });
-  }
-
-  /**
-   * Checks if the given tabItem is duplicated in stored items
-   * @param {TabItem} tabItem the tabItem to check
-   * @return {boolean} if it is duplicated or not
-   */
-  async isDuplicated(tabItem) {
-    const items = await this.getAll();
-    //
-    // TODO
-    //
-    return false;
   }
 };
