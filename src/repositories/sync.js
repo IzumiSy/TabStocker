@@ -17,7 +17,7 @@ export default new class SyncRepository {
    */
   async append(tabItem) {
     if (await this.isDuplicated(tabItem)) {
-      return 0
+      return 0;
     }
     const items = await this.getAll();
     //
@@ -26,6 +26,11 @@ export default new class SyncRepository {
     return items.size;
   }
 
+  /**
+   * Delete one item from the sync storage
+   * @param {TabItem} tabItem the tabItem to delete
+   * @return {number} the size of stored item afte deletion
+   */
   async delete(tabItem) {
     const items = await this.getAll();
     //
@@ -60,6 +65,6 @@ export default new class SyncRepository {
     //
     // TODO
     //
-    return false
+    return false;
   }
 };

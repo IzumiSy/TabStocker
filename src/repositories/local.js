@@ -17,7 +17,7 @@ export default new class LocalRepository {
    */
   append(tabItem) {
     if (this.isDuplicated(tabItem)) {
-      return 0
+      return 0;
     }
     const items = this.getAll();
     const updatedItems = items.push(tabItem.toJS());
@@ -59,6 +59,6 @@ export default new class LocalRepository {
     //
     // TODO
     //
-    return false
+    return false;
   }
 };
