@@ -83,20 +83,6 @@ const eventHandlers = {
 };
 
 window.utils = {
-  /*
-  isDuplicated: function(url) {
-    var r = false;
-    if (localStorage.getItem(ITEMS_ID).length > 0) {
-      JSON.parse(localStorage.getItem(ITEMS_ID)).forEach(function(Item, i) {
-      if (Item["url"] === url) {
-          r = true;
-        }
-      });
-    }
-    return r;
-  },
-  */
-
   sorting: function(array) {
     let Items = array;
     let elements = null;
