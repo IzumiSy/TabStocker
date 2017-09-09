@@ -1,5 +1,6 @@
 import I from 'immutable';
-import Constants from './../constants';
+import Constants from '../constants';
+import Notifier from '../notifier';
 
 /**
  * A wrapper class to manipulate LocalStorage
