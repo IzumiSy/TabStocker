@@ -84,6 +84,16 @@ ul.ui-tabs-nav {
     background-repeat: no-repeat;
     -webkit-user-select: none;
     user-select: none;
+    border: none;
+    background-color: white;
+
+    &:hover {
+      background-color: gainsboro;
+    }
+
+    &:active {
+      background-color: lightgrey;
+    }
   }
 
   #add {

@@ -122,17 +122,7 @@ $(function() {
    *    Buttons
    * **************/
 
-  const $addButton = $('#add');
-  const $optionButton = $('#options');
-
-  $addButton.button({
-    text: false
-  });
-  $optionButton.button({
-    text: false
-  });
-
-  $addButton.on('click', () => {
+  $('#add').on('click', () => {
     chrome.tabs.getSelected(window.id, (tab) => {
       const tabItem = new TabItem({
         title: tab.title,
@@ -141,7 +131,7 @@ $(function() {
       stockCurrentTab(tabItem);
     });
   });
-  $optionButton.on('click', () => {
+  $('#options').on('click', () => {
     chrome.tabs.create({ url: 'dists/options.html', selected: true });
   });
 
