@@ -1,6 +1,7 @@
 import I from 'immutable';
 import Constants from '../constants';
 import Notifier from '../notifier';
+import TabItem from '../models/tabItem';
 
 /**
  * A wrapper class to manipulate chrome.storage.sync
@@ -48,7 +49,7 @@ export default new class SyncRepository {
           reject(chrome.runtime.lastError);
         }
         const _data = data[Constants.dataKey.syncItem] || [];
-        resolve(I.List(_data));
+        resolve(I.List(_data.map((item) => new TabItem(item))));
       });
     });
   }

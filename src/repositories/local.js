@@ -1,6 +1,7 @@
 import I from 'immutable';
 import Constants from '../constants';
 import Notifier from '../notifier';
+import TabItem from '../models/tabItem';
 
 /**
  * A wrapper class to manipulate LocalStorage
@@ -44,6 +45,6 @@ export default new class LocalRepository {
   getAll() {
     const _result = localStorage.getItem(Constants.dataKey.localItem);
     const _jsonified = JSON.parse(_result);
-    return I.List(_jsonified);
+    return I.List(_jsonified.map((item) => new TabItem(item)));
   }
 };
