@@ -26,8 +26,8 @@ function _listUpdater(target, items) {
   const _items =
     Prefs.get(Constants.optionKeys.AUTO_SORT) ?
     TabItem.sort(items) : items;
-
   const popupHeight = Prefs.get(Constants.optionKeys.POPUP_HEIGHT);
+
   return yo`
     <ul id="items-${target}" role="menu" tabindex="0"
       class="items ui-menu ui-widget ui-widget-content"
@@ -94,11 +94,10 @@ $(function() {
 
   $('#add').on('click', () => {
     chrome.tabs.getSelected(window.id, (tab) => {
-      const tabItem = new TabItem({
+      stockCurrentTab(new TabItem({
         title: tab.title,
         url: tab.url,
-      });
-      stockCurrentTab(tabItem);
+      }));
     });
   });
   $('#options').on('click', () => {
