@@ -16,10 +16,10 @@ export default new class LocalRepository {
    * @return {number} the size of stored items after update.
    */
   append(tabItem) {
+    if (this.isDuplicated(tabItem)) {
+      return 0
+    }
     const items = this.getAll();
-    //
-    // TODO: duplication checke
-    //
     const updatedItems = items.push(tabItem.toJS());
     const _jsonified = JSON.stringify(updatedItems.toJS());
     localStorage.setItem(Constants.dataKey.localItem, _jsonified);
@@ -47,5 +47,18 @@ export default new class LocalRepository {
     const _result = localStorage.getItem(Constants.dataKey.localItem);
     const _jsonified = JSON.parse(_result);
     return I.List(_jsonified);
+  }
+
+  /**
+   * Checks if the given tabItem is duplicated in stored items
+   * @param {TabItem} tabItem the tabItem to check
+   * @return {boolean} if it is duplicated or not
+   */
+  isDuplicated(tabItem) {
+    const items = this.getAll();
+    //
+    // TODO
+    //
+    return false
   }
 };
