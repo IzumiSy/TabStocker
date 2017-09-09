@@ -83,8 +83,7 @@ const eventHandlers = {
 };
 
 window.utils = {
-  sorting: function(array) {
-    let Items = array;
+  sorting: function(items) {
     let elements = null;
     let r = null;
 
@@ -92,7 +91,7 @@ window.utils = {
       case 'by_title': elements = 'title'; break;
       case 'by_url': elements = 'url'; break;
     }
-    Items.sort(function(a, b) {
+    return items.sort((a, b) => {
       switch (Prefs.get(Constants.optionKeys.DIRECTION)) {
         case 'asc': r = 1; break;
         case 'desc': r = -1; break;
@@ -101,8 +100,6 @@ window.utils = {
       if (a[elements] < b[elements]) return -r;
       return 0;
     });
-
-    return Items;
   },
 
   undefinedResolver: function() {
