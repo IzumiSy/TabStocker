@@ -78,9 +78,9 @@ chrome.commands.onCommand.addListener((command) => {
 });
 
 chrome.contextMenus.create({
-  "title": "Stock this link",
-  "contexts": ["link"],
-  "onclick": (info, tab) => {
+  title: 'Stock this link',
+  contexts: ['link'],
+  onclick: (info, tab) => {
     /*
     var title, url;
     var r = new XMLHttpRequest();
@@ -97,5 +97,5 @@ chrome.contextMenus.create({
 
     console.log("[REQUESTED] " + info.linkUrl);
     */
-  }
+  },
 });
