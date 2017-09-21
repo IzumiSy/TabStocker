@@ -13,8 +13,8 @@ import './styles.scss';
 const BG = chrome.extension.getBackgroundPage();
 
 const _updaters = {
-  local: _listUpdater('local', I.List([])),
-  sync: _listUpdater('sync', I.List([])),
+  [Constants.viewType.LOCAL]: _listUpdater(Constants.viewType.LOCAL, I.List([])),
+  [Constants.viewType.SYNC]: _listUpdater(Constants.viewType.SYNC, I.List([])),
 };
 
 /**
@@ -36,7 +36,7 @@ function _listUpdater(target, items) {
  */
 function loadLocalStorageItems() {
   const items = LocalRepository.getAll();
-  yo.update(_updaters.local, _listUpdater('local', items));
+  yo.update(_updaters.local, _listUpdater(Constants.viewType.LOCAl, items));
   chrome.browserAction.setBadgeText({
     text: String(items.size),
   });
@@ -47,7 +47,7 @@ function loadLocalStorageItems() {
  */
 async function loadSyncStorageItems() {
   const items = await SyncRepository.getAll();
-  yo.update(_updaters.sync, _listUpdater('sync', items));
+  yo.update(_updaters.sync, _listUpdater(Constants.viewType.SYNC, items));
 };
 
 /**

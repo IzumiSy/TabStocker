@@ -12,7 +12,7 @@ export default class ItemList {
    * @param {object} args
    */
   constructor(args) {
-    this.target = args.target || 'local';
+    this.target = args.target || Constants.viewType.LOCAL;
     this.items = args.items || [];
   }
 
