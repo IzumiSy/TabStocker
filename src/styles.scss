@@ -40,9 +40,10 @@ ul.ui-tabs-nav {
 
 .ui-menu.items {
   li.ui-menu-item {
+    height: 23px;
+    width: calc(100% - 5px);
+
     .ui-menu-item-wrapper {
-      width: calc(100% - 5px);
-      height: 23px;
       padding: 0;
     }
 
