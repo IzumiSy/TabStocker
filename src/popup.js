@@ -3,6 +3,7 @@ import yo from 'yo-yo';
 import Constants from './constants';
 import Prefs from './preference';
 import ItemList from './viewModels/itemList';
+import TabItem from './models/tabItem';
 import LocalRepository from './repositories/local';
 import SyncRepository from './repositories/sync';
 import 'jquery-ui-bundle/jquery-ui.min.js';
