@@ -26,9 +26,13 @@ const _updaters = {
  */
 function _listUpdater(target, items) {
   const _items = Prefs.get(Constants.optionKeys.AUTO_SORT) ?
-    TabItem.sort(items) : items
+    TabItem.sort(items) : items;
   const itemsDomArray = _items.map((item) => {
-    return ListItem.fromModel(item).getDOM()
+    return ListItem.fromModel(item).getDOM({
+      removeItemCb: (_e) => {
+        // TODO
+      },
+    });
   }).toArray();
 
   return (new ItemList({
