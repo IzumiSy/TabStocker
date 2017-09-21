@@ -67,7 +67,7 @@ export default new class SyncRepository {
    * @param {TabItem} tabItem
    * @return {boolean}
    */
-  isDuplicated(tabItem) {
+  async isDuplicated(tabItem) {
     const items = await this.getAll();
     //
     // TODO
