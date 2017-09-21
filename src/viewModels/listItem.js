@@ -13,10 +13,13 @@ export default class ListItem extends TabItem {
    */
   getDOM() {
     const _openItem = (_e) => ListItem.openItem(this);
+    const _favicon = Prefs.get(Constants.optionKeys.HIDE_FAVICONS) ? null :
+      yo`<img src="${this.faviconUrl}" class="item-favicon" />`
+
     return yo`
       <li class="ui-menu-item">
         <div onclick=${_openItem} tabindex="-1" role="menuitem" class="ui-menu-item-wrapper">
-          <img src="${this.faviconUrl}" class="item-favicon" />
+          ${_favicon}
           <div class="item-title">${this.title}</div>
         </div>
       </li>
