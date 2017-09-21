@@ -9,20 +9,20 @@ import Constants from '../constants';
 export default class ListItem extends TabItem {
   /**
    * @function getDOM
+   * @param {object} options
    * @return {object} yo-yo object
    */
-  getDOM() {
+  getDOM(options) {
     const _openItem = (_e) => ListItem.openItem(this);
     const _favicon = Prefs.get(Constants.optionKeys.HIDE_FAVICONS) ? null :
       yo`<img src="${this.faviconUrl}" class="item-favicon" />`;
-    const _removeItem = (_e) => {/* TODO */};
 
     return yo`
       <li class="ui-menu-item">
         <div tabindex="-1" role="menuitem" class="ui-menu-item-wrapper">
           ${_favicon}
           <div onclick=${_openItem} class="item-title">${this.title}</div>
-          <div onclick=${_removeItem} class="button__item-remove"></div>
+          <div onclick=${options.removeItemCb} class="button__item-remove"></div>
         </div>
       </li>
     `;
