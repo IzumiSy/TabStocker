@@ -15,7 +15,7 @@ export default class ListItem extends TabItem {
     const _openItem = (_e) => ListItem.openItem(this);
     const _favicon = Prefs.get(Constants.optionKeys.HIDE_FAVICONS) ? null :
       yo`<img src="${this.faviconUrl}" class="item-favicon" />`;
-    const _removeItem = (_e) => { /* TODO */ }
+    const _removeItem = (_e) => {/* TODO */};
 
     return yo`
       <li class="ui-menu-item">

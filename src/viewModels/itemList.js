@@ -1,7 +1,6 @@
 import yo from 'yo-yo';
 import Prefs from '../preference';
 import Constants from '../constants';
-import ListItem from './listItem';
 
 /**
  * View-Model for ItemList
@@ -27,7 +26,7 @@ export default class ItemList {
       <ul id="items-${this.target}" role="menu" tabindex="0"
         class="items ui-menu ui-widget ui-widget-content"
         style="height: ${popupHeight}px;">
-        ${this.items.map((item) => ListItem.fromModel(item).getDOM()).toArray()}
+        ${this.items}
       </ul>
     `;
   }

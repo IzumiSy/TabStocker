@@ -3,6 +3,7 @@ import yo from 'yo-yo';
 import Constants from './constants';
 import Prefs from './preference';
 import ItemList from './viewModels/itemList';
+import ListItem from './viewModels/listItem';
 import TabItem from './models/tabItem';
 import LocalRepository from './repositories/local';
 import SyncRepository from './repositories/sync';
@@ -24,9 +25,14 @@ const _updaters = {
  * @return {object} yo-yoified DOM object
  */
 function _listUpdater(target, items) {
+  const _items = Prefs.get(Constants.optionKeys.AUTO_SORT) ?
+    TabItem.sort(items) : items
+  const itemsDomArray = _items.map((item) => {
+    return ListItem.fromModel(item).getDOM()
+  }).toArray();
+
   return (new ItemList({
-    items: Prefs.get(Constants.optionKeys.AUTO_SORT) ?
-      TabItem.sort(items) : items,
+    items: itemsDomArray,
     target,
   })).getDOM();
 };
