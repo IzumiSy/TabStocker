@@ -62,4 +62,16 @@ export default new class SyncRepository {
       });
     });
   }
+
+  /**
+   * @param {TabItem} tabItem
+   * @return {boolean}
+   */
+  isDuplicated(tabItem) {
+    const items = await this.getAll();
+    //
+    // TODO
+    //
+    return false;
+  }
 };

@@ -46,4 +46,16 @@ export default new class LocalRepository {
     const _jsonified = JSON.parse(_result);
     return I.List(_jsonified.map((item) => new TabItem(item)));
   }
+
+  /**
+   * @param {TabItem} tabItem
+   * @return {boolean}
+   */
+  isDuplicated(tabItem) {
+    const items = this.getAll();
+    //
+    // TODO
+    //
+    return false;
+  }
 };
