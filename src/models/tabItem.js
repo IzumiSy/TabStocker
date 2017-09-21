@@ -1,4 +1,5 @@
 import { Record } from 'immutable';
+import md5 from 'blueimp-md5';
 import Prefs from '../preference';
 import Constants from '../constants';
 
@@ -19,6 +20,23 @@ export default class TabItem extends TabItemRecord {
     super(args);
     this.FAVICON_API = 'http://favicon.hatena.ne.jp/?url=';
     this.faviconUrl = this.FAVICON_API + this.url;
+  }
+
+  /**
+   * Compare one tabItem with another
+   * @param {TabItem} tabItem
+   * @return {boolean}
+   */
+  isEqualTo(tabItem) {
+    return this.uniqueHash() === tabItem.uniqueHash();
+  }
+
+  /**
+   * Returns the unique hash for comparison
+   * @return {string}
+   */
+  uniqueHash() {
+    return md5(`${this.url}:${this.title}`);
   }
 
 
