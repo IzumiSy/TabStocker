@@ -20,6 +20,11 @@ export default {
     SYNC: 0,
   },
 
+  viewType: {
+    LOCAL: 'local',
+    SYNC: 'sync,
+  },
+
   optionKeys: {
     POPUP_WIDTH: 'PopupWidth',
     POPUP_HEIGHT: 'PopupHeight',
