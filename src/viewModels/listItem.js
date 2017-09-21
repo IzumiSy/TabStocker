@@ -14,7 +14,7 @@ export default class ListItem extends TabItem {
   getDOM() {
     const _openItem = (_e) => ListItem.openItem(this);
     const _favicon = Prefs.get(Constants.optionKeys.HIDE_FAVICONS) ? null :
-      yo`<img src="${this.faviconUrl}" class="item-favicon" />`
+      yo`<img src="${this.faviconUrl}" class="item-favicon" />`;
 
     return yo`
       <li class="ui-menu-item">
@@ -43,10 +43,10 @@ export default class ListItem extends TabItem {
 
   /**
    * @function fromModel
-   * @param {TabItem}
+   * @param {TabItem} model
    * @return {ListItem}
    */
   static fromModel(model) {
-    return new ListItem(model.toJS())
+    return new ListItem(model.toJS());
   }
 }
