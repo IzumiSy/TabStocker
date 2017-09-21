@@ -41,7 +41,7 @@ ul.ui-tabs-nav {
 .ui-menu.items {
   li.ui-menu-item {
     height: 23px;
-    width: calc(100% - 5px);
+    width: calc(100% - 1px);
 
     .ui-menu-item-wrapper {
       padding: 0;
@@ -57,6 +57,33 @@ ul.ui-tabs-nav {
       height: 15px;
       width: 15px;
       padding: 4px;
+    }
+
+    &:hover {
+      .button__item-remove {
+        display: block;
+      }
+
+      .item-title {
+        width: calc(100% - 50px);
+      }
+    }
+
+    .button__item-remove {
+      &:hover {
+        display: block;
+      }
+
+      display: none;
+      height: 15px;
+      width: 15px;
+      background-image: url("../assets/bin.png");
+      background-repeat: round;
+      background-color: white;
+      border-radius: 3px;
+      position: absolute;
+      right: 5px;
+      margin-top: -20px;
     }
   }
 
