@@ -2,7 +2,8 @@ import I from 'immutable';
 import yo from 'yo-yo';
 import Constants from './constants';
 import Prefs from './preference';
-import TabItem from './models/tabItem.js';
+import TabItem from './models/tabItem';
+import ItemList from './models/itemList';
 import LocalRepository from './repositories/local';
 import SyncRepository from './repositories/sync';
 import 'jquery-ui-bundle/jquery-ui.min.js';
@@ -23,18 +24,11 @@ const _updaters = {
  * @return {object} yo-yoified DOM object
  */
 function _listUpdater(target, items) {
-  const _items =
-    Prefs.get(Constants.optionKeys.AUTO_SORT) ?
-    TabItem.sort(items) : items;
-  const popupHeight = Prefs.get(Constants.optionKeys.POPUP_HEIGHT);
-
-  return yo`
-    <ul id="items-${target}" role="menu" tabindex="0"
-      class="items ui-menu ui-widget ui-widget-content"
-      style="height: ${popupHeight}px;">
-      ${_items.map((item) => item.listItemDOM()).toArray()}
-    </ul>
-  `;
+  return (new ItemList({
+    items: Prefs.get(Constants.optionKeys.AUTO_SORT) ?
+      TabItem.sort(items) : items,
+    target,
+  })).getDOM();
 };
 
 /**

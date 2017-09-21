@@ -23,10 +23,10 @@ export default class TabItem extends TabItemRecord {
   }
 
   /**
-   * @function listItemDOM
+   * @function getDOM
    * @return {object} yo-yo object
    */
-  listItemDOM() {
+  getDOM() {
     const _openItem = (_e) => TabItem.openItem(this);
     return yo`
       <li class="ui-menu-item">
