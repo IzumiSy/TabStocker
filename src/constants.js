@@ -22,7 +22,7 @@ export default {
 
   viewType: {
     LOCAL: 'local',
-    SYNC: 'sync,
+    SYNC: 'sync',
   },
 
   optionKeys: {
